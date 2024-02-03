@@ -15,7 +15,7 @@ const GameComponent = () => {
   let right = false;
   const gleeks = [];
   const playerHealth = useRef(100); // Initial health for the player
-  const npcHealth = useRef(500); 
+  const npcHealth = useRef(300); 
   const [isGameRunning, setIsGameRunning] = useState(false); // State to track if the game is running
   const jumpStrength = -15; // Negative value for upward movement
   const gravity = 0.5; // Gravity pulls the sprite down
@@ -58,7 +58,7 @@ const GameComponent = () => {
     if (npc.current) {
       npc.current.x = app.current.screen.width - 150;
       npc.current.y = app.current.screen.height - 60;
-      npcHealth.current = 500;
+      npcHealth.current = 300;
     }
 
     // Clear gleeks
@@ -129,8 +129,8 @@ const GameComponent = () => {
     return (
       <div className={`instructions-modal ${showInstructions ? 'show' : ''}`}>
         <h2>HOW TO PLAY</h2>
-        <p>USE WAD OR ARROW KEYS (←↑→) TO MOVE, SPACE TO GLEEK 💦 </p>
-        <p>DROWN THE OPPONENT WITH YOUR GLEEK TO MOVE ON TO THE NEXT LEVEL</p>
+        <p>MOVEMENT<br/>LEFT: A / ←<br/>RIGHT: D / →<br/>JUMP: W / SPACEBAR / ↑<br/>LEFT CLICK TO GLEEK 💦</p>
+        <p>DROWN THE OPPONENT WITH YOUR GLEEK</p>
         <button onClick={() => setShowInstructions(false)}>Close</button>
       </div>
     );
@@ -344,17 +344,38 @@ const GameComponent = () => {
       switch (level) {
         case 2:
           npc.current.texture = PIXI.Texture.from('./images/game/doge.png');
-          npcHealth.current = 1000;
+          npcHealth.current = 360;
           break;
         case 3:
           npc.current.texture = PIXI.Texture.from('./images/game/pepe.png');
-          npcHealth.current = 1500;
+          npcHealth.current = 400;
           break;
         default:
           npc.current.texture = PIXI.Texture.from('./images/game/wif.png');
       }
     }
   }, [level]);
+
+  useEffect(() => {
+    const adjustInfoMessagePosition = () => {
+      if (gameContainer.current) {
+        const gameContainerHeight = gameContainer.current.offsetHeight;
+        const infoMessage = document.querySelector('.info-message');
+        if (infoMessage) {
+          infoMessage.style.position = 'absolute';
+          infoMessage.style.top = `${gameContainerHeight + 20}px`; // Adjust '20' to increase/decrease the gap
+        }
+      }
+    };
+        // Call the function initially and on window resize
+        adjustInfoMessagePosition();
+        window.addEventListener('resize', adjustInfoMessagePosition);
+    
+        // Cleanup function to remove the event listener
+        return () => {
+          window.removeEventListener('resize', adjustInfoMessagePosition);
+        };
+      }, []);
   
   //gleek gleek
   function shoot(x, y, vx, vy) {
@@ -432,7 +453,7 @@ const GameComponent = () => {
     //     lastShotTimeRef.current = currentTime; // Update the last shot time
     //   }
     // }
-    if ((e.key === "w" || e.key === "ArrowUp") && isGameRunning) {
+    if ((e.key === "w" || e.key === "ArrowUp" || e.key === " ") && isGameRunning) {
       e.preventDefault();
       if (jumpCount < 2) {
         if (jumpCount === 0 || player.current.y < app.current.screen.height - 130) {
@@ -458,6 +479,7 @@ const GameComponent = () => {
 
   return (
     <div>
+      <div className="game-wrapper">
       <p className="info-message">Press 'i' for game instructions</p>
       <div className="game-top-level">
         {isGameOver && 
@@ -474,6 +496,7 @@ const GameComponent = () => {
         {showInstructions && <InstructionsModal />}
         <div className="score-display">Score: {score}</div>
       </div>
+    </div>
     </div>
   );
 };

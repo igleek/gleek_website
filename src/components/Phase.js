@@ -8,10 +8,10 @@ function Phase() {
           <h3>PHASE ONE</h3>
           <ul>
             <li>$GLEEK LAUNCH</li>
-            <li>CONSTESTS</li>
-            <li>TEAM DOX</li>
-            <li>WEBSITE LIVE</li>
+            <li>WEBSITE</li>
             <li>GAME</li>
+            <li>TEAM DOX</li>
+            <li>MEME CONTESTS</li>
           </ul>
         </div>
         <div className="timeline-arrow"></div>
@@ -25,7 +25,7 @@ function Phase() {
         <div className="timeline-phase" id="phase-three">
           <h3>PHASE THREE</h3>
           <ul>
-            <li className='strikethrough'>Redacted</li>
+            <li className='strikethrough'>REDACTED</li>
           </ul>
         </div>
       </div>

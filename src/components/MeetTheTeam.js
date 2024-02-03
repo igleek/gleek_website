@@ -6,7 +6,7 @@ const Team = () => {
     <div className="dox-event">
         <div className="dox-intro">
           <h2>MEET THE TEAM</h2>
-          <h3>WE DOX AT 500 TWITTER FOLLOWERS</h3>
+          <h3>DOXING AT 500 TWITTER FOLLOWERS</h3>
         </div>
         <div className="team-container">
         <div className="section team-member">
