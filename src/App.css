@@ -281,7 +281,7 @@
   padding-bottom: 20px;
 }
 .gleekenomics-container-img {
-  width: 600px;
+  width: 650px;
   height: auto;
   /* border-radius: 50%; */
 }
@@ -445,7 +445,9 @@
     text-decoration: none;
     font-size: 20px;
   }
-  
+  .nav-menu li:nth-child(2) { 
+    display: none;
+  }
   .gleek-info {
     position: relative;
     margin-top: 20px;
@@ -462,19 +464,44 @@
     z-index: 1;
   }
 
-  .phase-container {
-    flex-direction: column;
-    overflow-x: hidden;
-    margin-top: -5px;
-    margin-bottom: -10px;
-  }
-  .phase {
-    flex-direction: column;
-  }
-  .phase h3, .phase p {
-    margin: 5px 0;
-  }
+
+    /* Assuming .timeline is your phase container */
+    .timeline {
+      flex-direction: column; /* Stack children vertically */
+    }
   
+    /* Adjusting phase styles for vertical layout */
+    .timeline-phase {
+      width: 70%; /* Adjust width for mobile screens */
+      margin-bottom: 20px; /* Add space between phases */
+    }
+  
+    /* Ensuring the phase content (if it's different from .timeline-phase) is also adjusted */
+    .phase-container {
+      flex-direction: column;
+    }
+  
+    /* Additional adjustments for mobile layout */
+    .phase {
+      /* Adjustments for individual phase items if necessary */
+    }
+  
+    /* Adjust text size for readability on mobile */
+    .timeline-phase h3, .timeline-phase ul li {
+      font-size: smaller; /* Example adjustment, adjust as needed */
+    }
+  
+    .gleekenomics-container {
+      text-align: center;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      margin-top: -30px;
+    }
+    .gleekenomics-container-img {
+      width: 220px;
+      height: auto;
+    }
+
   .meme-container {
     max-width: 250px;
     position: relative;
