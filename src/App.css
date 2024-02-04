@@ -276,14 +276,21 @@
 
 /* Gleekenomics */
 .gleekenomics-container {
-  text-align: center;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  border: 3px solid #2d9bbd;
+  margin: 20px 0;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 5px 1px #26aaec;
+  border: 4px solid #ffffff;
 }
 .gleekenomics-container-img {
-  width: 650px;
+  max-width: 100%;
   height: auto;
-  /* border-radius: 50%; */
+  max-height: 400px;
 }
 
 
