@@ -15,7 +15,7 @@ const GameComponent = () => {
   let right = false;
   const gleeks = [];
   const playerHealth = useRef(100); // Initial health for the player
-  const npcHealth = useRef(300); 
+  const npcHealth = useRef(100); 
   const [isGameRunning, setIsGameRunning] = useState(false); // State to track if the game is running
   const jumpStrength = -15; // Negative value for upward movement
   const gravity = 0.5; // Gravity pulls the sprite down
@@ -24,18 +24,26 @@ const GameComponent = () => {
   const playerHealthBar = useRef(null);
   const npcHealthBar = useRef(null);
   const [level, setLevel] = useState(1);
-  const baseNpcShootFrequency = 50; //increase num for slower shoot time
+  const baseNpcShootFrequency = 0; //increase num for slower shoot time
   const [jumpCount, setJumpCount] = useState(0);
   const [showInstructions, setShowInstructions] = useState(false);
   const lastShotTimeRef = useRef(0);
-  const shootCooldown = 200; // Cooldown time in milliseconds
+  // const shootCooldown = 200; // Cooldown time in milliseconds
   const [isGameOver, setIsGameOver] = useState(false);
   const [isGameWon, setIsGameWon] = useState(false);
   const [score, setScore] = useState(0);
   const [showStartButton, setShowStartButton] = useState(true);
   const [displayLevel, setDisplayLevel] = useState('');
   const [spacebarActive, setSpacebarActive] = useState(true);
+  const MAX_LEVEL = 11;
+  const maxHealthByLevel = {
+    player: [100,100,100,100,100,100,100,100,100,100,100], // Example increments by level for player
+    npc: [100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300] // Example increments by level for NPC
+  };
 
+  function getMaxHealth(type, level) {
+    return maxHealthByLevel[type][level - 1]; // Adjust index for 0-based array
+  }
 
   // Function to start the game
   const startGame = () => {
@@ -58,7 +66,7 @@ const GameComponent = () => {
     if (npc.current) {
       npc.current.x = app.current.screen.width - 150;
       npc.current.y = app.current.screen.height - 60;
-      npcHealth.current = 300;
+      npcHealth.current = 100;
     }
 
     // Clear gleeks
@@ -66,7 +74,7 @@ const GameComponent = () => {
     gleeks.splice(0, gleeks.length);
 
     // Update Health Display
-    updateHealthBars();
+    // updateHealthBars();
   };
 
   // Function to handle game finish logic
@@ -75,14 +83,20 @@ const GameComponent = () => {
       nextLevel(); // Go to the next level if NPC is defeated
     } else {
       endGame(false);
-    }  
+    }
   };
 
   function nextLevel() {
     setLevel(prevLevel => {
-      const newLevel = prevLevel === 3 ? prevLevel : prevLevel + 1;
+      const newLevel = prevLevel === 11 ? prevLevel : prevLevel + 1;
       setDisplayLevel(`Level: ${newLevel}`);
-      if (prevLevel === 3) {
+
+      npcHealth.current = getMaxHealth('npc', newLevel);
+
+      // Call updateHealthBars() after setting level and health
+      updateHealthBars();
+
+      if (prevLevel === 11) {
         endGame(true);
         return prevLevel;
       } else {
@@ -108,13 +122,11 @@ const GameComponent = () => {
   }
 
   function endGame(playerWon) {
+    npcHealth.current = 100;
+    updateHealthBars();
     setIsGameRunning(false);
     setDisplayLevel('');
     setSpacebarActive(false);
-
-    setTimeout(() => {
-      setSpacebarActive(true); // Re-enable spacebar after a delay
-    }, 1000);
 
     if (playerWon) {
       setIsGameWon(true);
@@ -195,10 +207,10 @@ const GameComponent = () => {
         const currentTime = Date.now();
         const timeSinceLastShot = currentTime - lastShotTimeRef.current;
   
-        if (timeSinceLastShot >= shootCooldown) {
-          shoot(player.current.x, player.current.y, 6, 0); // Player shooting velocity
+        // if (timeSinceLastShot >= shootCooldown) {
+          shoot(player.current.x, player.current.y, 10, 0); // Player shooting velocity
           lastShotTimeRef.current = currentTime; // Update the last shot time
-        }
+        // }
       }
     };
 
@@ -239,9 +251,9 @@ const GameComponent = () => {
       // Randomize NPC shooting
       nextNpcShootTime -= delta;
       if (nextNpcShootTime <= 0) {
-        npcShoot(npc.current.x, npc.current.y, -7, 0); // NPC shoots leftward
-        let frequencyReduction = 100 * (level - 1); // Increase frequency each level
-        nextNpcShootTime = Math.random() * 100 + Math.max(baseNpcShootFrequency - frequencyReduction, 50); // Ensure it doesn't go below a minimum threshold
+        npcShoot(npc.current.x, npc.current.y, -8, 0); // NPC shoots leftward
+        let frequencyReduction = 1000 * (level - 1); // Increase frequency each level
+        nextNpcShootTime = Math.random() + Math.max(baseNpcShootFrequency - frequencyReduction, 50); // Ensure it doesn't go below a minimum threshold
       }
       
       // Update gleeks
@@ -343,15 +355,48 @@ const GameComponent = () => {
     if (npc.current) {
       switch (level) {
         case 2:
-          npc.current.texture = PIXI.Texture.from('./images/game/doge.png');
-          npcHealth.current = 360;
+          npc.current.texture = PIXI.Texture.from('./images/game/anita.png');
+          npcHealth.current = getMaxHealth('npc', 2);
           break;
         case 3:
-          npc.current.texture = PIXI.Texture.from('./images/game/pepe.png');
-          npcHealth.current = 400;
+          npc.current.texture = PIXI.Texture.from('./images/game/honda.png');
+          npcHealth.current = getMaxHealth('npc', 3);
           break;
+        case 4:
+          npc.current.texture = PIXI.Texture.from('./images/game/smolanoo.png');
+          npcHealth.current = getMaxHealth('npc', 4);
+          break;
+        case 5:
+          npc.current.texture = PIXI.Texture.from('./images/game/bonk.png');
+          npcHealth.current = getMaxHealth('npc', 5);
+          break;
+        case 6:
+          npc.current.texture = PIXI.Texture.from('./images/game/doge.png');
+          npcHealth.current = getMaxHealth('npc', 6);
+          break;
+        case 7:
+          npc.current.texture = PIXI.Texture.from('./images/game/harambe.png');
+          npcHealth.current = getMaxHealth('npc', 7);
+          break;
+        case 8:
+          npc.current.texture = PIXI.Texture.from('./images/game/pepe.png');
+          npcHealth.current = getMaxHealth('npc', 8);
+          break;
+        case 9:
+          npc.current.texture = PIXI.Texture.from('./images/game/r28.png');
+          npcHealth.current = getMaxHealth('npc', 9);
+          break;
+        case 10:
+          npc.current.texture = PIXI.Texture.from('./images/game/wab_gleek.png');
+          npcHealth.current = getMaxHealth('npc', 10);
+          break;
+        case 11:
+            npc.current.texture = PIXI.Texture.from('./images/game/ansem.png');
+            npcHealth.current = getMaxHealth('npc', 11);
+            break;       
         default:
           npc.current.texture = PIXI.Texture.from('./images/game/wif.png');
+          npcHealth.current = getMaxHealth('npc', 1);
       }
     }
   }, [level]);
@@ -420,17 +465,23 @@ const GameComponent = () => {
     );
   }
 
-  function updateHealthBars() {
-    playerHealthBar.current.clear();
-    playerHealthBar.current.beginFill(0x2d9bbd); // Green color for health bar
-    playerHealthBar.current.drawRect(10, 5, playerHealth.current, 15); // x, y, width, height
-    playerHealthBar.current.endFill();
-  
-    npcHealthBar.current.clear();
-    npcHealthBar.current.beginFill(0xac3838); // Red color for NPC health bar
-    npcHealthBar.current.drawRect(app.current.screen.width - npcHealth.current / 10 - 10, 5, npcHealth.current / 10, 15); // Adjust width based on NPC health
-    npcHealthBar.current.endFill();
-  }
+function updateHealthBars() {
+  const playerMaxHealth = getMaxHealth('player', level);
+  const npcMaxHealth = getMaxHealth('npc', level);
+
+  const playerHealthWidth = (playerHealth.current / getMaxHealth('player', level)) * 100; // Adjust the full width accordingly
+  const npcHealthWidth = (npcHealth.current / npcMaxHealth) * 100; // Adjust the full width accordingly
+
+  playerHealthBar.current.clear();
+  playerHealthBar.current.beginFill(0x2d9bbd);
+  playerHealthBar.current.drawRect(10, 5, playerHealthWidth, 15); // Adjust positioning and size as needed
+  playerHealthBar.current.endFill();
+
+  npcHealthBar.current.clear();
+  npcHealthBar.current.beginFill(0xac3838);
+  npcHealthBar.current.drawRect(app.current.screen.width - npcHealthWidth - 10, 5, npcHealthWidth, 15); // Adjust positioning and size as needed
+  npcHealthBar.current.endFill();
+}
   
 
   // Keydown handler

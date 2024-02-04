@@ -274,6 +274,19 @@
   text-decoration: line-through;
 }
 
+/* Gleekenomics */
+.gleekenomics-container {
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.gleekenomics-container-img {
+  width: 600px;
+  height: auto;
+  /* border-radius: 50%; */
+}
+
+
 /*Team Styling*/
 .dox-event {
   max-width: 1300px;
@@ -434,8 +447,10 @@
   }
   
   .gleek-info {
+    position: relative;
     margin-top: 20px;
-    width: 350px;
+    margin-bottom: -40px;
+    max-width: 290px;
     background-color: #6eb6c8;
     color: white;
     text-align: center;
@@ -444,13 +459,14 @@
     animation: swing 3.5s infinite alternate ease-in-out;
     box-shadow: 0 0 5px 1px #fbfbfb;
     line-height: .9;
+    z-index: 1;
   }
 
   .phase-container {
     flex-direction: column;
     overflow-x: hidden;
     margin-top: -5px;
-    margin-bottom: -10px
+    margin-bottom: -10px;
   }
   .phase {
     flex-direction: column;
@@ -460,8 +476,11 @@
   }
   
   .meme-container {
+    max-width: 250px;
+    position: relative;
     width: 300px;
     height: auto;
+    z-index: 1;
   }
   
   .meme-border {

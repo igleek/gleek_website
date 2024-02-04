@@ -8,6 +8,7 @@ import Memes from './components/Memes';
 import MeetTheTeam from './components/MeetTheTeam';
 import Footer from './components/Footer';
 import './App.css';
+import Gleekenomics from './components/Gleekenomics';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
             <Game />
             <Phase />
             <MeetTheTeam />
+            <Gleekenomics />
             <div className="content-container">
                 <HowToGleek />
                 <Memes />
