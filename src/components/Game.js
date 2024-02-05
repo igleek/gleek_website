@@ -40,6 +40,8 @@ const GameComponent = () => {
     player: [100,100,100,100,100,100,100,100,100,100,100], // Example increments by level for player
     npc: [100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300] // Example increments by level for NPC
   };
+  const [npcName, setNpcName] = useState('dogwifhat');
+
 
   function getMaxHealth(type, level) {
     return maxHealthByLevel[type][level - 1]; // Adjust index for 0-based array
@@ -103,7 +105,6 @@ const GameComponent = () => {
         return prevLevel + 1; 
       }
     });
-
     // Additional logic for level progression
     if (player.current && npc.current) {
       player.current.x = 100;
@@ -116,9 +117,6 @@ const GameComponent = () => {
       // Clear gleeks
       gleeks.forEach(gleek => app.current.stage.removeChild(gleek));
       gleeks.splice(0, gleeks.length);
-
-      // Update Health Display and possibly other level-specific setups
-      updateHealthBars();
   }
 
   function endGame(playerWon) {
@@ -181,6 +179,7 @@ const GameComponent = () => {
       npc.current = new PIXI.Sprite(
         PIXI.Texture.from('./images/game/wif.png')
       );
+
       npc.current.width = 150;
       npc.current.height = 150;
       npc.current.x = app.current.screen.width - 180; // Ensure app.current is not undefined
@@ -352,55 +351,68 @@ const GameComponent = () => {
 
   //Updating npc data per level
   useEffect(() => {
+    let name = 'dogwifhat';
     if (npc.current) {
       switch (level) {
         case 2:
           npc.current.texture = PIXI.Texture.from('./images/game/anita.png');
           npcHealth.current = getMaxHealth('npc', 2);
+          name = 'ANITA MAX WYNN';
           break;
         case 3:
           npc.current.texture = PIXI.Texture.from('./images/game/honda.png');
           npc.current.width = 260;
           npc.current.x = app.current.screen.width - 280;
           npcHealth.current = getMaxHealth('npc', 3);
+          name = 'A GENTLY USED 2001 HONDA CIVIC';
           break;
         case 4:
           npc.current.texture = PIXI.Texture.from('./images/game/smolanoo.png');
           npcHealth.current = getMaxHealth('npc', 4);
+          name = 'SmoLanO';
           break;
         case 5:
           npc.current.texture = PIXI.Texture.from('./images/game/bonk.png');
           npcHealth.current = getMaxHealth('npc', 5);
+          name = 'BONK';
           break;
         case 6:
           npc.current.texture = PIXI.Texture.from('./images/game/doge.png');
           npcHealth.current = getMaxHealth('npc', 6);
+          name = 'DOGE';
           break;
         case 7:
           npc.current.texture = PIXI.Texture.from('./images/game/harambe.png');
           npcHealth.current = getMaxHealth('npc', 7);
+          name = 'HARAMBE';
           break;
         case 8:
           npc.current.texture = PIXI.Texture.from('./images/game/pepe.png');
           npcHealth.current = getMaxHealth('npc', 8);
+          name = 'PEPE';
           break;
         case 9:
           npc.current.texture = PIXI.Texture.from('./images/game/r28.png');
           npcHealth.current = getMaxHealth('npc', 9);
+          name = 'r28';
           break;
         case 10:
           npc.current.texture = PIXI.Texture.from('./images/game/wab_gleek.png');
           npcHealth.current = getMaxHealth('npc', 10);
+          name = 'wab';
           break;
         case 11:
-            npc.current.texture = PIXI.Texture.from('./images/game/ansem.png');
-            npcHealth.current = getMaxHealth('npc', 11);
-            break;       
+          npc.current.texture = PIXI.Texture.from('./images/game/ansem.png');
+          npcHealth.current = getMaxHealth('npc', 11);
+          name = 'ansem';
+          break;       
         default:
           npc.current.texture = PIXI.Texture.from('./images/game/wif.png');
           npcHealth.current = getMaxHealth('npc', 1);
+          name = 'dogwifhat';
       }
     }
+    setNpcName(name);
   }, [level]);
 
   useEffect(() => {
@@ -422,7 +434,8 @@ const GameComponent = () => {
         return () => {
           window.removeEventListener('resize', adjustInfoMessagePosition);
         };
-      }, []);
+      }, []);  
+
   
   //gleek gleek
   function shoot(x, y, vx, vy) {
@@ -545,6 +558,7 @@ function updateHealthBars() {
           </div>}
           {showStartButton && <button className="start-game-button" onClick={startGame}>Start Game</button>}
         {displayLevel && <div className="level-display">{displayLevel}</div>}
+        {isGameRunning && <p className="npc-name-display">{npcName}</p>}
         <div ref={gameContainer} className="game"></div>
         {showInstructions && <InstructionsModal />}
         <div className="score-display">Score: {score}</div>
