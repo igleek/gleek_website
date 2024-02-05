@@ -360,6 +360,8 @@ const GameComponent = () => {
           break;
         case 3:
           npc.current.texture = PIXI.Texture.from('./images/game/honda.png');
+          npc.current.width = 260;
+          npc.current.x = app.current.screen.width - 280;
           npcHealth.current = getMaxHealth('npc', 3);
           break;
         case 4:
