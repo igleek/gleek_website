@@ -16,8 +16,10 @@ const GameComponent = () => {
   const gleeks = [];
   const playerHealth = useRef(100); // Initial health for the player
   const npcHealth = useRef(100); 
+  const [npcBulletVelocity, setNpcBulletVelocity] = useState(-13);
+  const [playerBulletVelocity, setPlayerBulletVelocity] = useState(12);
   const [isGameRunning, setIsGameRunning] = useState(false); // State to track if the game is running
-  const jumpStrength = -15; // Negative value for upward movement
+  const [jumpStrength, setJumpStrength] = useState(-15); // Negative value for upward movement
   const [gravity, setGravity] = useState(0.5); // Gravity pulls the sprite down
   let playerVy = 0; // Vertical velocity for player
   let npcVy = 0; // Vertical velocity for NPC  
@@ -62,16 +64,25 @@ const GameComponent = () => {
 // Adjust Game Settings Based on OS
 const adjustGameSettingsForOS = () => {
   const os = detectOS();
+  console.log('Detected Os: ${os}');
   switch (os) {
     case 'macOS':
-      setNpcSpeed(1.2); // Adjust for macOS
-      setPlayerSpeed(1.7); // Adjust for macOS
-      setGravity(0.45); // Adjust for macOS
+      console.log('adjusting for mac')
+      setNpcSpeed(2.5); // Adjust for macOS
+      setPlayerSpeed(3.75); // Adjust for macOS
+      setGravity(1); // Adjust for macOS
+      setJumpStrength(-20);
+      setNpcBulletVelocity(-13);
+      setPlayerBulletVelocity(12);
       break;
     case 'Windows':
+      console.log('adjusting for windows');
       setNpcSpeed(1); // Adjust for Windows
       setPlayerSpeed(1.5); // Adjust for Windows
       setGravity(0.5); // Adjust for Windows
+      setJumpStrength(-15);
+      setNpcBulletVelocity(-8);
+      setPlayerBulletVelocity(12);
       break;
     // Add cases for other OS types as needed
   }
@@ -238,7 +249,7 @@ const adjustGameSettingsForOS = () => {
         const timeSinceLastShot = currentTime - lastShotTimeRef.current;
   
         // if (timeSinceLastShot >= shootCooldown) {
-          shoot(player.current.x, player.current.y, 10, 0); // Player shooting velocity
+          shoot(player.current.x, player.current.y, playerBulletVelocity, 0); // Player shooting velocity
           lastShotTimeRef.current = currentTime; // Update the last shot time
         // }
       }
@@ -281,7 +292,7 @@ const adjustGameSettingsForOS = () => {
       // Randomize NPC shooting
       nextNpcShootTime -= delta;
       if (nextNpcShootTime <= 0) {
-        npcShoot(npc.current.x, npc.current.y, -8, 0); // NPC shoots leftward
+        npcShoot(npc.current.x, npc.current.y, npcBulletVelocity, 0); // NPC shoots leftward
         let frequencyReduction = 1000 * (level - 1); // Increase frequency each level
         nextNpcShootTime = Math.random() + Math.max(baseNpcShootFrequency - frequencyReduction, 50); // Ensure it doesn't go below a minimum threshold
       }
