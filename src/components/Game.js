@@ -6,11 +6,11 @@ const GameComponent = () => {
   const app = useRef(null);
   const player = useRef(null); // useRef for player
   const npc = useRef(null); // useRef for npc
-  const npcSpeed = 1;
+  const [npcSpeed, setNpcSpeed] = useState(1);
   let npcDirection = 1; // 1 for right, -1 for left
   let nextDirectionChange = 0; // Time until next direction change
   let nextNpcShootTime = 0; // Time until NPC shoots next
-  const playerSpeed = 1.5;
+  const [playerSpeed, setPlayerSpeed] = useState(1.5);
   let left = false;
   let right = false;
   const gleeks = [];
@@ -18,7 +18,7 @@ const GameComponent = () => {
   const npcHealth = useRef(100); 
   const [isGameRunning, setIsGameRunning] = useState(false); // State to track if the game is running
   const jumpStrength = -15; // Negative value for upward movement
-  const gravity = 0.5; // Gravity pulls the sprite down
+  const [gravity, setGravity] = useState(0.5); // Gravity pulls the sprite down
   let playerVy = 0; // Vertical velocity for player
   let npcVy = 0; // Vertical velocity for NPC  
   const playerHealthBar = useRef(null);
@@ -46,6 +46,36 @@ const GameComponent = () => {
   function getMaxHealth(type, level) {
     return maxHealthByLevel[type][level - 1]; // Adjust index for 0-based array
   }
+
+    // OS Detection Function
+    const detectOS = () => {
+      const platform = navigator.platform.toLowerCase();
+      const userAgent = navigator.userAgent.toLowerCase();
+  
+      if (platform.includes('mac') || userAgent.includes('mac')) return 'macOS';
+      if (platform.includes('win') || userAgent.includes('win')) return 'Windows';
+      // Add more conditions as needed for other OS types
+  
+      return 'unknown'; // Default case if unable to determine
+    };
+
+// Adjust Game Settings Based on OS
+const adjustGameSettingsForOS = () => {
+  const os = detectOS();
+  switch (os) {
+    case 'macOS':
+      setNpcSpeed(1.2); // Adjust for macOS
+      setPlayerSpeed(1.7); // Adjust for macOS
+      setGravity(0.45); // Adjust for macOS
+      break;
+    case 'Windows':
+      setNpcSpeed(1); // Adjust for Windows
+      setPlayerSpeed(1.5); // Adjust for Windows
+      setGravity(0.5); // Adjust for Windows
+      break;
+    // Add cases for other OS types as needed
+  }
+};
 
   // Function to start the game
   const startGame = () => {
@@ -148,6 +178,7 @@ const GameComponent = () => {
   
 
   useEffect(() => {
+    adjustGameSettingsForOS();
     app.current = new PIXI.Application({
       width: 1200,
       height: 600,
