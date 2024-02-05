@@ -82,7 +82,7 @@ const adjustGameSettingsForOS = () => {
       setGravity(0.5); // Adjust for Windows
       setJumpStrength(-15);
       setNpcBulletVelocity(-8);
-      setPlayerBulletVelocity(12);
+      setPlayerBulletVelocity(10);
       break;
     // Add cases for other OS types as needed
   }
