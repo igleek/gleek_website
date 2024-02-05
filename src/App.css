@@ -562,7 +562,18 @@
 		width: 220px;
 		height: auto;
 	}
+	.how-to-container {
+		max-width: 250px;
+		position: relative;
+		width: 300px;
+		height: auto;
+		z-index: 1;
+	}
 
+	.how-to-border {
+		width: 250px;
+		height: auto;
+	}
 	.meme-container {
 		max-width: 250px;
 		position: relative;
