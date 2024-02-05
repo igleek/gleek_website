@@ -481,7 +481,7 @@ const GameComponent = () => {
 
 	//gleek gleek
 	function shoot(x, y, vx, vy) {
-		const texture = PIXI.Texture.from("./images/logos/gleek.png");
+		const texture = PIXI.Texture.from("./images/logos/gleek_flipped.png");
 		const gleek = new PIXI.Sprite(texture);
 		gleek.width = 40; // Set gleek size
 		gleek.height = 40;

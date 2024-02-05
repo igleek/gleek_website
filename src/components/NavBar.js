@@ -21,7 +21,7 @@ function NavBar() {
 					<a href="https://twitter.com/gleekonsolana">TWITTER</a>
 				</li>
 				<li>
-					<a href="https://t.me/+6E9MvDPBQfpmOGQx">TELEGRAM</a>
+					<a href="">TELEGRAM</a>
 				</li>
 				<li>
 					<a href="https://giphy.com/channel/iGleek">GIPHY</a>
