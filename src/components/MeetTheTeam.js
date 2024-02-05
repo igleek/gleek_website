@@ -9,19 +9,19 @@ const Team = () => {
           <h3>DOXING AT 500 TWITTER FOLLOWERS</h3>
         </div>
         <div className="team-container">
-        <div className="section team-member">
+        <div className="section-team team-member">
             <img src='./images/logos/soyjak_gleek.png' alt="artist" className="team-member-img" />
             <p className="team-member-description">redacted</p>
         </div>
-        <div className="section team-member">
+        <div className="section-team team-member">
             <img src='./images/logos/soyjak_gleek.png'alt="dev" className="team-member-img" />
             <p className="team-member-description">redacted</p>
         </div>
-        <div className="section team-member">
+        <div className="section-team team-member">
             <img src='./images/logos/soyjak_gleek.png' alt="memer" className="team-member-img" />
             <p className="team-member-description">redacted</p>
         </div>
-        <div className="section team-member">
+        <div className="section-team team-member">
             <img src='./images/logos/soyjak_gleek.png' alt="strat" className="team-member-img" />
             <p className="team-member-description">redacted</p>
         </div>
