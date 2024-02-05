@@ -70,10 +70,10 @@ const adjustGameSettingsForOS = () => {
       console.log('adjusting for mac')
       setNpcSpeed(2.5); // Adjust for macOS
       setPlayerSpeed(3.75); // Adjust for macOS
-      setGravity(2); // Adjust for macOS
+      setGravity(2.5); // Adjust for macOS
       setJumpStrength(-30);
-      setNpcBulletVelocity(-13);
-      setPlayerBulletVelocity(12);
+      setNpcBulletVelocity(-14);
+      setPlayerBulletVelocity(15);
       break;
     case 'Windows':
       console.log('adjusting for windows');
