@@ -41,6 +41,12 @@ const GameComponent = () => {
 		npc: [100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300],
 	};
 	const [npcName, setNpcName] = useState("dogwifhat");
+	const jumpSound = new Audio("./audio/Fart.mp3");
+	const [isSoundEnabled, setIsSoundEnabled] = useState(true);
+
+	const toggleSound = () => {
+		setIsSoundEnabled((prevState) => !prevState);
+	};
 
 	function getMaxHealth(type, level) {
 		return maxHealthByLevel[type][level - 1]; // Adjust index for 0-based array
@@ -435,7 +441,7 @@ const GameComponent = () => {
 					name = "DOGE";
 					break;
 				case 9:
-					npc.current.texture = PIXI.Texture.from("./images/game/ansem.png");
+					npc.current.texture = PIXI.Texture.from("./images/game/Ansem.png");
 					npcHealth.current = getMaxHealth("npc", 9);
 					name = "ansem";
 					break;
@@ -580,6 +586,9 @@ const GameComponent = () => {
 					jumpCount === 0 ||
 					player.current.y < app.current.screen.height - 130
 				) {
+					if (isSoundEnabled) {
+						jumpSound.play();
+					}
 					playerVy += jumpStrength; // Add to the current velocity for a boost
 					setJumpCount(jumpCount + 1);
 				}
@@ -621,6 +630,18 @@ const GameComponent = () => {
 					)}
 					{displayLevel && <div className="level-display">{displayLevel}</div>}
 					{isGameRunning && <p className="npc-name-display">{npcName}</p>}
+					<button className="sound-toggle-button" onClick={toggleSound}>
+						<img
+							src={
+								isSoundEnabled
+									? "./images/logos/sound_on.png"
+									: "./images/logos/sound_off.png"
+							}
+							alt="Toggle Sound"
+							width={'22'}
+							height={'22'}
+						/>
+					</button>
 					<div ref={gameContainer} className="game"></div>
 					{showInstructions && <InstructionsModal />}
 					<div className="score-display">Score: {score}</div>

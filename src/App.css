@@ -168,6 +168,27 @@
 		background-color: #549aa8;
 	}
 }
+
+.sound-toggle-button {
+	position: absolute;
+	top: 5%;
+	left: 97.2%;
+	transform: translateX(-50%);
+	background-color: #6eb6c8;
+	color: white;
+	border: 5px solid #1e1d1d;
+	border-radius: 25px;
+	box-shadow: 0 0 5px 1px #ffffff;
+	border-radius: 20px;
+	transition: background-color 0.3s;
+	cursor: pointer;
+	width: 42px;
+	height: 42px;
+}
+.sound-toggle-button:hover {
+	background-color: #3a6d5c;
+}
+
 .game-over-message,
 .level-display,
 .info-message,
