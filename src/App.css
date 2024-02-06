@@ -124,7 +124,7 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 	color: white;
-	font-size: 1.2em;
+	font-size: 1.5em;
 	z-index: 100;
 }
 .level-display {
@@ -163,6 +163,7 @@
 	border-radius: 20px;
 	transition: background-color 0.3s;
 	font-family: "chimi";
+	user-select: none;
 
 	&:hover {
 		background-color: #549aa8;
@@ -184,9 +185,10 @@
 	cursor: pointer;
 	width: 42px;
 	height: 42px;
+	user-select: none;
 }
 .sound-toggle-button:hover {
-	background-color: #3a6d5c;
+	background-color: #549aa8;
 }
 
 .game-over-message,
@@ -230,6 +232,7 @@
 	color: #fff;
 	font-size: 1em;
 	z-index: 100;
+	user-select: none;
 }
 
 /*Timeline info*/
@@ -487,6 +490,13 @@
 
 /* Mobile */
 @media only screen and (max-width: 1250px) {
+
+	.App {
+		background-attachment: fixed;
+		background-size:contain; 
+		background-position: center;
+		background-repeat: repeat;
+	  }
 	.game-top-level,
 	.game-overlay,
 	.info-message,

@@ -37,15 +37,38 @@ const GameComponent = () => {
 	const [displayLevel, setDisplayLevel] = useState("");
 	const [spacebarActive, setSpacebarActive] = useState(true);
 	const maxHealthByLevel = {
-		player: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
-		npc: [100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320, 340, 360, 380, 390],
+		player: [
+			100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+			100,
+		],
+		npc: [
+			100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320, 340, 360, 380,
+			390,
+		],
 	};
 	const [npcName, setNpcName] = useState("dogwifhat");
-	const jumpSound = new Audio("./audio/Fart.mp3");
-	const [isSoundEnabled, setIsSoundEnabled] = useState(true);
+	const [isSoundEnabled, setIsSoundEnabled] = useState(false);
+	const jumpSoundRef = useRef(new Audio('./audio/fart.mp3'));
+	const gleekSoundRef = useRef(new Audio('./audio/gleek_shot.mp3'))
+	
+	const isSoundEnabledRef = useRef(isSoundEnabled);
 
+	useEffect(() => {
+		isSoundEnabledRef.current = isSoundEnabled;
+	}, [isSoundEnabled]);
+	// Updated toggleSound function
 	const toggleSound = () => {
-		setIsSoundEnabled((prevState) => !prevState);
+		setIsSoundEnabled((prev) => {
+			const newState = !prev;
+			if (newState) {
+				// If enabling sound, handle logic here (if any)
+			} else {
+				// If disabling sound, stop and reset audio here
+				jumpSoundRef.current.pause();
+				jumpSoundRef.current.currentTime = 0;
+			}
+			return newState;
+		});
 	};
 
 	function getMaxHealth(type, level) {
@@ -65,7 +88,6 @@ const GameComponent = () => {
 	// Adjust Game Settings Based on OS
 	const adjustGameSettingsForOS = () => {
 		const os = detectOS();
-		console.log("Detected Os: ${os}");
 		switch (os) {
 			case "macOS":
 				setNpcSpeed(2.5);
@@ -379,6 +401,12 @@ const GameComponent = () => {
 					Math.random() < 0.002 * level &&
 					npc.current.y >= app.current.screen.height - 130
 				) {
+					if (isSoundEnabledRef.current) {
+						// Use ref here
+						jumpSoundRef.current
+							.play()
+							.catch((error) => console.error("Sound play error:", error));
+					}
 					npcVy = jumpStrength;
 				}
 			}
@@ -446,7 +474,9 @@ const GameComponent = () => {
 					name = "ansem";
 					break;
 				case 10:
-					npc.current.texture = PIXI.Texture.from("./images/game/black_airforce_1.png");
+					npc.current.texture = PIXI.Texture.from(
+						"./images/game/black_airforce_1.png"
+					);
 					npcHealth.current = getMaxHealth("npc", 10);
 					name = "Black Airforce 1s";
 					break;
@@ -461,10 +491,12 @@ const GameComponent = () => {
 					name = "APE SZN";
 					break;
 				case 13:
-					npc.current.texture = PIXI.Texture.from("./images/game/sax_squirtle.png");
+					npc.current.texture = PIXI.Texture.from(
+						"./images/game/sax_squirtle.png"
+					);
 					npcHealth.current = getMaxHealth("npc", 13);
 					name = "Sax Squirtle";
-				break;
+					break;
 				case 14:
 					npc.current.texture = PIXI.Texture.from("./images/game/harambe.png");
 					npcHealth.current = getMaxHealth("npc", 14);
@@ -512,6 +544,9 @@ const GameComponent = () => {
 
 	//gleek gleek
 	function shoot(x, y, vx, vy) {
+		if (isSoundEnabledRef.current) { // Only play the sound if enabled
+			gleekSoundRef.current.play().catch(error => console.error("Sound play error:", error));
+		}
 		const texture = PIXI.Texture.from("./images/logos/gleek_flipped.png");
 		const gleek = new PIXI.Sprite(texture);
 		gleek.width = 40; // Set gleek size
@@ -529,6 +564,9 @@ const GameComponent = () => {
 
 	// NPC shooting function
 	function npcShoot(x, y, vx, vy) {
+		if (isSoundEnabledRef.current) { // Only play the sound if enabled
+			gleekSoundRef.current.play().catch(error => console.error("Sound play error:", error));
+		}
 		const texture = PIXI.Texture.from("./images/logos/gleek.png");
 		const gleek = new PIXI.Sprite(texture);
 		gleek.width = 40; // Set gleek size
@@ -611,11 +649,14 @@ const GameComponent = () => {
 					jumpCount === 0 ||
 					player.current.y < app.current.screen.height - 130
 				) {
-					if (isSoundEnabled) {
-						jumpSound.play();
-					}
 					playerVy += jumpStrength; // Add to the current velocity for a boost
 					setJumpCount(jumpCount + 1);
+					if (isSoundEnabledRef.current) {
+						// Use ref here
+						jumpSoundRef.current
+							.play()
+							.catch((error) => console.error("Sound play error:", error));
+					}
 				}
 			}
 		}
@@ -655,6 +696,7 @@ const GameComponent = () => {
 					)}
 					{displayLevel && <div className="level-display">{displayLevel}</div>}
 					{isGameRunning && <p className="npc-name-display">{npcName}</p>}
+					<div ref={gameContainer} className="game"></div>
 					<button className="sound-toggle-button" onClick={toggleSound}>
 						<img
 							src={
@@ -663,11 +705,10 @@ const GameComponent = () => {
 									: "./images/logos/sound_off.png"
 							}
 							alt="Toggle Sound"
-							width={'22'}
-							height={'22'}
+							width={"22"}
+							height={"22"}
 						/>
 					</button>
-					<div ref={gameContainer} className="game"></div>
 					{showInstructions && <InstructionsModal />}
 					<div className="score-display">Score: {score}</div>
 				</div>
