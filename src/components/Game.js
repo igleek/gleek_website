@@ -37,8 +37,8 @@ const GameComponent = () => {
 	const [displayLevel, setDisplayLevel] = useState("");
 	const [spacebarActive, setSpacebarActive] = useState(true);
 	const maxHealthByLevel = {
-		player: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
-		npc: [100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300],
+		player: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
+		npc: [100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320, 340, 360, 380, 390],
 	};
 	const [npcName, setNpcName] = useState("dogwifhat");
 	const jumpSound = new Audio("./audio/Fart.mp3");
@@ -126,13 +126,13 @@ const GameComponent = () => {
 
 	function nextLevel() {
 		setLevel((prevLevel) => {
-			const newLevel = prevLevel === 11 ? prevLevel : prevLevel + 1;
+			const newLevel = prevLevel === 16 ? prevLevel : prevLevel + 1;
 			setDisplayLevel(`Level: ${newLevel}`);
 
 			npcHealth.current = getMaxHealth("npc", newLevel);
 			updateHealthBars();
 
-			if (prevLevel === 11) {
+			if (prevLevel === 16) {
 				endGame(true);
 				return prevLevel;
 			} else {
@@ -446,14 +446,39 @@ const GameComponent = () => {
 					name = "ansem";
 					break;
 				case 10:
-					npc.current.texture = PIXI.Texture.from("./images/game/harambe.png");
+					npc.current.texture = PIXI.Texture.from("./images/game/black_airforce_1.png");
 					npcHealth.current = getMaxHealth("npc", 10);
-					name = "HARAMBE";
+					name = "Black Airforce 1s";
 					break;
 				case 11:
-					npc.current.texture = PIXI.Texture.from("./images/game/pepe.png");
+					npc.current.texture = PIXI.Texture.from("./images/game/bobo.png");
 					npcHealth.current = getMaxHealth("npc", 11);
+					name = "bobo";
+					break;
+				case 12:
+					npc.current.texture = PIXI.Texture.from("./images/game/ape_szn.png");
+					npcHealth.current = getMaxHealth("npc", 12);
+					name = "APE SZN";
+					break;
+				case 13:
+					npc.current.texture = PIXI.Texture.from("./images/game/sax_squirtle.png");
+					npcHealth.current = getMaxHealth("npc", 13);
+					name = "Sax Squirtle";
+				break;
+				case 14:
+					npc.current.texture = PIXI.Texture.from("./images/game/harambe.png");
+					npcHealth.current = getMaxHealth("npc", 14);
+					name = "HARAMBE";
+					break;
+				case 15:
+					npc.current.texture = PIXI.Texture.from("./images/game/pepe.png");
+					npcHealth.current = getMaxHealth("npc", 15);
 					name = "PEPE";
+					break;
+				case 16:
+					npc.current.texture = PIXI.Texture.from("./images/game/chad.png");
+					npcHealth.current = getMaxHealth("npc", 16);
+					name = "Chad";
 					break;
 				default:
 					npc.current.texture = PIXI.Texture.from("./images/game/wif.png");
