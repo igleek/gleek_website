@@ -43,14 +43,14 @@ const GameComponent = () => {
 		],
 		npc: [
 			100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320, 340, 360, 380,
-			390,
+			390, 500,
 		],
 	};
 	const [npcName, setNpcName] = useState("dogwifhat");
 	const [isSoundEnabled, setIsSoundEnabled] = useState(false);
-	const jumpSoundRef = useRef(new Audio('./audio/fart.mp3'));
-	const gleekSoundRef = useRef(new Audio('./audio/gleek_shot.mp3'))
-	
+	const jumpSoundRef = useRef(new Audio("./audio/fart.mp3"));
+	const gleekSoundRef = useRef(new Audio("./audio/gleek_shot.mp3"));
+
 	const isSoundEnabledRef = useRef(isSoundEnabled);
 
 	useEffect(() => {
@@ -148,13 +148,13 @@ const GameComponent = () => {
 
 	function nextLevel() {
 		setLevel((prevLevel) => {
-			const newLevel = prevLevel === 16 ? prevLevel : prevLevel + 1;
+			const newLevel = prevLevel === 17 ? prevLevel : prevLevel + 1;
 			setDisplayLevel(`Level: ${newLevel}`);
 
 			npcHealth.current = getMaxHealth("npc", newLevel);
 			updateHealthBars();
 
-			if (prevLevel === 16) {
+			if (prevLevel === 17) {
 				endGame(true);
 				return prevLevel;
 			} else {
@@ -312,13 +312,24 @@ const GameComponent = () => {
 				}
 
 				// Randomize NPC shooting
-				nextNpcShootTime -= delta;
-				if (nextNpcShootTime <= 0) {
-					npcShoot(npc.current.x, npc.current.y, npcBulletVelocity, 0); // NPC shoots leftward
-					let frequencyReduction = 1000 * (level - 1); // Increase frequency each level
-					nextNpcShootTime =
-						Math.random() +
-						Math.max(baseNpcShootFrequency - frequencyReduction, 50); // Ensure it doesn't go below a minimum threshold
+				if (level === 17) {
+					nextNpcShootTime -= delta;
+					if (nextNpcShootTime <= 0) {
+						npcShoot(npc.current.x, npc.current.y + 140, npcBulletVelocity, 0); // NPC shoots leftward
+						let frequencyReduction = 1000 * (level - 1); // Increase frequency each level
+						nextNpcShootTime =
+							Math.random() +
+							Math.max(baseNpcShootFrequency - frequencyReduction, 50); // Ensure it doesn't go below a minimum threshold
+					}
+				} else {
+					nextNpcShootTime -= delta;
+					if (nextNpcShootTime <= 0) {
+						npcShoot(npc.current.x, npc.current.y, npcBulletVelocity, 0); // NPC shoots leftward
+						let frequencyReduction = 1000 * (level - 1); // Increase frequency each level
+						nextNpcShootTime =
+							Math.random() +
+							Math.max(baseNpcShootFrequency - frequencyReduction, 50); // Ensure it doesn't go below a minimum threshold
+					}
 				}
 
 				// Update gleeks
@@ -391,23 +402,43 @@ const GameComponent = () => {
 				}
 
 				// Ground collision for NPC
-				if (npc.current.y > app.current.screen.height - 130) {
-					npc.current.y = app.current.screen.height - 130;
-					npcVy = 0;
+				if (level === 17) {
+					if (npc.current.y > app.current.screen.height - npc.current.height) {
+						npc.current.y = app.current.screen.height - npc.current.height;
+						npcVy = 0;
+					}
+				} else {
+					if (npc.current.y > app.current.screen.height - 130) {
+						npc.current.y = app.current.screen.height - 130;
+						npcVy = 0;
+					}
 				}
 
 				// Random NPC jump
-				if (
-					Math.random() < 0.002 * level &&
-					npc.current.y >= app.current.screen.height - 130
-				) {
-					if (isSoundEnabledRef.current) {
-						// Use ref here
-						jumpSoundRef.current
-							.play()
-							.catch((error) => console.error("Sound play error:", error));
+				if (level === 17) {
+					if (
+						Math.random() < 0.002 * level &&
+						npc.current.y >= app.current.screen.height - npc.current.height
+					) {
+						if (isSoundEnabledRef.current) {
+							jumpSoundRef.current
+								.play()
+								.catch((error) => console.error("Sound play error:", error));
+						}
+						npcVy = jumpStrength;
 					}
-					npcVy = jumpStrength;
+				} else {
+					if (
+						Math.random() < 0.002 * level &&
+						npc.current.y >= app.current.screen.height - 130
+					) {
+						if (isSoundEnabledRef.current) {
+							jumpSoundRef.current
+								.play()
+								.catch((error) => console.error("Sound play error:", error));
+						}
+						npcVy = jumpStrength;
+					}
 				}
 			}
 		});
@@ -512,6 +543,14 @@ const GameComponent = () => {
 					npcHealth.current = getMaxHealth("npc", 16);
 					name = "Chad";
 					break;
+				case 17:
+					npc.current.texture = PIXI.Texture.from("./images/game/your_mom.png");
+					npcHealth.current = getMaxHealth("npc", 17);
+					npc.current.width = 300;
+					npc.current.height = 300;
+					npc.current.x = app.current.screen.width - npc.current.width - 10;
+					name = "your mom";
+					break;
 				default:
 					npc.current.texture = PIXI.Texture.from("./images/game/wif.png");
 					npcHealth.current = getMaxHealth("npc", 1);
@@ -544,8 +583,11 @@ const GameComponent = () => {
 
 	//gleek gleek
 	function shoot(x, y, vx, vy) {
-		if (isSoundEnabledRef.current) { // Only play the sound if enabled
-			gleekSoundRef.current.play().catch(error => console.error("Sound play error:", error));
+		if (isSoundEnabledRef.current) {
+			// Only play the sound if enabled
+			gleekSoundRef.current
+				.play()
+				.catch((error) => console.error("Sound play error:", error));
 		}
 		const texture = PIXI.Texture.from("./images/logos/gleek_flipped.png");
 		const gleek = new PIXI.Sprite(texture);
@@ -564,8 +606,11 @@ const GameComponent = () => {
 
 	// NPC shooting function
 	function npcShoot(x, y, vx, vy) {
-		if (isSoundEnabledRef.current) { // Only play the sound if enabled
-			gleekSoundRef.current.play().catch(error => console.error("Sound play error:", error));
+		if (isSoundEnabledRef.current) {
+			// Only play the sound if enabled
+			gleekSoundRef.current
+				.play()
+				.catch((error) => console.error("Sound play error:", error));
 		}
 		const texture = PIXI.Texture.from("./images/logos/gleek.png");
 		const gleek = new PIXI.Sprite(texture);

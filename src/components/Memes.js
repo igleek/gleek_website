@@ -8,21 +8,7 @@ function Memes() {
 				<img className="meme-border" src="./images/Memes/moon.gif" alt="" />
 			</div>
 			<div className="meme-container">
-				<img
-					className="meme-border"
-					src="./images/Memes/gleek_chart.png"
-					alt=""
-				/>
-			</div>
-			<div className="meme-container">
 				<img className="meme-border" src="./images/Memes/gm.gif" alt="" />
-			</div>
-			<div className="meme-container">
-				<img
-					className="meme-border"
-					src="./images/Memes/gleek_karen.png"
-					alt=""
-				/>
 			</div>
 			<div className="meme-container">
 				<img
