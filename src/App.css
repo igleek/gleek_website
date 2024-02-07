@@ -356,8 +356,8 @@
 	box-shadow: 0 0 5px 1px #26aaec;
 	border: 4px solid #ffffff;
 	flex: 1;
-	min-width: 200px;
-	max-width: 250px;
+	min-width: 250px;
+	max-width: 3000px;
 	background-color: #000000;
 }
 .team-container {
@@ -372,6 +372,7 @@
 	width: 25px;
 	text-align: center;
 	padding-top: 20px;
+	padding-bottom: 20px;
 }
 .team-member-img {
 	width: 200px;
@@ -382,7 +383,17 @@
 .team-member-description {
 	color: white;
 	text-decoration: line-through;
-	margin-bottom: 20px;
+	margin-top: 80px;
+	margin-bottom: 10px;
+}
+.team-member-description-doxed {
+	color: white;
+	margin-top: 80px;
+	margin-bottom: 10px;
+}
+.plain-link {
+	text-decoration: none;
+	color: white;
 }
 .team-header {
 	margin-bottom: 20px;

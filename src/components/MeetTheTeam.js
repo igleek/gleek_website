@@ -10,11 +10,13 @@ const Team = () => {
 			<div className="team-container">
 				<div className="section-team team-member">
 					<img
-						src="./images/logos/soyjak_gleek.png"
+						src="./images/team/dev.jpg"
 						alt="artist"
 						className="team-member-img"
 					/>
-					<p className="team-member-description">redacted</p>
+					<p className="team-member-description-doxed">
+					dev: <a href="https://www.twitter.com/horneliusdoteth" target="_blank" rel="noopener noreferrer" className="plain-link">hornelius.eth</a>
+					</p>
 				</div>
 				<div className="section-team team-member">
 					<img
