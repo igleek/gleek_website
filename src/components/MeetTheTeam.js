@@ -11,7 +11,7 @@ const Team = () => {
 				<div className="section-team team-member">
 					<img
 						src="./images/team/dev.jpg"
-						alt="artist"
+						alt="dev"
 						className="team-member-img"
 					/>
 					<p className="team-member-description-doxed">
@@ -20,11 +20,13 @@ const Team = () => {
 				</div>
 				<div className="section-team team-member">
 					<img
-						src="./images/logos/soyjak_gleek.png"
-						alt="dev"
+						src="./images/team/cookies.png"
+						alt="meme"
 						className="team-member-img"
 					/>
-					<p className="team-member-description">redacted</p>
+					<p className="team-member-description-doxed">
+					chief meme officer: <a href="https://www.twitter.com/cook_ees" target="_blank" rel="noopener noreferrer" className="plain-link">cookies</a>
+					</p>
 				</div>
 				<div className="section-team team-member">
 					<img
