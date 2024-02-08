@@ -40,11 +40,13 @@ const Team = () => {
 				</div>
 				<div className="section-team team-member">
 					<img
-						src="./images/logos/soyjak_gleek.png"
-						alt="strat"
+						src="./images/team/sd.jpg"
+						alt="banksy"
 						className="team-member-img"
 					/>
-					<p className="team-member-description">redacted</p>
+					<p className="team-member-description-doxed">
+					sugar daddy: <a href="https://www.twitter.com/Psyxology_" target="_blank" rel="noopener noreferrer" className="plain-link">psyxology</a>
+					</p>
 				</div>
 			</div>
 		</div>
