@@ -5,7 +5,7 @@ function GleekInfo() {
 
 	const copyToClipboard = () => {
 		navigator.clipboard
-			.writeText("So11111111111111111111111111111111111111112")
+			.writeText("4ACuWnJZjE1Q51589mBmmyfD82RZ4LNFVeuPdSRFPc3L")
 			.then(() => {
 				setCopySuccess("$gleek ca copied to clipboard");
 				setTimeout(() => setCopySuccess(""), 2000);
