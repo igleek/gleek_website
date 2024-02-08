@@ -567,7 +567,7 @@ const GameComponent = () => {
 				const infoMessage = document.querySelector(".info-message");
 				if (infoMessage) {
 					infoMessage.style.position = "absolute";
-					infoMessage.style.top = `${gameContainerHeight + 20}px`; // Adjust '20' to increase/decrease the gap
+					infoMessage.style.top = `${gameContainerHeight + 50}px`; // Adjust '20' to increase/decrease the gap
 				}
 			}
 		};
