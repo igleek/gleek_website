@@ -30,11 +30,13 @@ const Team = () => {
 				</div>
 				<div className="section-team team-member">
 					<img
-						src="./images/logos/soyjak_gleek.png"
-						alt="memer"
+						src="./images/team/artist.jpg"
+						alt="artist"
 						className="team-member-img"
 					/>
-					<p className="team-member-description">redacted</p>
+					<p className="team-member-description-doxed">
+					artist: <a href="https://www.twitter.com/richardnhsu" target="_blank" rel="noopener noreferrer" className="plain-link">richardnhsu</a>
+					</p>
 				</div>
 				<div className="section-team team-member">
 					<img
