@@ -21,7 +21,7 @@ function GleekInfo() {
 			<p>
 				$GLEEK <br />
 				<span style={{ cursor: "pointer" }} onClick={copyToClipboard}>
-					ca: So11111111111111111111111111111111111111112
+					ca: 4ACuWnJZjE1Q51589mBmmyfD82RZ4LNFVeuPdSRFPc3L
 				</span>
 			</p>
 			{copySuccess && (

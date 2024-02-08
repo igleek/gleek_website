@@ -21,7 +21,7 @@ const PixlLabsFooter = () => {
 				TWITTER
 			</a>
 			<a
-				href="https://t.me/+6E9MvDPBQfpmOGQx/"
+				href="https://t.me/gleekportal"
 				target="_blank"
 				rel="noopener noreferrer"
 			>
@@ -55,7 +55,7 @@ const PixlLabsFooter = () => {
 				GIPHY
 			</a>
 			<a
-				href="https://dexscreener.com/"
+				href="https://dexscreener.com/solana/2vtrb36pmfkaqms2d4c3tf8a2ej9wusapfsnqvsjse8s"
 				target="_blank"
 				rel="noopener noreferrer"
 			>
