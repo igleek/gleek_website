@@ -1,4 +1,5 @@
 import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import Phase from "./components/Phase";
 import GleekInfo from "./components/GleekInfo";
@@ -9,11 +10,16 @@ import MeetTheTeam from "./components/MeetTheTeam";
 import Footer from "./components/Footer";
 import "./App.css";
 import Gleekenomics from "./components/Gleekenomics";
+import Gleekify from "./components/Gleekify";
 
 function App() {
 	return (
+		<Router>
 		<div className="App">
 			<NavBar />
+			<Routes>
+          <Route path="/" element={
+            <>
 			<GleekInfo />
 			<Game />
 			<Phase />
@@ -24,7 +30,14 @@ function App() {
 				<Memes />
 			</div>
 			<Footer />
-		</div>
+			<Gleekify />
+			</>
+          } />
+          <Route path="/gleekify" element={<Gleekify />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
 	);
 }
 

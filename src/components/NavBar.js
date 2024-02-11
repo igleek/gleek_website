@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
 
 function NavBar() {
 	return (
@@ -14,6 +16,7 @@ function NavBar() {
 				<li>
 					<a href="/">HOME</a>
 				</li>
+				<li><Link to="/gleekify">GLEEKIFY</Link></li>
 				<li>
 					<a href="https://dexscreener.com/solana/2vtrb36pmfkaqms2d4c3tf8a2ej9wusapfsnqvsjse8s">DEXSCREENER</a>
 				</li>
