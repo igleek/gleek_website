@@ -1,34 +1,54 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
+import { useDrop } from 'react-dnd'; // 
+import ImageUploadDropzone from './ImageUploadDropZone';
+import PNGSelectionSidebar from './PNGSelectionToolbar';
+import EditableCanvas from './EditableCanvas';
 
-// Placeholder for the PNG selection component
-const PNGSelectionMenu = ({ onSelect }) => {
-  // Implement the UI and logic to select and return PNG elements
-  return <div>Select PNG Elements Here</div>;
-};
 
 const Gleekify = () => {
-  const [userImage, setUserImage] = useState(null);
-  const canvasRef = useRef(null);
+  const [uploadedImage, setUploadedImage] = useState(null);
+  // Add a state for managing selected PNG
+  const [selectedPNG, setSelectedPNG] = useState(null);
+  const [collectedProps, drop] = useDrop(() => ({
+    accept: 'image/png',
+    drop: (item, monitor) => handleDrop(item.id),
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    }),
+  }));
+  const [pngImages, setPngImages] = useState([
+    { id: 1, url: './images/Gleekify/fire.png', width: 0, height:250 },
+    { id: 2, url: './images/Gleekify/acid.png', width: 250, height:250  },
+  ]);
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
+  const handleDrop = (pngId) => {
+    // Logic to handle the dropped PNG, such as adding it to the canvas
+  };
+
+  const handleImageUploadDropzone = (acceptedFiles) => {
+    const file = acceptedFiles[0];
     const reader = new FileReader();
     reader.onload = (e) => {
-      setUserImage(e.target.result);
+      setUploadedImage(e.target.result);
     };
     reader.readAsDataURL(file);
   };
 
-  const handlePNGSelect = (png) => {
-    // Implement functionality to handle PNG selection and placement on the image
+  // Handler for selecting a PNG from the sidebar
+  const handleSelectPNG = (png) => {
+    setSelectedPNG(png);
+    // Further logic to add this PNG to the canvas or displayed image
   };
 
   return (
-    <div>
-      <input type="file" onChange={handleImageUpload} />
-      {userImage && <img src={userImage} alt="User" />}
-      <PNGSelectionMenu onSelect={handlePNGSelect} />
-      <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
+    <div ref={drop} className="gleekify-container">
+      <ImageUploadDropzone onDrop={handleImageUploadDropzone} />
+      {uploadedImage && (
+        <img src={uploadedImage} alt="Uploaded" style={{ maxWidth: '100%', maxHeight: '400px' }} />
+      )}
+
+      <PNGSelectionSidebar images={pngImages} onSelectImage={handleSelectPNG} />
+      <EditableCanvas backgroundImage={uploadedImage} pngImages={pngImages} />
     </div>
   );
 };

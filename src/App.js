@@ -11,9 +11,12 @@ import Footer from "./components/Footer";
 import "./App.css";
 import Gleekenomics from "./components/Gleekenomics";
 import Gleekify from "./components/Gleekify";
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 function App() {
 	return (
+		<DndProvider backend={HTML5Backend}>
 		<Router>
 		<div className="App">
 			<NavBar />
@@ -29,15 +32,15 @@ function App() {
 				<HowToGleek />
 				<Memes />
 			</div>
-			<Footer />
-			<Gleekify />
 			</>
           } />
-          <Route path="/gleekify" element={<Gleekify />} />
+          <Route path="/gleekify" element={
+		  	<div className="main-content"><Gleekify /></div>} />
         </Routes>
         <Footer />
       </div>
     </Router>
+	</DndProvider>
 	);
 }
 
