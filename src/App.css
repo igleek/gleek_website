@@ -521,6 +521,55 @@
 	height: 600px; /* Adjust based on your preference */
 	position: relative; /* For positioning internal elements if needed */
   }
+  .button-toolbar {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+  button {
+	background-color: #2d9bbd; /* Example: Use your app's theme color */
+	color: #ffffff;
+	border: none;
+	padding: 10px 15px;
+	margin: 0 5px;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	font-family: "chimi", sans-serif; /* Use your app's font */
+  }
+  .modal-close-button {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	border: none;
+	background-color: #f44336; /* Make it bright red for visibility */
+	color: white;
+	padding: 5px 10px;
+	cursor: pointer;
+	border-radius: 5px;
+  }
+  
+  .modal-content {
+	position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); /* Modal box shadow */
+}
+.modal-close-button:hover,
+.modal-close-button:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+  .modal-content {
+	position: relative;
+	/* Other styles */
+  }
 
 
 /* Mobile */
