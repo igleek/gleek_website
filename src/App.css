@@ -506,70 +506,113 @@
 
 /*===============GLEEKIFY Page Styles ====================*/
 .gleekify-container {
-	display: flex;
-	flex-direction: column;
-	align-items: center; /* Center the contents horizontally */
-	padding: 20px; /* Add some padding around the container */
-  }
-/* Add this to your CSS file */
-.canvas-frame {
-	border: 3px solid #333; /* Change the color as per your design */
-	background-color: #fff; /* Optional: Background color for the canvas area */
-	margin: 20px auto; /* Centers the frame and adds some margin around it */
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Adds some shadow for depth */
-	width: 80%; /* Adjust based on your preference */
-	height: 600px; /* Adjust based on your preference */
-	position: relative; /* For positioning internal elements if needed */
-  }
-  .button-toolbar {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 20px;
+    flex-direction: column;
+    /* align-items: center; */
+    padding: 20px;
+    margin-top: 100px;
 }
-  button {
-	background-color: #2d9bbd; /* Example: Use your app's theme color */
-	color: #ffffff;
-	border: none;
-	padding: 10px 15px;
-	margin: 0 5px;
-	border-radius: 5px;
-	cursor: pointer;
+.primary-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between buttons within each group */
+}
+.additional-buttons {
+	display: flex;
+    flex-direction: column;
+    gap: 10px;
+	margin-top: -30px;;
+}
+.canvas-toolbar-container {
+    display: flex;
+    align-items: start;
+}
+/* Add this to your CSS file */
+.canvas-frame-gleekify {
+    border: 5px solid #dae7e9;
+    background-image: url("/public/images/logos/gleek_website_bg_2.png");
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(210, 99, 99, 0.1);
+    width: 600px;
+    height: 600px;
+    position: relative;
+}
+  
+  .button-toolbar-gleekify {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 40px;
+    margin-right: 20px; /* Space between buttons and canvas */
+}
+
+  .button-gleekify {
+    background-color: #2d9bbd;
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 25px;
+    margin: 0;
 	transition: background-color 0.3s ease;
 	font-family: "chimi", sans-serif; /* Use your app's font */
+	font-size: 25px;
   }
+
   .modal-close-button {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	border: none;
-	background-color: #f44336; /* Make it bright red for visibility */
-	color: white;
-	padding: 5px 10px;
-	cursor: pointer;
-	border-radius: 5px;
-  }
-  
-  .modal-content {
-	position: relative;
-    background-color: #fefefe;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); /* Modal box shadow */
+    position: fixed; /* Use fixed instead of absolute to keep it in place */
+    top: calc(80%); /* Adjust this to position correctly */
+    right: calc(24%); /* Adjust this to position correctly */
+    border: none;
+    background-color: #f44336; /* Bright red for visibility */
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 1050; /* Ensure it's on top of modal content */
 }
-.modal-close-button:hover,
+
+.modal-close-button img {
+    width: 10px;
+    height: 10px;
+}
+  .modal-close-button:hover,
 .modal-close-button:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
 }
+
+  
   .modal-content {
-	position: relative;
-	/* Other styles */
+	background-color: #b0dfed;
+	border: 1px solid #888;
+	border-radius: 15px;
+	overflow-y: auto; /* Allows vertical scrolling */
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); /* Modal box shadow */
+	position: fixed;
+    top: 79vh; /* Center vertically */
+    left: 32vw;
+    /* transform: translateX(-50%); */
+    width: 800px; /* Adjust as necessary */
+    max-height: 700px; /* Adjust as necessary */
+    overflow-y: auto;
+	display: flex;
   }
+  .image-selection {
+    display: flex; /* Display images in a row */
+    overflow-x: auto; /* Enable horizontal scrolling */
+	padding-top: 10px;
+
+}
+
+/* Style for individual images */
+.image-selection img {
+    width: 100px; /* Adjust based on your preference */
+    height: auto; /* Maintain aspect ratio */
+    cursor: pointer; /* Indicate the images are clickable */
+}
+
 
 
 /* Mobile */
