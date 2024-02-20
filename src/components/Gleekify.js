@@ -36,8 +36,8 @@ const Gleekify = () => {
 	const [isMemeModalOpen, setIsMemeModalOpen] = useState(false);
 	const [textElements, setTextElements] = useState([]);
 	const [originalFileName, setOriginalFileName] = useState("");
+	const [showTransformer, setShowTransformer] = useState(true);
 	const [showAdditionalButtons, setShowAdditionalButtons] = useState(false); // Start with buttons visible
-
 	const [editingState, setEditingState] = useState({
 		visible: false,
 		x: 0,
@@ -355,12 +355,12 @@ const Gleekify = () => {
 		flipY,
 	}) => {
 		const image = useImage(src);
-		const selectionProps = isSelected ? {
-			shadowColor: "white",
-			shadowBlur: 10,
-			shadowOffset: { x: 0, y: 0 },
-			shadowOpacity: 0.6,
-		} : {};
+		// const selectionProps = isSelected ? {
+		// 	shadowColor: "white",
+		// 	shadowBlur: 10,
+		// 	shadowOffset: { x: 0, y: 0 },
+		// 	shadowOpacity: 0.6,
+		// } : {};
 	
 		return image ? (
 			<KonvaImage
@@ -378,7 +378,7 @@ const Gleekify = () => {
 					e.cancelBubble = true;
 				}}
 				onDragEnd={onDragEnd}
-				{...selectionProps}
+				// {...selectionProps}
 				onTransformEnd={(e) => {
 					// Pass node to handleTransformEnd to update state
 					handleTransformEnd(id, e.target);
@@ -409,38 +409,28 @@ const Gleekify = () => {
 
 	
 	const handleTransformEnd = (id, node) => {
-    const scaleX = node.scaleX();
-    const scaleY = node.scaleY();
-    const width = node.width() * scaleX;
-    const height = node.height() * scaleY;
-    const x = node.x();
-    const y = node.y();
-    const rotation = node.rotation();
-
-    if (node.className === 'Text') {
-        // Adjust fontSize based on the scale factor. Assuming uniform scaling for simplicity.
-        const fontSize = Math.max(node.fontSize() * scaleX, 5); // Ensure font size doesn't become too small.
-        const updatedTextElements = textElements.map(textElement => {
-            if (textElement.id === id) {
-                return { ...textElement,                     fontSize,
-                    scaleX: 1, // Reset scaleX to 1 after transformation
-                    scaleY: 1, fontSize, scaleX: 1, scaleY: 1,                     x: node.x(),
-                    y: node.y(), }; // Reset scale to 1
-            }
-            return textElement;
-        });
-        setTextElements(updatedTextElements);
-    } else {
-        // Handle other elements (e.g., images) normally
-        const newElements = elements.map(element => {
-            if (element.id === id) {
-                return { ...element, x, y, width, height, rotation, scaleX: 1, scaleY: 1 }; // Reset scale to 1
-            }
-            return element;
-        });
-        setElements(newElements);
-    }
-};
+		const scaleX = node.scaleX();
+		const scaleY = node.scaleY();
+		// Determine if the image has been flipped
+		const flipX = scaleX < 0;
+		const flipY = scaleY < 0;
+	
+		const width = Math.abs(node.width() * scaleX); // Use absolute value to handle negative scale
+		const height = Math.abs(node.height() * scaleY); // Use absolute value to handle negative scale
+		const x = node.x();
+		const y = node.y();
+		const rotation = node.rotation();
+	
+		// Update elements with the new dimensions and flip states
+		const newElements = elements.map(element => {
+			if (element.id === id) {
+				return { ...element, x, y, width, height, rotation, scaleX: flipX ? -1 : 1, scaleY: flipY ? -1 : 1, flipX, flipY };
+			}
+			return element;
+		});
+		setElements(newElements);
+	};
+	
 
 	
 	
@@ -645,7 +635,7 @@ const decreaseFontSize = () => {
 		  
 			return () => clearTimeout(timeout);
 		}, [selectedId]); // Dependency array includes selectedId to react to changes
-	  
+		if (!showTransformer) return null;
 		return (
 			<Transformer
 				ref={transformerRef}
@@ -738,6 +728,8 @@ const decreaseFontSize = () => {
   };
 	  
 	const handleDownloadMergedImage = () => {
+		setShowTransformer(false);
+		setTimeout(() => {
 		const stage = stageRef.current.getStage();
 		const dataURL = stage.toDataURL({
 			pixelRatio: 2 // Ensures high resolution
@@ -752,6 +744,8 @@ const decreaseFontSize = () => {
 		document.body.appendChild(link);
 		link.click();
 		document.body.removeChild(link);
+        setShowTransformer(true); // Re-enable the transformer with a delay
+    }, 50);
 	};
 	
 	
