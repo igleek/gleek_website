@@ -36,7 +36,7 @@ const Gleekify = () => {
 	const [isMemeModalOpen, setIsMemeModalOpen] = useState(false);
 	const [textElements, setTextElements] = useState([]);
 	const [originalFileName, setOriginalFileName] = useState("");
-	const [showAdditionalButtons, setShowAdditionalButtons] = useState(true); // Start with buttons visible
+	const [showAdditionalButtons, setShowAdditionalButtons] = useState(false); // Start with buttons visible
 
 	const [editingState, setEditingState] = useState({
 		visible: false,
@@ -65,7 +65,112 @@ const Gleekify = () => {
 		/>
 	) : null;
 	
+	// Example static images
+	const gleekImages = [
+		{ url: "./images/Gleekify/acid.png" },
+		{ url: "./images/Gleekify/fire.png" },
+		{ url: "./images/Gleekify/gleek 1.png" },
+		{ url: "./images/Gleekify/gleek 2.png" },
+		{ url: "./images/Gleekify/gleek 3.png" },
+		{ url: "./images/Gleekify/gleek 4.png" },
+		{ url: "./images/Gleekify/rainbow.png" },
+		{ url: "./images/Gleekify/plague gleek.png" },
+		{ url: "./images/Gleekify/doodles gleek.png" },
+		{ url: "./images/Gleekify/goobers gleek.png" },
 
+	];
+	const mouthImages = [
+		{ url: "./images/Gleekify/sappy seals.png" },
+		{ url: "./images/Gleekify/pudgy penguins.png" },
+		{ url: "./images/Gleekify/plague.png" },
+		{ url: "./images/Gleekify/degods.png" },
+		{ url: "./images/Gleekify/milady.png" },
+		{ url: "./images/Gleekify/goobers.png" },
+		{ url: "./images/Gleekify/yoots.png" },
+		{ url: "./images/Gleekify/degods.png" },
+		{ url: "./images/Gleekify/bitcoin puppets.png" },
+		{ url: "./images/Gleekify/anime.png" },
+		// Add more images as needed
+	];
+	const memeTemplates = [
+		{ url: "./images/Gleekify/MemeTemplates/1op9wy.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/1yz6z4.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/1.png" },
+		{ url: "./images/Gleekify/MemeTemplates/2tzo2k.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/2xscjb.png" },
+		{ url: "./images/Gleekify/MemeTemplates/2xytmc.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/3kwur5.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/3nx72a.png" },
+		{ url: "./images/Gleekify/MemeTemplates/3pdf2w.png" },
+		{ url: "./images/Gleekify/MemeTemplates/3po4m7.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/3vfrmx.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/4fhsie.png" },
+		{ url: "./images/Gleekify/MemeTemplates/4pn1an.png" },
+		{ url: "./images/Gleekify/MemeTemplates/5c7lwq.png" },
+		{ url: "./images/Gleekify/MemeTemplates/8fhy2l.png" },
+		{ url: "./images/Gleekify/MemeTemplates/19vcz0.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/46hhvr.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/54hjww.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/58eyvu.png" },
+		{ url: "./images/Gleekify/MemeTemplates/64sz4u.png" },
+		{ url: "./images/Gleekify/MemeTemplates/72epa9.png" },
+		{ url: "./images/Gleekify/MemeTemplates/145qvv.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/434i5j.png" },
+		{ url: "./images/Gleekify/MemeTemplates/Always-Has-Been.png" },
+		{ url: "./images/Gleekify/MemeTemplates/American-Chopper-Argument.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Ancient-Aliens.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Batman-Slapping-Robin.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Bernie.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Bike-Fall.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Blank-Nut-Button.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Boardroom-Meeting-Suggestion.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Buff-Doge-vs-Cheems.png" },
+		{ url: "./images/Gleekify/MemeTemplates/Change-My-Mind.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Chuck-Norris.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Clown-Applying-Makeup.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Disaster-Girl.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Distracted-Boyfriend.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/drake.jpeg" },
+		{ url: "./images/Gleekify/MemeTemplates/Epic-Handshake.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Evil-Kermit.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Expanding-Brain.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Futurama-Fry.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Grandma-Finds-The-Internet.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Grus-Plan.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Hide-the-Pain-Harold.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/I-Bet-Hes-Thinking-About-Other-Women.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Inhaling-Seagull.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Is-This-A-Pigeon.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Laughing-Leo.png" },
+		{ url: "./images/Gleekify/MemeTemplates/Left-Exit-12-Off-Ramp.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Leonardo-Dicaprio-Cheers.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Mocking-Spongebob.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Monkey-Puppet.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/One-Does-Not-Simply.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Oprah-You-Get-A.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Panik-Kalm-Panik.png" },
+		{ url: "./images/Gleekify/MemeTemplates/Roll-Safe-Think-About-It.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Running-Away-Balloon.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Sad-Pablo-Escobar.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Sleeping-Shaq.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Success-Kid.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Surprised-Pikachu.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/The-Rock-Driving.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/The-Scroll-Of-Truth.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Same-Picture.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Third-World-Skeptical-Kid.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/This-Is-Fine.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/This-Is-Where-Id-Put-My-Trophy-If-I-Had-One.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Tuxedo-Winnie-The-Pooh.png" },
+		{ url: "./images/Gleekify/MemeTemplates/Two-Buttons.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/u0pf0.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/UNO-Draw-25-Cards.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Waiting-Skeleton.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Who-Killed-Hannibal.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Woman-Yelling-At-Cat.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/X-X-Everywhere.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Yall-Got-Any-More-Of-That.jpg" },
+	];
 
 
 	const openGleekModal = () => {
@@ -104,39 +209,13 @@ const Gleekify = () => {
 				text: "New Text",
 				x: 250, // Initial position
 				y: 250,
-				fontSize: 20,
+				fontSize: 35,
 				id: Math.random().toString(36).substr(2, 9), // Unique ID for each text element
 				draggable: true,
+				color: "black", 
 			};
 			setTextElements(textElements.concat(newTextElement));
 		};
-
-		    // Render Text Elements alongside Image Elements
-// Render Text Elements alongside Image Elements
-const renderTextElements = () => {
-	return textElements.map((textElement, i) => (
-	  <Text
-		key={i}
-		id={textElement.id}
-		text={textElement.text}
-		x={textElement.x}
-		y={textElement.y}
-		fontSize={textElement.fontSize}
-		draggable
-		onClick={() => handleSelect(textElement.id)}
-		onDblClick={() => handleTextEdit(textElement.id)}
-		onDragEnd={(e) => {
-		  const updatedTextElements = textElements.map(el => {
-			if (el.id === textElement.id) {
-			  return { ...el, x: e.target.x(), y: e.target.y() };
-			}
-			return el;
-		  });
-		  setTextElements(updatedTextElements);
-		}}
-	  />
-	));
-  };
   
 
 
@@ -310,14 +389,6 @@ const renderTextElements = () => {
 	};
 	
 	
-	const toggleFlipX = (id) => {
-		setElements(elements.map(el => el.id === id ? { ...el, flipX: !el.flipX } : el));
-	};
-	
-	const toggleFlipY = (id) => {
-		setElements(elements.map(el => el.id === id ? { ...el, flipY: !el.flipY } : el));
-	};
-	
 
 	const handleResize = (id, newWidth, newHeight) => {
 		setElements((prevElements) =>
@@ -383,33 +454,6 @@ const renderTextElements = () => {
 		console.log("Current selectedId:", selectedId);
 	}, [selectedId]);
 
-	// Example static images
-	const gleekImages = [
-		{ url: "./images/Gleekify/acid.png" },
-		{ url: "./images/Gleekify/fire.png" },
-		{ url: "./images/Gleekify/gleek_1.png" },
-		{ url: "./images/Gleekify/gleek_2.png" },
-		{ url: "./images/Gleekify/gleek_3.png" },
-		{ url: "./images/Gleekify/rainbow.png" },
-	];
-	const mouthImages = [
-		{ url: "./images/Gleekify/tongue_1.png" },
-		{ url: "./images/Gleekify/tongue_2.png" },
-		{ url: "./images/Gleekify/bitcoin_puppet.png" },
-		{ url: "./images/Gleekify/degods.png" },
-		{ url: "./images/Gleekify/milday_tongue.png" },
-		{ url: "./images/Gleekify/pixel_gleek.png" },
-		{ url: "./images/Gleekify/pixl_tongue.png" },
-		{ url: "./images/Gleekify/tongue_3.png" },
-		{ url: "./images/Gleekify/yoots_mouth.png" },
-		// Add more images as needed
-	];
-	const memeTemplates = [
-		{ url: "./images/MemeTemplates/template1.png" },
-		{ url: "./images/MemeTemplates/template2.png" },
-		// Add more templates as needed
-	];
-
 	const [, drop] = useDrop(() => ({
 		accept: "image",
 		drop: (item, monitor) => {
@@ -455,9 +499,18 @@ const renderTextElements = () => {
 	};
 
 	const addElementToCanvas = (url, x, y, type) => {
-		// Determine the size based on the image type
-		const size = type === 'gleek' ? { width: 150, height: 75 } : { width: 75, height: 75 };
-	
+		let size;
+
+		if (type === 'gleek') {
+			size = { width: 150, height: 75 };
+		} else if (type === 'tongue') {
+			size = { width: 75, height: 75 };
+		} else if (type === 'meme') {
+			size = { width: 599, height: 599 };
+		} else {
+			size = { width: 75, height: 75 }; // Default size if none of the conditions are met
+		}
+		
 		const newItem = {
 			src: url,
 			x: x,
@@ -672,7 +725,18 @@ const decreaseFontSize = () => {
 	// 	setElements(updatedElements);
 	// };
 
-
+  // Function to toggle text color between black and white
+  const toggleTextColor = () => {
+	setTextElements(textElements.map(textElement => {
+	  if (textElement.id === selectedId) {
+		// Determine the new color based on the current color
+		const newColor = textElement.color === 'black' ? 'white' : 'black';
+		return { ...textElement, color: newColor };
+	  }
+	  return textElement;
+	}));
+  };
+	  
 	const handleDownloadMergedImage = () => {
 		const stage = stageRef.current.getStage();
 		const dataURL = stage.toDataURL({
@@ -700,10 +764,6 @@ const decreaseFontSize = () => {
 		return (
 			<div className="modal-overlay" onClick={close}>
 				<div className="modal-content" onClick={(e) => e.stopPropagation()}>
-					{/* Close button inside the modal */}
-					<button className="modal-close-button" onClick={close}>
-						<img src="./images/Gleekify/close.png" alt="Close" />
-					</button>
 					{children}
 				</div>
 			</div>
@@ -744,8 +804,8 @@ const decreaseFontSize = () => {
 			const renderMemeModalContent = () => (
 				memeTemplates.map((image, index) => (
 					<div key={`meme-${index}`} style={{ textAlign: 'center', margin: '10px' }}>
-						<button onClick={() => addElementToCanvas(image.url, 300, 300, 'meme')}>
-							<img src={image.url} alt="" style={{ width: '100px', height: '100px' }} />
+						<button onClick={() => addElementToCanvas(image.url, 0, 0, 'meme')}>
+							<img src={image.url} alt="" style={{ width: '150px', height: '150px' }} />
 						</button>
 					</div>
 				))
@@ -765,39 +825,34 @@ const decreaseFontSize = () => {
 					upload
 				</button>
 				<button className="button-gleekify" onClick={openGleekModal}>
-                        gleek
-                </button>
-                <button className="button-gleekify" onClick={openTongueModal}>
-                     mouth
-                </button>
-				<button className="button-gleekify" onClick={openMemeModal}>
-    meme templates
+  {isGleekModalOpen ? "💦 gleek" : "gleek"}
+</button>
+<button className="button-gleekify" onClick={openTongueModal}>
+  {isTongueModalOpen ? "💦 mouth" : "mouth"}
+</button>
+<button className="button-gleekify" onClick={openMemeModal}>
+  {isMemeModalOpen ? "💦 memes" : "memes"}
 </button>
 				<button className="button-gleekify" onClick={addTextElement}>
                 add text
             </button>
+			<button className="button-gleekify" onClick={handleDownloadMergedImage}>
+					download
+				</button>
 				</div>
 				<button className="button-gleekify" onClick={toggleAdditionalButtons}>
-    {showAdditionalButtons ? 'Hide Tools' : 'Show Tools'}
+    {showAdditionalButtons ? '↑ hide tools' : '↓ show tools'}
 </button>
 
 				{showAdditionalButtons && (
 				<div className="additional-buttons group-spacing">
-				<button className="button-gleekify" onClick={increaseFontSize}>Increase Text Size</button>
-    <button className="button-gleekify" onClick={decreaseFontSize}>Decrease Text Size</button>
-				<button className="button-gleekify" onClick={moveElementUp}>
-					backward
-				</button>
-				<button className="button-gleekify" onClick={moveElementDown}>
-					forward
-				</button>
-				<button className="button-gleekify" onClick={() => toggleFlipX(selectedId)}>flip horizontal</button>
-				<button className="button-gleekify" onClick={() => toggleFlipY(selectedId)}>flip vertical</button>
-				<button className="button-gleekify" onClick={deleteSelectedImage}>
-					delete selected
-				</button>
-				<button className="button-gleekify" onClick={handleDownloadMergedImage}>
-					download
+					<button className="button-gleekify" onClick={toggleTextColor}>black/white text</button>
+					<button className="button-gleekify" onClick={increaseFontSize}>+ text size</button>
+    				<button className="button-gleekify" onClick={decreaseFontSize}>- text size</button>
+					<button className="button-gleekify" onClick={moveElementUp}>layer down</button>
+					<button className="button-gleekify" onClick={moveElementDown}>layer up</button>
+					<button className="button-gleekify" onClick={deleteSelectedImage}>
+					<img src='./images/Gleekify/trash.png' alt="Backward" style={{ width: '25px', height: '25px'}}/>
 				</button>
 				</div>
 				)}
@@ -806,8 +861,8 @@ const decreaseFontSize = () => {
 			{/* Canvas */}
 			<div ref={drop} className="canvas-frame-gleekify">
 					<Stage
-						width={600}
-						height={600}
+						width={620}
+						height={620}
 						ref={stageRef}
 						onMouseDown={(e) => {
 							// Check if the click is on the stage or the background image
@@ -819,62 +874,90 @@ const decreaseFontSize = () => {
 							}
 						}}
 					>
-						<Layer>
-							{backgroundImage && (
-								<KonvaImage
-									image={backgroundImage}
-									name="background"
-									width={600}
-									height={600}
-								/>
-							)}
-							{editingInput}
-							{renderTextElements()}
-							{editingState.visible && (
-      <input
-        style={{
-          position: 'absolute',
-          top: `${editingState.y}px`,
-          left: `${editingState.x}px`,
-          zIndex: 100,
-        }}
-        autoFocus
-        value={editingState.value}
-        onChange={(e) => setEditingState({ ...editingState, value: e.target.value })}
-        onBlur={() => saveText()}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            saveText();
+<Layer>
+  {backgroundImage && (
+    <KonvaImage
+      image={backgroundImage}
+      name="background"
+      width={600}
+      height={600}
+    />
+  )}
+
+  {elements.map((element, i) => (
+    <DraggableImage
+      key={i}
+      src={element.src}
+      x={element.x}
+      y={element.y}
+      width={element.width}
+      height={element.height}
+      rotation={element.rotation || 0}
+      onDragEnd={(e) => handleDragEnd(e, i)}
+      isSelected={element.id === selectedId}
+      onSelect={handleSelect}
+      id={element.id}
+      onResize={handleResize}
+      flipX={element.flipX || false}
+      flipY={element.flipY || false}
+    />
+  ))}
+
+  {textElements.map((textElement, i) => (
+    <Text
+      key={i}
+      {...textElement} // Spread operator to pass all text element properties
+	  fontFamily="Impact"
+	  fill={textElement.color}
+	  fontSize={textElement.fontSize}
+	  fontStyle="bold"
+	  shadowColor={textElement.shadowColor || "black"} // Default shadow color to grey if not specified
+	  shadowBlur={textElement.shadowBlur || 1} // Default shadow blur to 10 if not specified
+	  shadowOffsetX={textElement.shadowOffsetX || 0.5} // Default shadow offsetX to 5 if not specified
+	  shadowOffsetY={textElement.shadowOffsetY || 0.5} // Default shadow offsetY to 5 if not specified
+	  shadowOpacity={textElement.shadowOpacity || 1}
+	  onClick={() => handleSelect(textElement.id)}
+      onDblClick={() => handleTextEdit(textElement.id)}
+      onDragEnd={(e) => {
+        const updatedTextElements = textElements.map(el => {
+          if (el.id === textElement.id) {
+            return { ...el, x: e.target.x(), y: e.target.y() };
           }
-        }}
-      />
-    )}
-	{renderTextElements()}
-							{elements.map((element, i) => (
-								<DraggableImage
-									key={i}
-									src={element.src}
-									x={element.x}
-									y={element.y}
-									width={element.width}
-									height={element.height}
-									rotation={element.rotation || 0}
-									onDragEnd={(e) => handleDragEnd(e, i)}
-									isSelected={element.id === selectedId}
-									onSelect={handleSelect}
-									id={element.id}
-									onResize={handleResize}
-									flipX={element.flipX || false}
-									flipY={element.flipY || false}
-								/>
-							))}
-							{selectedId && (
-								<TransformerComponent
-									selectedId={selectedId}
-									stageRef={stageRef}
-								/>
-							)}
-						</Layer>
+          return el;
+        });
+        setTextElements(updatedTextElements);
+      }}
+    />
+  ))}
+
+  {editingState.visible && (
+    <input
+      style={{
+        position: 'absolute',
+        top: `${editingState.y}px`,
+        left: `${editingState.x}px`,
+        zIndex: 100,
+      }}
+      autoFocus
+      value={editingState.value}
+      onChange={(e) => setEditingState({ ...editingState, value: e.target.value })}
+      onBlur={() => saveText()}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          saveText();
+        }
+      }}
+    />
+  )}
+
+  {selectedId && (
+    <TransformerComponent
+      selectedId={selectedId}
+      stageRef={stageRef}
+    />
+  )}
+</Layer>
+
 					</Stage>
 					{isGleekModalOpen && (
                 <Modal isOpen={isGleekModalOpen} close={() => setIsGleekModalOpen(false)}>

@@ -508,9 +508,12 @@
 .gleekify-container {
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
+    align-items: center;
+	justify-content: center;
     padding: 20px;
     margin-top: 100px;
+	width: 100%;
+	box-sizing: border-box;
 }
 .primary-buttons {
     display: flex;
@@ -529,13 +532,14 @@
 }
 /* Add this to your CSS file */
 .canvas-frame-gleekify {
+	margin: 0 auto;
+	position: relative;
     border: 5px solid #dae7e9;
     background-image: url("/public/images/logos/gleek_website_bg_2.png");
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(210, 99, 99, 0.1);
     width: 600px;
     height: 600px;
-    position: relative;
 }
   
   .button-toolbar-gleekify {
@@ -545,43 +549,47 @@
     margin-right: 20px; /* Space between buttons and canvas */
 }
 
-  .button-gleekify {
-    background-color: #2d9bbd;
-    color: #ffffff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 25px;
-    margin: 0;
+.button-gleekify {
+	background-color: #2d9bbd;
+	color: #ffffff;
+	border: none;
+	padding: 10px 15px;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 25px;
+	margin: 0;
 	transition: background-color 0.3s ease;
 	font-family: "chimi", sans-serif; /* Use your app's font */
 	font-size: 25px;
+	display: flex; /* Corrected */
+	align-items: center;
+	justify-content: center;
   }
+  
 
-  .modal-close-button {
-    position: fixed; /* Use fixed instead of absolute to keep it in place */
-    top: calc(80%); /* Adjust this to position correctly */
-    right: calc(24%); /* Adjust this to position correctly */
+  /* .modal-close-button {
+    position: fixed;
+    top: calc(80%);
+    right: calc(24%);
     border: none;
-    background-color: #f44336; /* Bright red for visibility */
+    background-color: #f44336;
     color: white;
     padding: 5px 10px;
     cursor: pointer;
     border-radius: 5px;
-    z-index: 1050; /* Ensure it's on top of modal content */
-}
+    z-index: 1050; 
+} */
 
-.modal-close-button img {
+/* .modal-close-button img {
     width: 10px;
     height: 10px;
-}
-  .modal-close-button:hover,
+} */
+  /* .modal-close-button:hover,
 .modal-close-button:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
-}
+} */
 
   
   .modal-content {
@@ -590,17 +598,21 @@
 	border-radius: 15px;
 	overflow-y: auto; /* Allows vertical scrolling */
 	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); /* Modal box shadow */
-	position: fixed;
-    top: 79vh; /* Center vertically */
-    left: 32vw;
-    /* transform: translateX(-50%); */
-    width: 800px; /* Adjust as necessary */
-    max-height: 700px; /* Adjust as necessary */
+	position: absolute;
+	bottom: -195px;
+	left: 730px;
+	transform: translateX(-50%);
+    width: 220px; /* Adjust as necessary */
+    max-height: 800px; /* Adjust as necessary */
     overflow-y: auto;
 	display: flex;
+	flex-direction: column;
+	align-items: center;
   }
   .image-selection {
     display: flex; /* Display images in a row */
+	flex-direction: column;
+	align-items: center;
     overflow-x: auto; /* Enable horizontal scrolling */
 	padding-top: 10px;
 
@@ -626,7 +638,15 @@
 	.game-top-level,
 	.game-overlay,
 	.info-message,
-	.footer {
+	.footer,
+	.gleekify-container,
+	.primary-buttons,
+	.additional-buttons, 
+	.canvas-toolbar-container,
+	.canvas-frame-gleekify,
+	.button-toolbar-gleekify,
+	.button-gleekify,
+	.nav-link-gleekify {
 		display: none;
 	}
 

@@ -16,7 +16,9 @@ function NavBar() {
 				<li>
 					<a href="/">HOME</a>
 				</li>
-				<li><Link to="/gleekify">GLEEKIFY</Link></li>
+				<li className="nav-link-gleekify">
+					<Link to="/gleekify">GLEEKIFY</Link>
+				</li>
 				<li>
 					<a href="https://dexscreener.com/solana/2vtrb36pmfkaqms2d4c3tf8a2ej9wusapfsnqvsjse8s">DEXSCREENER</a>
 				</li>
