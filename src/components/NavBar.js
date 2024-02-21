@@ -18,6 +18,9 @@ function NavBar() {
 				</li>
 				<li><Link to="/gleekify">GLEEKIFY</Link></li>
 				<li>
+  					<a href="/" style={{ textDecoration: 'line-through' }}>REDACTED</a>
+				</li>
+				<li>
 					<a href="https://dexscreener.com/solana/2vtrb36pmfkaqms2d4c3tf8a2ej9wusapfsnqvsjse8s">DEXSCREENER</a>
 				</li>
 				<li>
