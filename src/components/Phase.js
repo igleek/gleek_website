@@ -18,6 +18,7 @@ function Phase() {
 				<div className="timeline-phase" id="phase-two">
 					<h3>PHASE TWO</h3>
 					<ul>
+						<li>OPERATION GLEEKIFY</li>
 						<li className="strikethrough">REDACTED</li>
 					</ul>
 				</div>

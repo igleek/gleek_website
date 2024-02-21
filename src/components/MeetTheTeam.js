@@ -10,7 +10,7 @@ const Team = () => {
 			<div className="team-container">
 				<div className="section-team team-member">
 					<img
-						src="./images/team/dev.jpg"
+						src="./images/team/hornelius_gleek.png"
 						alt="dev"
 						className="team-member-img"
 					/>
@@ -20,7 +20,7 @@ const Team = () => {
 				</div>
 				<div className="section-team team-member">
 					<img
-						src="./images/team/cookies.png"
+						src="./images/team/cookies_gleek.png"
 						alt="meme"
 						className="team-member-img"
 					/>
@@ -30,7 +30,7 @@ const Team = () => {
 				</div>
 				<div className="section-team team-member">
 					<img
-						src="./images/team/artist.jpg"
+						src="./images/team/rh_rainbow_gleek.png"
 						alt="artist"
 						className="team-member-img"
 					/>
@@ -40,7 +40,7 @@ const Team = () => {
 				</div>
 				<div className="section-team team-member">
 					<img
-						src="./images/team/sd.jpg"
+						src="./images/team/psy_acid.webp"
 						alt="banksy"
 						className="team-member-img"
 					/>
