@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Stage, Layer, Image as KonvaImage, Transformer, Text } from "react-konva";
+import Konva from "konva";
 import { useDrag, useDrop } from "react-dnd";
 import mergeImages from "merge-images";
 
@@ -93,6 +94,8 @@ const Gleekify = () => {
 		// Add more images as needed
 	];
 	const memeTemplates = [
+		{ url: "./images/Gleekify/MemeTemplates/Bernie.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/Mocking-Spongebob.jpg" },
 		{ url: "./images/Gleekify/MemeTemplates/1op9wy.jpg" },
 		{ url: "./images/Gleekify/MemeTemplates/1yz6z4.jpg" },
 		{ url: "./images/Gleekify/MemeTemplates/1.png" },
@@ -120,7 +123,6 @@ const Gleekify = () => {
 		{ url: "./images/Gleekify/MemeTemplates/American-Chopper-Argument.jpg" },
 		{ url: "./images/Gleekify/MemeTemplates/Ancient-Aliens.jpg" },
 		{ url: "./images/Gleekify/MemeTemplates/Batman-Slapping-Robin.jpg" },
-		{ url: "./images/Gleekify/MemeTemplates/Bernie.jpg" },
 		{ url: "./images/Gleekify/MemeTemplates/Bike-Fall.jpg" },
 		{ url: "./images/Gleekify/MemeTemplates/Blank-Nut-Button.jpg" },
 		{ url: "./images/Gleekify/MemeTemplates/Boardroom-Meeting-Suggestion.jpg" },
@@ -144,7 +146,6 @@ const Gleekify = () => {
 		{ url: "./images/Gleekify/MemeTemplates/Laughing-Leo.png" },
 		{ url: "./images/Gleekify/MemeTemplates/Left-Exit-12-Off-Ramp.jpg" },
 		{ url: "./images/Gleekify/MemeTemplates/Leonardo-Dicaprio-Cheers.jpg" },
-		{ url: "./images/Gleekify/MemeTemplates/Mocking-Spongebob.jpg" },
 		{ url: "./images/Gleekify/MemeTemplates/Monkey-Puppet.jpg" },
 		{ url: "./images/Gleekify/MemeTemplates/One-Does-Not-Simply.jpg" },
 		{ url: "./images/Gleekify/MemeTemplates/Oprah-You-Get-A.jpg" },
@@ -212,7 +213,7 @@ const Gleekify = () => {
 				fontSize: 35,
 				id: Math.random().toString(36).substr(2, 9), // Unique ID for each text element
 				draggable: true,
-				color: "black", 
+				color: "white", 
 			};
 			setTextElements(textElements.concat(newTextElement));
 		};
@@ -353,40 +354,31 @@ const Gleekify = () => {
 		onResize,
 		flipX,
 		flipY,
-	}) => {
+	  }) => {
 		const image = useImage(src);
-		// const selectionProps = isSelected ? {
-		// 	shadowColor: "white",
-		// 	shadowBlur: 10,
-		// 	shadowOffset: { x: 0, y: 0 },
-		// 	shadowOpacity: 0.6,
-		// } : {};
-	
+			  
+	  
 		return image ? (
-			<KonvaImage
-				image={image}
-				x={x}
-				y={y}
-				width={width}
-				height={height}
-				rotation={rotation}
-				scaleX={flipX ? -1 : 1}
-				scaleY={flipY ? -1 : 1}
-				draggable
-				onMouseDown={(e) => {
-					onSelect(id);
-					e.cancelBubble = true;
-				}}
-				onDragEnd={onDragEnd}
-				// {...selectionProps}
-				onTransformEnd={(e) => {
-					// Pass node to handleTransformEnd to update state
-					handleTransformEnd(id, e.target);
-				}}
-				id={id}
-			/>
+		  <KonvaImage
+			image={image}
+			x={x}
+			y={y}
+			width={width}
+			height={height}
+			rotation={rotation}
+			scaleX={flipX ? -1 : 1}
+			scaleY={flipY ? -1 : 1}
+			draggable
+			onMouseDown={(e) => {
+			  onSelect(id);
+			  e.cancelBubble = true;
+			}}
+			onDragEnd={(e) => handleDragEnd(e, id)}
+			id={id}
+		  />
 		) : null;
-	};
+	  };
+	  
 	
 	
 
@@ -408,33 +400,65 @@ const Gleekify = () => {
 	};
 
 	
-	const handleTransformEnd = (id, node) => {
+	const handleTransformEnd = (e) => {
+		const node = e.target;
+		const id = node.id();
 		const scaleX = node.scaleX();
 		const scaleY = node.scaleY();
-		// Determine if the image has been flipped
-		const flipX = scaleX < 0;
-		const flipY = scaleY < 0;
-	
-		const width = Math.abs(node.width() * scaleX); // Use absolute value to handle negative scale
-		const height = Math.abs(node.height() * scaleY); // Use absolute value to handle negative scale
-		const x = node.x();
-		const y = node.y();
 		const rotation = node.rotation();
-	
-		// Update elements with the new dimensions and flip states
-		const newElements = elements.map(element => {
-			if (element.id === id) {
-				return { ...element, x, y, width, height, rotation, scaleX: flipX ? -1 : 1, scaleY: flipY ? -1 : 1, flipX, flipY };
-			}
-			return element;
+		// Update the size and position based on the node's transformation state
+		const updatedElements = elements.map((el) => {
+		  if (el.id === id) {
+			return {
+			  ...el,
+			  x: node.x(),
+			  y: node.y(),
+			  width: node.width() * Math.abs(scaleX), // Use Math.abs to handle negative scaling
+			  height: node.height() * Math.abs(scaleY),
+			  rotation: rotation,
+			  scaleX: scaleX,
+			  scaleY: scaleY,
+			};
+		  }
+		  return el;
 		});
-		setElements(newElements);
+		setElements(updatedElements);
+	  };
+	  
+	
+	const signatureText = "created with gleekify 💦"; // Customize this message
+	const signatureProps = {
+	  text: signatureText,
+	  x: 420, // Adjust based on canvas size
+	  y: 575, // Adjust based on canvas size
+	  fontSize: 20,
+	  fontFamily: 'chimi',
+	  fill: 'black', // Signature color
+	//   opacity: 0.8,
 	};
 	
-
+	const renderSignatureForDownload = (forDownload = false) => {
+		const layer = stageRef.current.getLayers()[stageRef.current.getLayers().length - 1]; // Get the topmost layer
+		
+		// Create signature text
+		const signature = new Konva.Text({
+		  ...signatureProps,
+		  id: 'signatureDownload', // Unique ID to easily find and remove later
+		});
+	  
+		// Add to the layer and draw
+		layer.add(signature);
+		layer.draw();
+	  };
 	
-	
-
+	  const removeSignatureAfterDownload = () => {
+		const layer = stageRef.current.getLayers()[stageRef.current.getLayers().length - 1];
+		const signature = layer.findOne('#signatureDownload');
+		if (signature) {
+		  signature.destroy();
+		  layer.draw();
+		}
+	  };
 	const handleSelect = (id) => {
 		console.log("Selecting ID:", id); // Log incoming id
 		setSelectedId(id);
@@ -514,15 +538,43 @@ const Gleekify = () => {
 	};
 	
 
-	const handleDragEnd = (e, index) => {
-		const updatedElements = elements.map((el, idx) => {
-			if (idx === index) {
-				return { ...el, x: e.target.x(), y: e.target.y() };
-			}
-			return el;
+	const handleDragEnd = (e, id) => {
+		// Find the index of the element being transformed
+		const index = elements.findIndex(el => el.id === id);
+		if (index === -1) return; // Element not found
+		
+		// Capture the new position and rotation from the event target
+		const node = e.target;
+		const newX = node.x();
+		const newY = node.y();
+		const scaleX = node.scaleX();
+		const scaleY = node.scaleY();
+		const newRotation = node.rotation();
+		const newWidth = node.width() * Math.abs(scaleX); // Use Math.abs to ensure positive value
+		const newHeight = node.height() * Math.abs(scaleY);
+	  
+		// Create a new array with updated properties for the transformed element
+		const newElements = elements.map((el, i) => {
+		  if (i === index) {
+			return {
+			  ...el,
+			  x: newX,
+			  y: newY,
+			  width: newWidth,
+			  height: newHeight,
+			  rotation: newRotation, // Include rotation in the update
+			};
+		  }
+		  return el;
 		});
-		setElements(updatedElements);
-	};
+	  
+		// Update the state with the new elements array
+		setElements(newElements);
+	  };
+	  
+	  
+	  
+	  
 
 	const handleUpload = (event) => {
 		const file = event.target.files[0];
@@ -727,26 +779,36 @@ const decreaseFontSize = () => {
 	}));
   };
 	  
-	const handleDownloadMergedImage = () => {
-		setShowTransformer(false);
-		setTimeout(() => {
-		const stage = stageRef.current.getStage();
-		const dataURL = stage.toDataURL({
-			pixelRatio: 2 // Ensures high resolution
-		});
+  const handleDownloadMergedImage = () => {
+	// Ensure the transformer is not shown in the downloaded image
+	setShowTransformer(false);
 	
-		// Creating a temporary anchor tag to initiate download
-		const link = document.createElement('a');
-		link.href = dataURL;
-		// Use the stored original file name, with a fallback in case it's not available
-		const downloadFileName = originalFileName ? `gleekify_${originalFileName}` : "gleekify_merged_image.png";
-		link.download = downloadFileName; // Use the actual original file name
-		document.body.appendChild(link);
-		link.click();
-		document.body.removeChild(link);
-        setShowTransformer(true); // Re-enable the transformer with a delay
-    }, 50);
-	};
+	// Wait for the state update to hide the transformer, then proceed
+	setTimeout(() => {
+	  // Temporarily add the signature directly to the stage for the download
+	  renderSignatureForDownload(true); // Pass a flag indicating this is for download
+  
+	  const stage = stageRef.current.getStage();
+	  const dataURL = stage.toDataURL({
+		pixelRatio: 2, // Ensures high resolution
+	  });
+  
+	  // Creating a link to trigger the download
+	  const link = document.createElement('a');
+	  link.download = originalFileName ? `gleekify_${originalFileName}` : "gleekify_merged_image.png";
+	  link.href = dataURL;
+	  document.body.appendChild(link);
+	  link.click();
+	  document.body.removeChild(link);
+  
+	  // Remove the signature after the download
+	  removeSignatureAfterDownload();
+  
+	  // Optionally, re-enable the transformer
+	  setShowTransformer(true);
+	}, 100); // This delay ensures any state updates to hide UI elements like transformers have been rendered
+  };
+  
 	
 	
 
@@ -855,8 +917,8 @@ const decreaseFontSize = () => {
 			{/* Canvas */}
 			<div ref={drop} className="canvas-frame-gleekify">
 					<Stage
-						width={620}
-						height={620}
+						width={600}
+						height={600}
 						ref={stageRef}
 						onMouseDown={(e) => {
 							// Check if the click is on the stage or the background image
@@ -905,11 +967,13 @@ const decreaseFontSize = () => {
 	  fill={textElement.color}
 	  fontSize={textElement.fontSize}
 	  fontStyle="bold"
+	  stroke='black'
+	  strokeWidth={2}
 	  shadowColor={textElement.shadowColor || "black"} // Default shadow color to grey if not specified
 	  shadowBlur={textElement.shadowBlur || 1} // Default shadow blur to 10 if not specified
-	  shadowOffsetX={textElement.shadowOffsetX || 0.5} // Default shadow offsetX to 5 if not specified
-	  shadowOffsetY={textElement.shadowOffsetY || 0.5} // Default shadow offsetY to 5 if not specified
-	  shadowOpacity={textElement.shadowOpacity || 1}
+	  shadowOffsetX={textElement.shadowOffsetX || 1} // Default shadow offsetX to 5 if not specified
+	  shadowOffsetY={textElement.shadowOffsetY || 1} // Default shadow offsetY to 5 if not specified
+	  shadowOpacity={textElement.shadowOpacity || 0.8}
 	  onClick={() => handleSelect(textElement.id)}
       onDblClick={() => handleTextEdit(textElement.id)}
       onDragEnd={(e) => {
