@@ -356,7 +356,8 @@ const Gleekify = () => {
 		flipY,
 	  }) => {
 		const image = useImage(src);
-			  
+		const offsetX = flipX ? width / 2 : 0; // Half width if flipped
+		const offsetY = flipY ? height / 2 : 0;
 	  
 		return image ? (
 		  <KonvaImage
@@ -365,6 +366,8 @@ const Gleekify = () => {
 			y={y}
 			width={width}
 			height={height}
+			offsetX={offsetX}
+			offsetY={offsetY}
 			rotation={rotation}
 			scaleX={flipX ? -1 : 1}
 			scaleY={flipY ? -1 : 1}
@@ -400,30 +403,30 @@ const Gleekify = () => {
 	};
 
 	
-	const handleTransformEnd = (e) => {
-		const node = e.target;
-		const id = node.id();
-		const scaleX = node.scaleX();
-		const scaleY = node.scaleY();
-		const rotation = node.rotation();
-		// Update the size and position based on the node's transformation state
-		const updatedElements = elements.map((el) => {
-		  if (el.id === id) {
-			return {
-			  ...el,
-			  x: node.x(),
-			  y: node.y(),
-			  width: node.width() * Math.abs(scaleX), // Use Math.abs to handle negative scaling
-			  height: node.height() * Math.abs(scaleY),
-			  rotation: rotation,
-			  scaleX: scaleX,
-			  scaleY: scaleY,
-			};
-		  }
-		  return el;
-		});
-		setElements(updatedElements);
-	  };
+	// const handleTransformEnd = (e) => {
+	// 	const node = e.target;
+	// 	const id = node.id();
+	// 	const scaleX = node.scaleX();
+	// 	const scaleY = node.scaleY();
+	// 	const rotation = node.rotation();
+	// 	// Update the size and position based on the node's transformation state
+	// 	const updatedElements = elements.map((el) => {
+	// 	  if (el.id === id) {
+	// 		return {
+	// 		  ...el,
+	// 		  x: node.x(),
+	// 		  y: node.y(),
+	// 		  width: node.width() * Math.abs(scaleX), // Use Math.abs to handle negative scaling
+	// 		  height: node.height() * Math.abs(scaleY),
+	// 		  rotation: rotation,
+	// 		  scaleX: scaleX,
+	// 		  scaleY: scaleY,
+	// 		};
+	// 	  }
+	// 	  return el;
+	// 	});
+	// 	setElements(updatedElements);
+	//   };
 	  
 	
 	const signatureText = "created with gleekify 💦"; // Customize this message
@@ -552,6 +555,8 @@ const Gleekify = () => {
 		const newRotation = node.rotation();
 		const newWidth = node.width() * Math.abs(scaleX); // Use Math.abs to ensure positive value
 		const newHeight = node.height() * Math.abs(scaleY);
+		const newFlipX = node.scaleX() < 0;
+		const newFlipY = node.scaleY() < 0;
 	  
 		// Create a new array with updated properties for the transformed element
 		const newElements = elements.map((el, i) => {
@@ -562,7 +567,11 @@ const Gleekify = () => {
 			  y: newY,
 			  width: newWidth,
 			  height: newHeight,
-			  rotation: newRotation, // Include rotation in the update
+			  rotation: newRotation,
+			  flipX: newFlipX,
+			  flipY: newFlipY,
+			//   offsetX: newFlipX ? el.width / 2 : 0,
+			//   offsetY: newFlipY ? el.height / 2 : 0,
 			};
 		  }
 		  return el;
@@ -572,8 +581,28 @@ const Gleekify = () => {
 		setElements(newElements);
 	  };
 	  
-	  
-	  
+	  const flipElementHorizontal = (id) => {
+		setElements((prevElements) =>
+			prevElements.map((el) => {
+				if (el.id === id) {
+					return { ...el, flipX: !el.flipX };
+				}
+				return el;
+			})
+		);
+	};
+	
+	
+	const flipElementVertical = (id) => {
+		setElements((prevElements) =>
+			prevElements.map((el) => {
+				if (el.id === id) {
+					return { ...el, flipY: !el.flipY };
+				}
+				return el;
+			})
+		);
+	};
 	  
 
 	const handleUpload = (event) => {
@@ -907,6 +936,8 @@ const decreaseFontSize = () => {
     				<button className="button-gleekify" onClick={decreaseFontSize}>- text size</button>
 					<button className="button-gleekify" onClick={moveElementUp}>layer down</button>
 					<button className="button-gleekify" onClick={moveElementDown}>layer up</button>
+					<button className="button-gleekify" onClick={() => selectedId && flipElementHorizontal(selectedId)}>flip horizontal</button>
+   					<button className="button-gleekify" onClick={() => selectedId && flipElementVertical(selectedId)}>flip vertical</button>
 					<button className="button-gleekify" onClick={deleteSelectedImage}>
 					<img src='./images/Gleekify/trash.png' alt="Backward" style={{ width: '25px', height: '25px'}}/>
 				</button>
@@ -956,6 +987,8 @@ const decreaseFontSize = () => {
       onResize={handleResize}
       flipX={element.flipX || false}
       flipY={element.flipY || false}
+	  scaleX={element.flipX ? -1 : 1}
+	  scaleY={element.flipY ? -1 : 1}
     />
   ))}
 

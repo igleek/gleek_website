@@ -564,6 +564,8 @@
 	display: flex; /* Corrected */
 	align-items: center;
 	justify-content: center;
+	width: 175px;
+	height: 43px;
   }
   
 
