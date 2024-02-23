@@ -250,6 +250,13 @@ const Gleekify = () => {
             id: Math.random().toString(36).substr(2, 9), // Unique ID for each text element
             draggable: true,
             color: 'white',
+            stroke: 'black', // Stroke color for white text
+            strokeWidth: 2, // Stroke width
+            shadowColor: 'black', // Shadow color for white text
+            shadowBlur: 5, // Shadow blur level
+            shadowOpacity: 0.5, // Shadow opacity
+            shadowOffsetX: 1, // Shadow horizontal offset
+            shadowOffsetY: 1,
         };
         setTextElements(textElements.concat(newTextElement));
     };
@@ -950,7 +957,20 @@ const Gleekify = () => {
                     // Determine the new color based on the current color
                     const newColor =
                         textElement.color === 'black' ? 'white' : 'black';
-                    return { ...textElement, color: newColor };
+                    const newStroke =
+                        newColor === 'white' ? 'black' : 'transparent';
+                    const shadowColor =
+                        newColor === 'white' ? 'black' : 'transparent';
+                    const shadowBlur = newColor === 'white' ? 5 : 0;
+                    const shadowOpacity = newColor === 'white' ? 0.5 : 0;
+                    return {
+                        ...textElement,
+                        color: newColor,
+                        stroke: newStroke,
+                        shadowColor: shadowColor,
+                        shadowBlur: shadowBlur,
+                        shadowOpacity: shadowOpacity,
+                    };
                 }
                 return textElement;
             })
@@ -1283,22 +1303,16 @@ const Gleekify = () => {
                                     fontFamily="Impact"
                                     fill={textElement.color}
                                     fontSize={textElement.fontSize}
-                                    fontStyle="bold"
-                                    stroke="black"
-                                    strokeWidth={2}
-                                    shadowColor={
-                                        textElement.shadowColor || 'black'
-                                    } // Default shadow color to grey if not specified
-                                    shadowBlur={textElement.shadowBlur || 1} // Default shadow blur to 10 if not specified
-                                    shadowOffsetX={
-                                        textElement.shadowOffsetX || 1
-                                    } // Default shadow offsetX to 5 if not specified
-                                    shadowOffsetY={
-                                        textElement.shadowOffsetY || 1
-                                    } // Default shadow offsetY to 5 if not specified
-                                    shadowOpacity={
-                                        textElement.shadowOpacity || 0.8
+                                    // fontStyle="bold"
+                                    stroke={textElement.stroke}
+                                    strokeWidth={
+                                        textElement.stroke === 'transparent'
+                                            ? 0
+                                            : 2
                                     }
+                                    shadowColor={textElement.shadowColor}
+                                    shadowBlur={textElement.shadowBlur}
+                                    shadowOpacity={textElement.shadowOpacity}
                                     onClick={() => handleSelect(textElement.id)}
                                     onDblClick={() =>
                                         handleTextEdit(textElement.id)
