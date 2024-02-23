@@ -506,11 +506,11 @@ const Gleekify = () => {
             stageRef.current.getLayers()[
                 stageRef.current.getLayers().length - 1
             ];
-
+        const adjustedX = x + 58;
         // Update signature position
         const signature = new Konva.Text({
             ...signatureProps,
-            x, // Use the calculated x position
+            x: adjustedX, // Use the calculated x position
             y, // Use the calculated y position
             id: 'signatureDownload',
         });
@@ -590,6 +590,7 @@ const Gleekify = () => {
         img.onload = () => {
             let size;
 
+            // Calculate the size based on the type and original image dimensions
             if (type === 'gleek') {
                 size = { width: 150, height: 75 };
             } else if (type === 'tongue') {
@@ -614,9 +615,10 @@ const Gleekify = () => {
 
                 size = { width: memeWidth, height: memeHeight };
             } else {
-                size = { width: 75, height: 75 }; // Default size if none of the conditions are met
+                size = { width: 75, height: 75 }; // Default size
             }
 
+            // Create and add the element to the canvas
             const newItem = {
                 src: url,
                 x: x,
@@ -628,7 +630,7 @@ const Gleekify = () => {
 
             setElements((prevElements) => [...prevElements, newItem]);
         };
-        img.src = url;
+        img.src = url; // This triggers the img.onload
     };
 
     const handleDragEnd = (e, id) => {
@@ -959,27 +961,44 @@ const Gleekify = () => {
         // Ensure the transformer is not shown in the downloaded image
         setShowTransformer(false);
 
-        // Wait for the state update to hide the transformer, then proceed
         setTimeout(() => {
             const stage = stageRef.current.getStage();
-            const canvasWidth = stage.width(); // Get current canvas width
-            const canvasHeight = stage.height(); // Get current canvas height
+            const originalSize = {
+                width: stage.width(),
+                height: stage.height(),
+            }; // Store original size
 
-            // Calculate signature position
-            // Assuming the signature's width is around 100px and height is 20px
-            // Adjust these values based on your actual signature size
-            const signatureWidth = 100;
-            const signatureHeight = 20;
-            const padding = 10; // Padding from the bottom right corner
-            const signatureX = canvasWidth - signatureWidth - padding + 60;
-            const signatureY = canvasHeight - signatureHeight - padding + 5;
+            // Calculate bounding box of all elements
+            let minX = Infinity,
+                minY = Infinity,
+                maxX = 0,
+                maxY = 0;
+            elements.forEach((el) => {
+                minX = Math.min(minX, el.x);
+                minY = Math.min(minY, el.y);
+                maxX = Math.max(maxX, el.x + el.width);
+                maxY = Math.max(maxY, el.y + el.height);
+            });
+
+            // Calculate the dimensions of the content, including padding for the signature
+            const contentWidth = maxX - minX;
+            const contentHeight = maxY - minY;
+            // Temporarily adjust the stage size to fit the content
+            stage.width(contentWidth);
+            stage.height(contentHeight);
+
+            // Temporarily adjust the stage position to start at the top left corner of the bounding box
+            stage.position({ x: -minX, y: -minY });
+            stage.batchDraw();
 
             // Temporarily add the signature directly to the stage for the download
-            renderSignatureForDownload(true, signatureX, signatureY); // Pass the calculated position
+            renderSignatureForDownload(
+                true,
+                contentWidth - 100 - 10,
+                contentHeight - 20 - 5
+            ); // Adjust signature position based on new content size
 
-            const dataURL = stage.toDataURL({
-                pixelRatio: 2, // Ensures high resolution
-            });
+            const dataURL = stage.toDataURL({ pixelRatio: 2 });
 
             // Creating a link to trigger the download
             const link = document.createElement('a');
@@ -991,12 +1010,16 @@ const Gleekify = () => {
             link.click();
             document.body.removeChild(link);
 
-            // Remove the signature after the download
-            removeSignatureAfterDownload();
-
-            // Optionally, re-enable the transformer
-            setShowTransformer(true);
-        }, 100); // This delay ensures any state updates to hide UI elements like transformers have been rendered
+            // Restore original stage size and position after the download
+            setTimeout(() => {
+                removeSignatureAfterDownload(); // Remove the temporary signature
+                stage.width(originalSize.width); // Restore original width
+                stage.height(originalSize.height); // Restore original height
+                stage.position({ x: 0, y: 0 }); // Reset position
+                stage.batchDraw();
+                setShowTransformer(true); // Optionally, re-enable the transformer
+            }, 100);
+        }, 100);
     };
 
     const Modal = ({ isOpen, close, children }) => {
