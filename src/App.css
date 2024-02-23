@@ -512,6 +512,7 @@
 	justify-content: center;
     padding: 20px;
     margin-top: 100px;
+	margin-left: -115px;
 	width: 100%;
 	box-sizing: border-box;
 }
@@ -601,11 +602,11 @@
 	overflow-y: auto; /* Allows vertical scrolling */
 	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); /* Modal box shadow */
 	position: absolute;
-	bottom: -195px;
+	bottom: -230px;
 	left: 730px;
 	transform: translateX(-50%);
     width: 220px; /* Adjust as necessary */
-    max-height: 800px; /* Adjust as necessary */
+    max-height: 835px; /* Adjust as necessary */
     overflow-y: auto;
 	display: flex;
 	flex-direction: column;
