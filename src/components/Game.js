@@ -207,7 +207,7 @@ const GameComponent = () => {
             gleeks.splice(0, gleeks.length);
             setIsGameRunning(true);
             setIsLoading(false);
-        }, 2000);
+        }, 3000);
     }
 
     function endGame(playerWon) {
