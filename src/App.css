@@ -93,6 +93,7 @@
 	margin-top: 80px;
 	margin-bottom: 20px;
 	line-height: 0.9;
+	z-index: 0;
 }
 
 /* Game Styles */
@@ -169,6 +170,24 @@
 		background-color: #549aa8;
 	}
 }
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.blinking-text {
+    animation: blink 1s linear infinite;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 2em;
+    z-index: 101; /* Ensure this is above other elements in .game-top-level */
+	user-select: none;
+}
+
 
 .sound-toggle-button {
 	position: absolute;
@@ -445,7 +464,7 @@
 	justify-content: center;
 	align-items: cent;
 	box-shadow: 0 0 5px 5px #b8d4fb;
-	animation: swing 5.5s infinite alternate ease-in-out;
+	/* animation: swing 5.5s infinite alternate ease-in-out; */
 }
 .how-to-border {
 	border: 4px solid #000000;
@@ -468,7 +487,7 @@
 	justify-content: center;
 	align-items: cent;
 	box-shadow: 0 0 5px 5px #b8d4fb;
-	animation: swing 5.5s infinite alternate ease-in-out;
+	/* animation: swing 5.5s infinite alternate ease-in-out; */
 }
 .meme-border {
 	border: 4px solid #000000;
@@ -562,7 +581,7 @@
 		animation: swing 3.5s infinite alternate ease-in-out;
 		box-shadow: 0 0 5px 1px #fbfbfb;
 		line-height: 0.9;
-		z-index: 1;
+		z-index: 0;
 	}
 
 	.timeline {
