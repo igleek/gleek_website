@@ -48,8 +48,10 @@ const GameComponent = () => {
     };
     const [npcName, setNpcName] = useState('dogwifhat');
     const [isSoundEnabled, setIsSoundEnabled] = useState(false);
-    const jumpSoundRef = useRef(new Audio('./audio/fart.mp3'));
+    const jumpSoundRef = useRef(new Audio('./audio/Fart.mp3'));
     const gleekSoundRef = useRef(new Audio('./audio/gleek_shot.mp3'));
+    const [isLoading, setIsLoading] = useState(false);
+    const timeoutIdRef = useRef(null); // Using useRef to persist the timeout ID across renders
 
     const isSoundEnabledRef = useRef(isSoundEnabled);
 
@@ -79,10 +81,21 @@ const GameComponent = () => {
     const detectOS = () => {
         const platform = navigator.platform.toLowerCase();
         const userAgent = navigator.userAgent.toLowerCase();
-
-        if (platform.includes('mac') || userAgent.includes('mac'))
+        if (
+            platform.includes('mac') ||
+            userAgent.includes('mac') ||
+            platform.includes('macintel') ||
+            userAgent.includes('macintosh')
+        )
             return 'macOS';
-        if (platform.includes('win') || userAgent.includes('win'))
+        if (
+            platform.includes('win') ||
+            userAgent.includes('win') ||
+            platform.includes('win32') ||
+            userAgent.includes('win64') ||
+            platform.includes('linux') ||
+            userAgent.includes('x86_64')
+        )
             return 'Windows';
         return 'unknown'; // Default case if unable to determine
     };
@@ -100,18 +113,23 @@ const GameComponent = () => {
                 setPlayerBulletVelocity(15);
                 break;
             case 'Windows':
-                setNpcSpeed(1);
-                setPlayerSpeed(1.5);
-                setGravity(0.5);
-                setJumpStrength(-15);
-                setNpcBulletVelocity(-8);
-                setPlayerBulletVelocity(10);
+                setNpcSpeed(2);
+                setPlayerSpeed(2.75);
+                setGravity(1.5);
+                setJumpStrength(-20);
+                setNpcBulletVelocity(-13);
+                setPlayerBulletVelocity(13);
                 break;
         }
     };
-
+    useEffect(() => {
+        return () => {
+            clearTimeout(timeoutIdRef.current); // Cleanup on unmount
+        };
+    }, []);
     // Function to start the game
     const startGame = () => {
+        clearTimeout(timeoutIdRef.current);
         setIsGameRunning(true);
         setLevel(1);
         setIsGameOver(false);
@@ -149,38 +167,54 @@ const GameComponent = () => {
     };
 
     function nextLevel() {
-        setLevel((prevLevel) => {
-            const newLevel = prevLevel === 17 ? prevLevel : prevLevel + 1;
-            setDisplayLevel(`Level: ${newLevel}`);
-
-            npcHealth.current = getMaxHealth('npc', newLevel);
-            updateHealthBars();
-
-            if (prevLevel === 17) {
-                endGame(true);
-                return prevLevel;
-            } else {
-                return prevLevel + 1;
-            }
-        });
-        // Additional logic for level progression
-        if (player.current && npc.current) {
-            player.current.x = 100;
-            player.current.y = app.current.screen.height - 60;
-            playerHealth.current = 100;
-
-            npc.current.x = app.current.screen.width - 150;
-            npc.current.y = app.current.screen.height - 60;
+        setIsLoading(true);
+        setIsGameRunning(false);
+        if (level === 17) {
+            endGame(true);
+            setIsGameRunning(false);
+            setIsLoading(false);
+            return;
         }
-        // Clear gleeks
-        gleeks.forEach((gleek) => app.current.stage.removeChild(gleek));
-        gleeks.splice(0, gleeks.length);
+        timeoutIdRef.current = setTimeout(() => {
+            setLevel((prevLevel) => {
+                setIsLoading(false);
+                const newLevel = prevLevel === 17 ? prevLevel : prevLevel + 1;
+                setDisplayLevel(`Level: ${newLevel}`);
+
+                npcHealth.current = getMaxHealth('npc', newLevel);
+                updateHealthBars();
+                playerVy = 0; // Reset vertical velocity
+                setJumpCount(0);
+
+                if (prevLevel === 17) {
+                    endGame(true);
+                    return prevLevel;
+                } else {
+                    return prevLevel + 1;
+                }
+            });
+            // Additional logic for level progression
+            if (player.current && npc.current) {
+                player.current.x = 100;
+                player.current.y = app.current.screen.height - 60;
+                playerHealth.current = 100;
+
+                npc.current.x = app.current.screen.width - 150;
+                npc.current.y = app.current.screen.height - 60;
+            }
+            // Clear gleeks
+            gleeks.forEach((gleek) => app.current.stage.removeChild(gleek));
+            gleeks.splice(0, gleeks.length);
+            setIsGameRunning(true);
+            setIsLoading(false);
+        }, 3000);
     }
 
     function endGame(playerWon) {
+        clearTimeout(timeoutIdRef.current);
+        setIsGameRunning(false);
         npcHealth.current = 100;
         updateHealthBars();
-        setIsGameRunning(false);
         setDisplayLevel('');
         setSpacebarActive(false);
 
@@ -247,9 +281,13 @@ const GameComponent = () => {
             app.current.stage.addChild(player.current);
 
             // Initialize and setup the NPC sprite
-            npc.current = new PIXI.Sprite(
-                PIXI.Texture.from('./images/game/wif.png')
-            );
+            if (isGameRunning) {
+                npc.current = new PIXI.Sprite(
+                    PIXI.Texture.from('./images/game/wif.png')
+                );
+            } else {
+                npc.current = new PIXI.Sprite(PIXI.Texture.EMPTY);
+            }
 
             npc.current.width = 150;
             npc.current.height = 150;
@@ -502,6 +540,13 @@ const GameComponent = () => {
         let name = 'dogwifhat';
         if (npc.current) {
             switch (level) {
+                case 1:
+                    npc.current.texture = PIXI.Texture.from(
+                        './images/game/wif.png'
+                    );
+                    npcHealth.current = getMaxHealth('npc', 1);
+                    name = 'dogwifhat';
+                    break;
                 case 2:
                     npc.current.texture = PIXI.Texture.from(
                         './images/game/anita.png'
@@ -621,11 +666,7 @@ const GameComponent = () => {
                     name = 'your mom';
                     break;
                 default:
-                    npc.current.texture = PIXI.Texture.from(
-                        './images/game/wif.png'
-                    );
-                    npcHealth.current = getMaxHealth('npc', 1);
-                    name = 'dogwifhat';
+                    npc.current.texture = PIXI.Texture.EMPTY;
             }
         }
         setNpcName(name);
@@ -701,8 +742,25 @@ const GameComponent = () => {
     // Collision Detection
     function checkCollision(spriteA, spriteB) {
         if (spriteA.justCreated) return false;
+
+        // Define padding values to shrink the hitbox
+        const paddingA = { x: 20, y: 20 }; // Adjust these values as needed for spriteA
+        const paddingB = { x: 20, y: 20 }; // Adjust these values as needed for spriteB
+
         const boundsA = spriteA.getBounds();
         const boundsB = spriteB.getBounds();
+
+        // Adjust bounds by padding
+        boundsA.x += paddingA.x;
+        boundsA.width -= paddingA.x * 2; // Shrink width by padding on both sides
+        boundsA.y += paddingA.y;
+        boundsA.height -= paddingA.y * 2; // Shrink height by padding on top and bottom
+
+        boundsB.x += paddingB.x;
+        boundsB.width -= paddingB.x * 2; // Shrink width by padding on both sides
+        boundsB.y += paddingB.y;
+        boundsB.height -= paddingB.y * 2; // Shrink height by padding on top and bottom
+
         return (
             boundsA.x < boundsB.x + boundsB.width &&
             boundsA.x + boundsA.width > boundsB.x &&
@@ -822,6 +880,9 @@ const GameComponent = () => {
                     )}
                     {isGameRunning && (
                         <p className="npc-name-display">{npcName}</p>
+                    )}
+                    {isLoading && !isGameWon && (
+                        <p className="blinking-text">...loading</p>
                     )}
                     <div ref={gameContainer} className="game"></div>
                     <button
