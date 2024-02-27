@@ -505,6 +505,7 @@
 
 /*===============GLEEKIFY Page Styles ====================*/
 .gleekify-container {
+	position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -540,7 +541,16 @@
     width: 600px;
     height: 600px;
 }
-
+.bottom-frame-buttons {
+    position: absolute;
+    bottom: -55px; /* Adjust this value to position the buttons where you want them relative to the bottom of the gleekify-container */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Align the center of the buttons with the center of the gleekify-container */
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+	width: 590px;
+}
   .button-toolbar-gleekify {
     display: flex;
     flex-direction: column;
@@ -563,35 +573,9 @@
 	display: flex; /* Corrected */
 	align-items: center;
 	justify-content: center;
-	width: 175px;
-	height: 43px;
+	width: 185px;
+	height: 40px;
   }
-
-
-  /* .modal-close-button {
-    position: fixed;
-    top: calc(80%);
-    right: calc(24%);
-    border: none;
-    background-color: #f44336;
-    color: white;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 5px;
-    z-index: 1050; 
-} */
-
-/* .modal-close-button img {
-    width: 10px;
-    height: 10px;
-} */
-  /* .modal-close-button:hover,
-.modal-close-button:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-} */
-
 
   .modal-content {
 	background-color: #b0dfed;
@@ -600,11 +584,11 @@
 	overflow-y: auto; /* Allows vertical scrolling */
 	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); /* Modal box shadow */
 	position: absolute;
-	bottom: -230px;
+	bottom: -115px;
 	left: 730px;
 	transform: translateX(-50%);
     width: 220px; /* Adjust as necessary */
-    max-height: 835px; /* Adjust as necessary */
+    max-height: 720px; /* Adjust as necessary */
     overflow-y: auto;
 	display: flex;
 	flex-direction: column;
