@@ -203,7 +203,7 @@ const Gleekify = () => {
 			// If we're opening the Tongue modal, close others
 			setIsGleekModalOpen(false);
 			setIsMemeModalOpen(false);
-            setIsTongueModalOpen(false);
+            setIsAssetModalOpen(false);
 		}
 	};
 
@@ -562,6 +562,8 @@ const Gleekify = () => {
 				size = { width: 150, height: 75 };
 			} else if (type === "tongue") {
 				size = { width: 75, height: 75 };
+            } else if (type === "asset") {
+				size = { width: 300, height: 300 };
 			} else if (type === "meme") {
                 resetCanvas();
 				// Use the original dimensions but constrain if larger than maximum size
@@ -1056,11 +1058,11 @@ const Gleekify = () => {
         const renderAssetModalContent = () =>
         assetImages.map((image, index) => (
             <div key={`asset-${index}`} style={{ textAlign: "center", margin: "10px" }}>
-                <button onClick={() => addElementToCanvas(image.url, 75, 75, "asset")}>
+                <button onClick={() => addElementToCanvas(image.url, 150, 150, "asset")}>
                     <img
                         src={image.url}
                         alt={image.name} // Use the name property for alt text
-                        style={{ width: "75px", height: "75px" }} // Size for images
+                        style={{ width: "150px", height: "150px" }} // Size for images
                     />
                 </button>
                 <div>{image.name}</div>
