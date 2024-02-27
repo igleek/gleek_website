@@ -470,7 +470,7 @@ const Gleekify = () => {
 		);
 	};
 
-	const signatureText = "Made with GLEEKIFY\n   at gleek.lol 💦"; // Customize this message
+	const signatureText = "  Powered by $GLEEK\nGLEEKIFY at gleek.lol 💦"; // Customize this message
 	const signatureProps = {
 		text: signatureText,
 		x: 515, // Adjust based on canvas size
@@ -489,14 +489,14 @@ const Gleekify = () => {
 
 		// Calculate the maximum x position for the background to prevent it from going to the edge
 		// const maxX = canvasWidth - maxBackgroundWidth;
-		const adjustedX = x - 25; // Ensure it does not go beyond maxX
+		const adjustedX = x - 45; // Ensure it does not go beyond maxX
 		const adjustedY = y;
 
 		// Background properties
 		const backgroundProps = {
 			x: adjustedX - 10,
 			y: adjustedY - 25,
-			width: maxBackgroundWidth - 65,
+			width: maxBackgroundWidth - 45,
 			height: 42,
 			fill: "white",
 			opacity: 0.6,
