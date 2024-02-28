@@ -9,44 +9,54 @@ const Team = () => {
 			</div>
 			<div className="team-container">
 				<div className="section-team team-member">
+				<a href="https://www.twitter.com/horneliusdoteth" target="_blank" rel="noopener noreferrer" className="plain-link">
 					<img
-						src="./images/team/hornelius_gleek.png"
+						src="./images/team/gleekify_hornelius_bg.png"
 						alt="dev"
 						className="team-member-img"
 					/>
+					</a>
 					<p className="team-member-description-doxed">
-					dev: <a href="https://www.twitter.com/horneliusdoteth" target="_blank" rel="noopener noreferrer" className="plain-link">hornelius.eth</a>
+					DEV: <a href="https://www.twitter.com/horneliusdoteth" target="_blank" rel="noopener noreferrer" className="plain-link">hornelius</a>
 					</p>
 				</div>
 				<div className="section-team team-member">
+				<a href="https://www.twitter.com/cook_ees" target="_blank" rel="noopener noreferrer" className="plain-link">
 					<img
-						src="./images/team/cookies_gleek.png"
+						src="./images/team/gleekify_cookies_bg.png"
 						alt="meme"
 						className="team-member-img"
 					/>
+					</a>
 					<p className="team-member-description-doxed">
-					chief meme officer: <a href="https://www.twitter.com/cook_ees" target="_blank" rel="noopener noreferrer" className="plain-link">cookies</a>
+					CMO: <a href="https://www.twitter.com/cook_ees" target="_blank" rel="noopener noreferrer" className="plain-link">cookies</a>
 					</p>
 				</div>
 				<div className="section-team team-member">
+				<a href="https://www.twitter.com/richardnhsu" target="_blank" rel="noopener noreferrer" className="plain-link">
 					<img
-						src="./images/team/rh_rainbow_gleek.png"
+						src="./images/team/gleekify_richard_bg.png"
 						alt="artist"
 						className="team-member-img"
 					/>
+					</a>
 					<p className="team-member-description-doxed">
-					artist: <a href="https://www.twitter.com/richardnhsu" target="_blank" rel="noopener noreferrer" className="plain-link">richardnhsu</a>
+					ARTIST: <a href="https://www.twitter.com/richardnhsu" target="_blank" rel="noopener noreferrer" className="plain-link">richardnhsu</a>
 					</p>
 				</div>
 				<div className="section-team team-member">
+				<a href="https://www.twitter.com/Psyxology_" target="_blank" rel="noopener noreferrer" className="plain-link">
 					<img
-						src="./images/team/psy_acid.webp"
+						src="./images/team/gleekify_psyxology_bg.png"
 						alt="banksy"
 						className="team-member-img"
 					/>
+					</a>
+				<a href="https://www.twitter.com/Psyxology_" target="_blank" rel="noopener noreferrer" className="plain-link">
 					<p className="team-member-description-doxed">
-					sugar daddy: <a href="https://www.twitter.com/Psyxology_" target="_blank" rel="noopener noreferrer" className="plain-link">psyxology</a>
+					BANKSY:psyxology
 					</p>
+					</a>
 				</div>
 			</div>
 		</div>

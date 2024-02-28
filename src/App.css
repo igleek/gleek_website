@@ -22,6 +22,12 @@
 	align-items: center;
 }
 
+.main-content {
+	flex: 1; /* This will make the content expand to fill available space */
+	display: flex;
+	flex-direction: column;
+}
+
 /*Nav Styling*/
 #nav-bar {
 	width: 100%;
@@ -184,7 +190,7 @@
     transform: translate(-50%, -50%);
     color: white;
     font-size: 2em;
-    z-index: 101; /* Ensure this is above other elements in .game-top-level */
+    z-index: 101;
 	user-select: none;
 }
 
@@ -399,6 +405,7 @@
 	height: auto;
 	border-radius: 50%;
 	margin-bottom: -50px;
+	text-decoration: none;
 }
 .team-member-description {
 	color: white;
@@ -497,6 +504,113 @@
 	height: auto;
 }
 
+/*===============GLEEKIFY Page Styles ====================*/
+.gleekify-container {
+	position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+	justify-content: center;
+    padding: 20px;
+    margin-top: 100px;
+	margin-left: -115px;
+	width: 100%;
+	box-sizing: border-box;
+}
+.primary-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.additional-buttons {
+	display: flex;
+    flex-direction: column;
+    gap: 10px;
+	margin-top: -30px;;
+}
+.canvas-toolbar-container {
+    display: flex;
+    align-items: start;
+}
+.canvas-frame-gleekify {
+	margin: 0 auto;
+	position: relative;
+    border: 5px solid #dae7e9;
+    background-image: url("/public/images/logos/gleek_website_bg_2.png");
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(210, 99, 99, 0.1);
+    width: 600px;
+    height: 600px;
+}
+.bottom-frame-buttons {
+    position: absolute;
+    bottom: -55px; /* Adjust this value to position the buttons where you want them relative to the bottom of the gleekify-container */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Align the center of the buttons with the center of the gleekify-container */
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+	width: 590px;
+}
+  .button-toolbar-gleekify {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-right: 20px;
+}
+
+.button-gleekify {
+	background-color: #2d9bbd;
+	color: #ffffff;
+	border: none;
+	padding: 10px 15px;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 25px;
+	margin: 0;
+	transition: background-color 0.3s ease;
+	font-family: "chimi", sans-serif; /* Use your app's font */
+	font-size: 25px;
+	display: flex; /* Corrected */
+	align-items: center;
+	justify-content: center;
+	width: 185px;
+	height: 40px;
+  }
+
+  .modal-content {
+	background-color: #b0dfed;
+	border: 1px solid #888;
+	border-radius: 15px;
+	overflow-y: auto; /* Allows vertical scrolling */
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); /* Modal box shadow */
+	position: absolute;
+	bottom: -115px;
+	left: 730px;
+	transform: translateX(-50%);
+    width: 220px; /* Adjust as necessary */
+    max-height: 720px; /* Adjust as necessary */
+    overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+  }
+  .image-selection {
+    display: flex; /* Display images in a row */
+	flex-direction: column;
+	align-items: center;
+    overflow-x: auto; /* Enable horizontal scrolling */
+	padding-top: 10px;
+
+}
+
+/* Style for individual images */
+.image-selection img {
+    width: 100px; /* Adjust based on your preference */
+    height: auto; /* Maintain aspect ratio */
+    cursor: pointer; /* Indicate the images are clickable */
+}
+
 /* Footer styles */
 .footer {
 	width: 100%;
@@ -527,6 +641,15 @@
 	.game-top-level,
 	.game-overlay,
 	.info-message,
+	.footer,
+	.gleekify-container,
+	.primary-buttons,
+	.additional-buttons, 
+	.canvas-toolbar-container,
+	.canvas-frame-gleekify,
+	.button-toolbar-gleekify,
+	.button-gleekify,
+	.nav-link-gleekify,
 	.footer {
 		display: none;
 	}
