@@ -389,6 +389,7 @@ const Gleekify = () => {
 		onResize,
 		flipX,
 		flipY,
+		draggable,
 	}) => {
 		const image = useImage(src);
 		const offsetX = flipX ? width / 2 : 0; // Half width if flipped
@@ -406,7 +407,7 @@ const Gleekify = () => {
 				rotation={rotation}
 				scaleX={flipX ? -1 : 1}
 				scaleY={flipY ? -1 : 1}
-				draggable
+				draggable={draggable}
 				onMouseDown={(e) => {
 					onSelect(id);
 					e.cancelBubble = true;
@@ -475,7 +476,7 @@ const Gleekify = () => {
 		text: signatureText,
 		x: 515, // Adjust based on canvas size
 		y: 560, // Adjust based on canvas size
-		fontSize: 16,
+		fontSize: 14,
 		fontFamily: "chimi",
 		fill: "black", // Signature color
 		opacity: 0.8,
@@ -489,17 +490,17 @@ const Gleekify = () => {
 
 		// Calculate the maximum x position for the background to prevent it from going to the edge
 		// const maxX = canvasWidth - maxBackgroundWidth;
-		const adjustedX = x - 45; // Ensure it does not go beyond maxX
-		const adjustedY = y;
+		const adjustedX = x - 27; // Ensure it does not go beyond maxX
+		const adjustedY = y + 7;
 
 		// Background properties
 		const backgroundProps = {
 			x: adjustedX - 10,
 			y: adjustedY - 25,
-			width: maxBackgroundWidth - 45,
-			height: 42,
+			width: maxBackgroundWidth - 60,
+			height: 35,
 			fill: "white",
-			opacity: 0.6,
+			opacity: 0.4,
 			cornerRadius: 15,
 			id: "signatureBackground",
 		};
@@ -560,11 +561,15 @@ const Gleekify = () => {
 			// Calculate the size based on the type and original image dimensions
 			if (type === "gleek") {
 				size = { width: 150, height: 75 };
+				type = "gleek";
 			} else if (type === "tongue") {
 				size = { width: 75, height: 75 };
+				type = "tongue";
             } else if (type === "asset") {
 				size = { width: 300, height: 300 };
+				type = "asset";
 			} else if (type === "meme") {
+				type = "meme";
                 resetCanvas();
 				// Use the original dimensions but constrain if larger than maximum size
 				const maxMemeWidth = 600; // Maximum width for memes
@@ -596,6 +601,7 @@ const Gleekify = () => {
 				width: size.width,
 				height: size.height,
 				id: Math.random().toString(36).substr(2, 9), // Unique ID for each element
+				type: type,
 			};
 
 			setElements((prevElements) => [...prevElements, newItem]);
@@ -707,17 +713,34 @@ const Gleekify = () => {
     const addBackgroundToCanvas = (src) => {
         const img = new Image();
         img.onload = () => {
+			let size;
             // Adjust canvas size based on the image loaded
-            adjustCanvasSize(img.width, img.height);
-    
+            // adjustCanvasSize(img.width, img.height);
+			const maxImageWidth = 600; // Maximum width for memes
+			const maxImageHeight = 600; 
+			const aspectRatio = img.width / img.height;
+			let imageWidth = img.width;
+			let imageHeight = img.height;
+
+				// Scale down if necessary to fit within max dimensions
+				if (imageWidth > maxImageWidth) {
+					imageWidth = maxImageWidth;
+					imageHeight = imageWidth / aspectRatio;
+				}
+				if (imageHeight > maxImageHeight) {
+					imageHeight = maxImageHeight;
+					imageWidth = imageHeight * aspectRatio;
+				}
+				size = { width: imageWidth, height: imageHeight };
             // Set the new background image, replacing any existing elements
             setElements([{ // This replaces the previous array entirely
                 src,
                 x: 0,
                 y: 0,
-                width: stageRef.current.width(), // Use adjusted canvas width
-                height: stageRef.current.height(), // Use adjusted canvas height
+                width: size.width, // Use adjusted canvas width
+                height: size.height, // Use adjusted canvas height
                 id: 'background', // Assign a fixed ID for the background for easy identification
+				draggable: false,
             }]);
         };
         img.src = src;
@@ -1193,7 +1216,7 @@ const Gleekify = () => {
 					>
 						<Layer>
 							{backgroundImage && (
-								<KonvaImage image={backgroundImage} name="background" width={600} height={600} />
+								<KonvaImage image={backgroundImage} name="background" width={600} height={600} draggable={false} />
 							)}
 
 							{elements.map((element, i) => (
@@ -1210,6 +1233,7 @@ const Gleekify = () => {
 									onSelect={handleSelect}
 									id={element.id}
 									onResize={handleResize}
+									draggable={element.id !== 'background' && element.type !== 'meme'}
 									flipX={element.flipX || false}
 									flipY={element.flipY || false}
 									scaleX={element.flipX ? -1 : 1} // Apply flipX state

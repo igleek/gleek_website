@@ -24,6 +24,11 @@ function NavBar() {
                     </a>
                 </li>
                 <li>
+                    <a href="https://raydium.io/swap/?inputCurrency=4ACuWnJZjE1Q51589mBmmyfD82RZ4LNFVeuPdSRFPc3L&outputCurrency=sol&inputAmount=0&fixed=in">
+                        BUY
+                    </a>
+                </li>
+                <li>
                     <a href="https://twitter.com/gleekonsolana">TWITTER</a>
                 </li>
                 <li>
