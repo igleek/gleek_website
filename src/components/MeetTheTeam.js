@@ -15,7 +15,7 @@ const Team = () => {
 						className="team-member-img"
 					/>
 					<p className="team-member-description-doxed">
-					dev: <a href="https://www.twitter.com/horneliusdoteth" target="_blank" rel="noopener noreferrer" className="plain-link">hornelius.eth</a>
+					DEV: <a href="https://www.twitter.com/horneliusdoteth" target="_blank" rel="noopener noreferrer" className="plain-link">hornelius.eth</a>
 					</p>
 				</div>
 				<div className="section-team team-member">
@@ -25,7 +25,7 @@ const Team = () => {
 						className="team-member-img"
 					/>
 					<p className="team-member-description-doxed">
-					chief meme officer: <a href="https://www.twitter.com/cook_ees" target="_blank" rel="noopener noreferrer" className="plain-link">cookies</a>
+					CMO: <a href="https://www.twitter.com/cook_ees" target="_blank" rel="noopener noreferrer" className="plain-link">cookies</a>
 					</p>
 				</div>
 				<div className="section-team team-member">
@@ -35,7 +35,7 @@ const Team = () => {
 						className="team-member-img"
 					/>
 					<p className="team-member-description-doxed">
-					artist: <a href="https://www.twitter.com/richardnhsu" target="_blank" rel="noopener noreferrer" className="plain-link">richardnhsu</a>
+					ARTIST: <a href="https://www.twitter.com/richardnhsu" target="_blank" rel="noopener noreferrer" className="plain-link">richardnhsu</a>
 					</p>
 				</div>
 				<div className="section-team team-member">
@@ -45,7 +45,7 @@ const Team = () => {
 						className="team-member-img"
 					/>
 					<p className="team-member-description-doxed">
-					sugar daddy: <a href="https://www.twitter.com/Psyxology_" target="_blank" rel="noopener noreferrer" className="plain-link">psyxology</a>
+					BANKSY: <a href="https://www.twitter.com/Psyxology_" target="_blank" rel="noopener noreferrer" className="plain-link">psyxology</a>
 					</p>
 				</div>
 			</div>
