@@ -462,10 +462,10 @@ const Gleekify = () => {
 		text: signatureText,
 		x: 515,
 		y: 560,
-		fontSize: 14,
+		fontSize: 12,
 		fontFamily: "chimi",
 		fill: "black",
-		opacity: 0.8,
+		opacity: 0.9,
 	};
 
 	const renderSignatureForDownload = (forDownload = false, x, y) => {
@@ -473,20 +473,22 @@ const Gleekify = () => {
 		const canvasWidth = stageRef.current.width();
 		const maxBackgroundWidth = 200;
 		const edgeBuffer = 20;
+		const topMargin = 8;
 
 		// Calculate the maximum x position for the background to prevent it from going to the edge
 		// const maxX = canvasWidth - maxBackgroundWidth;
-		const adjustedX = x - 27;
-		const adjustedY = y + 7;
+		const adjustedX = canvasWidth - 120;
+		const adjustedY = topMargin;
+	
 
 		// Background properties
 		const backgroundProps = {
-			x: adjustedX - 10,
-			y: adjustedY - 25,
-			width: maxBackgroundWidth - 60,
+			x: adjustedX - 8,
+			y: adjustedY,
+			width: maxBackgroundWidth - 80,
 			height: 35,
 			fill: "white",
-			opacity: 0.4,
+			opacity: 0.1,
 			cornerRadius: 15,
 			id: "signatureBackground",
 		};
@@ -499,7 +501,7 @@ const Gleekify = () => {
 		const signature = new Konva.Text({
 			...signatureProps,
 			x: adjustedX,
-			y: adjustedY - 20,
+			y: adjustedY + 5,
 			id: "signatureDownload",
 		});
 
