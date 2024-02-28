@@ -10,7 +10,7 @@ const Team = () => {
 			<div className="team-container">
 				<div className="section-team team-member">
 					<img
-						src="./images/team/hornelius_gleek.png"
+						src="./images/team/gleekify_hornelius_bg.png"
 						alt="dev"
 						className="team-member-img"
 					/>
@@ -20,7 +20,7 @@ const Team = () => {
 				</div>
 				<div className="section-team team-member">
 					<img
-						src="./images/team/cookies_gleek.png"
+						src="./images/team/gleekify_cookies_bg.png"
 						alt="meme"
 						className="team-member-img"
 					/>
@@ -30,7 +30,7 @@ const Team = () => {
 				</div>
 				<div className="section-team team-member">
 					<img
-						src="./images/team/rh_rainbow_gleek.png"
+						src="./images/team/gleekify_richard_bg.png"
 						alt="artist"
 						className="team-member-img"
 					/>
@@ -40,7 +40,7 @@ const Team = () => {
 				</div>
 				<div className="section-team team-member">
 					<img
-						src="./images/team/psy_acid.webp"
+						src="./images/team/gleekify_psyxology_bg.png"
 						alt="banksy"
 						className="team-member-img"
 					/>
