@@ -457,7 +457,7 @@ const Gleekify = () => {
 		);
 	};
 
-	const signatureText = "  Powered by $GLEEK\nGLEEKIFY at gleek.lol 💦";
+	const signatureText = "$GLEEK-ify at gleek.lol 💦";
 	const signatureProps = {
 		text: signatureText,
 		x: 515,
@@ -473,20 +473,20 @@ const Gleekify = () => {
 		const canvasWidth = stageRef.current.width();
 		const maxBackgroundWidth = 200;
 		const edgeBuffer = 20;
-		const topMargin = 8;
+		const topMargin = 5;
 
 		// Calculate the maximum x position for the background to prevent it from going to the edge
 		// const maxX = canvasWidth - maxBackgroundWidth;
-		const adjustedX = canvasWidth - 120;
+		const adjustedX = canvasWidth - 125;
 		const adjustedY = topMargin;
 	
 
 		// Background properties
 		const backgroundProps = {
-			x: adjustedX - 8,
+			x: adjustedX -5,
 			y: adjustedY,
-			width: maxBackgroundWidth - 80,
-			height: 35,
+			width: maxBackgroundWidth - 75,
+			height: 20,
 			fill: "white",
 			opacity: 0.1,
 			cornerRadius: 15,
