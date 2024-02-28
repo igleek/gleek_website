@@ -92,6 +92,7 @@ const Gleekify = () => {
         { url: "./images/game/soyjak.png", name: "soyjak"  },
 		{ url: "./images/game/wab_gleek.png", name: "wab" },
 		{ url: "./images/Gleekify/pixl.png", name: "pixl" },
+		{ url: "./images/Gleekify/fp.png", name: "founders pass" },
 		{ url: "./images/game/anita.png", name: "anita"  },
 		{ url: "./images/game/ape_szn.png", name: "ape szn"  },
 		{ url: "./images/game/black_airforce_1.png", name: "black air force 1"  },
@@ -594,11 +595,12 @@ const Gleekify = () => {
 		// Find the index of the element being transformed
 		const index = elements.findIndex((el) => el.id === id);
 		if (index === -1) return; // Element not found
-
+		const canvasWidth = 600; // Example width
+		const canvasHeight = 600; 
 		// Capture the new position and rotation from the event target
 		const node = e.target;
-		const newX = node.x();
-		const newY = node.y();
+		let newX = node.x(); // Use let for reassignable variables
+		let newY = node.y(); // Use let for reassignable variables
 		const scaleX = node.scaleX();
 		const scaleY = node.scaleY();
 		const newRotation = node.rotation();
@@ -606,7 +608,11 @@ const Gleekify = () => {
 		const newHeight = node.height() * Math.abs(scaleY);
 		const newFlipX = node.scaleX() < 0;
 		const newFlipY = node.scaleY() < 0;
-
+	
+		// Adjust newX and newY to prevent the asset from going outside the canvas
+		newX = Math.max(0, Math.min(newX, canvasWidth - newWidth)); // Ensure newX is within the canvas width
+		newY = Math.max(0, Math.min(newY, canvasHeight - newHeight));
+	
 		// Create a new array with updated properties for the transformed element
 		const newElements = elements.map((el, i) => {
 			if (i === index) {
@@ -619,16 +625,15 @@ const Gleekify = () => {
 					rotation: newRotation,
 					flipX: newFlipX,
 					flipY: newFlipY,
-					//   offsetX: newFlipX ? el.width / 2 : 0,
-					//   offsetY: newFlipY ? el.height / 2 : 0,
 				};
 			}
 			return el;
 		});
-
+	
 		// Update the state with the new elements array
 		setElements(newElements);
 	};
+	
 
 	const flipElementHorizontal = (id) => {
 		setElements((prevElements) =>
@@ -979,6 +984,14 @@ const Gleekify = () => {
 			// Calculate the dimensions of the content, including padding for the signature
 			const contentWidth = maxX - minX;
 			const contentHeight = maxY - minY;
+
+        // Check if there is valid content to download
+        if (contentWidth <= 0 || contentHeight <= 0) {
+            alert("No content to download or content dimensions are invalid.");
+            setShowTransformer(true);
+            return; // Exit the function to prevent further execution
+        }
+
 			// Temporarily adjust the stage size to fit the content
 			stage.width(contentWidth);
 			stage.height(contentHeight);
@@ -988,7 +1001,7 @@ const Gleekify = () => {
 			stage.batchDraw();
 
 			// Temporarily add the signature directly to the stage for the download
-			renderSignatureForDownload(true, contentWidth - 100 - 10, contentHeight - 20 - 5);
+			renderSignatureForDownload(true, contentWidth - 100 - 15, contentHeight - 20 - 5);
 
 			const dataURL = stage.toDataURL({ pixelRatio: 2 });
 
@@ -1068,14 +1081,25 @@ const Gleekify = () => {
             </div>
         ));
     
-	const renderMemeModalContent = () =>
-		memeTemplates.map((image, index) => (
+		function shuffleArray(array) {
+			for (let i = array.length - 1; i > 0; i--) {
+				const j = Math.floor(Math.random() * (i + 1));
+				[array[i], array[j]] = [array[j], array[i]]; // Swap elements
+			}
+			return array;
+		}
+
+	const renderMemeModalContent = () => {
+		const shuffledMemeTemplates = shuffleArray([...memeTemplates]);
+
+		return shuffledMemeTemplates.map((image, index) => (
 			<div key={`meme-${index}`} style={{ textAlign: "center", margin: "10px" }}>
 				<button onClick={() => addElementToCanvas(image.url, 0, 0, "meme")}>
 					<img src={image.url} alt="" style={{ width: "150px", height: "150px" }} />
 				</button>
 			</div>
 		));
+	};
 	useEffect(() => {
 		console.log("Modal state:", isModalOpen);
 	}, [isModalOpen]);
