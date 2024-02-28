@@ -1142,11 +1142,11 @@ const Gleekify = () => {
 							<button className="button-gleekify" onClick={toggleTextColor}>
 								black/white text
 							</button>
-							<button className="button-gleekify" onClick={moveElementUp}>
-								layer down
-							</button>
 							<button className="button-gleekify" onClick={moveElementDown}>
 								layer up
+							</button>
+							<button className="button-gleekify" onClick={moveElementUp}>
+								layer down
 							</button>
 							<button className="button-gleekify" onClick={increaseSize}>
 								+ size
