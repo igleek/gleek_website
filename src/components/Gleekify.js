@@ -147,7 +147,6 @@ const Gleekify = () => {
         { url: './images/Gleekify/MemeTemplates/54hjww.jpg' },
         { url: './images/Gleekify/MemeTemplates/145qvv.jpg' },
         { url: './images/Gleekify/MemeTemplates/434i5j.png' },
-		{ url: "./images/Gleekify/MemeTemplates/wab_pointing.jpg" },
         { url: './images/Gleekify/MemeTemplates/Always-Has-Been.png' },
         {
             url: './images/Gleekify/MemeTemplates/American-Chopper-Argument.jpg',
@@ -157,7 +156,7 @@ const Gleekify = () => {
         { url: './images/Gleekify/MemeTemplates/Bike-Fall.jpg' },
         { url: './images/Gleekify/MemeTemplates/Blank-Nut-Button.jpg' },
         { url: './images/Gleekify/MemeTemplates/Change-My-Mind.jpg' },
-		{ url: "./images/Gleekify/MemeTemplates/wab_comp.jpg" },
+		{ url: "./images/Gleekify/MemeTemplates/wab_comp.png" },
         { url: './images/Gleekify/MemeTemplates/Clown-Applying-Makeup.jpg' },
         { url: './images/Gleekify/MemeTemplates/Disaster-Girl.jpg' },
         { url: './images/Gleekify/MemeTemplates/Distracted-Boyfriend.jpg' },
@@ -178,8 +177,6 @@ const Gleekify = () => {
         { url: './images/Gleekify/MemeTemplates/Is-This-A-Pigeon.jpg' },
         { url: './images/Gleekify/MemeTemplates/Laughing-Leo.png' },
         { url: './images/Gleekify/MemeTemplates/Left-Exit-12-Off-Ramp.jpg' },
-        { url: './images/Gleekify/MemeTemplates/Left-Exit-12-Off-Ramp.jpg' },
-		{ url: "./images/Gleekify/MemeTemplates/wab_comp.png" },
         { url: './images/Gleekify/MemeTemplates/Monkey-Puppet.jpg' },
         { url: './images/Gleekify/MemeTemplates/One-Does-Not-Simply.jpg' },
         { url: './images/Gleekify/MemeTemplates/Oprah-You-Get-A.jpg' },
@@ -1046,7 +1043,7 @@ const Gleekify = () => {
 			const stage = stageRef.current.getStage();
 	
 			// Log the width for debugging; ensure `relevantElement` is correctly identified
-			console.log(relevantElement.width);
+			// console.log(relevantElement.width);
 	
 			// Dynamically calculate the signature's position based on the found element's size
 			const signatureX = relevantElement.width - 125; // Assuming signature width of 100 + 15px margin
@@ -1183,7 +1180,7 @@ const Gleekify = () => {
 
     const renderMemeModalContent = () => {
         const shuffledMemeTemplates = shuffleArray([...memeTemplates]);
-
+        const memeTemps = [...memeTemplates];
         return shuffledMemeTemplates.map((image, index) => (
             <div
                 key={`meme-${index}`}
@@ -1202,7 +1199,7 @@ const Gleekify = () => {
         ));
     };
     useEffect(() => {
-        console.log('Modal state:', isModalOpen);
+        // console.log('Modal state:', isModalOpen);
     }, [isModalOpen]);
 
 	return (
