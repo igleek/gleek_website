@@ -129,6 +129,7 @@ const Gleekify = () => {
         { url: './images/Gleekify/MemeTemplates/Mocking-Spongebob.jpg' },
         { url: './images/Gleekify/MemeTemplates/1op9wy.jpg' },
         { url: './images/Gleekify/MemeTemplates/1yz6z4.jpg' },
+		{ url: "./images/Gleekify/MemeTemplates/wab pointing.jpg" },
         { url: './images/Gleekify/MemeTemplates/1.png' },
         { url: './images/Gleekify/MemeTemplates/2tzo2k.jpg' },
         { url: './images/Gleekify/MemeTemplates/2xscjb.png' },
@@ -141,10 +142,12 @@ const Gleekify = () => {
         { url: './images/Gleekify/MemeTemplates/5c7lwq.png' },
         { url: './images/Gleekify/MemeTemplates/8fhy2l.png' },
         { url: './images/Gleekify/MemeTemplates/19vcz0.jpg' },
+		{ url: "./images/Gleekify/MemeTemplates/seal_me_when_the.png" },
         { url: './images/Gleekify/MemeTemplates/46hhvr.jpg' },
         { url: './images/Gleekify/MemeTemplates/54hjww.jpg' },
         { url: './images/Gleekify/MemeTemplates/145qvv.jpg' },
         { url: './images/Gleekify/MemeTemplates/434i5j.png' },
+		{ url: "./images/Gleekify/MemeTemplates/wab_pointing.jpg" },
         { url: './images/Gleekify/MemeTemplates/Always-Has-Been.png' },
         {
             url: './images/Gleekify/MemeTemplates/American-Chopper-Argument.jpg',
@@ -154,6 +157,7 @@ const Gleekify = () => {
         { url: './images/Gleekify/MemeTemplates/Bike-Fall.jpg' },
         { url: './images/Gleekify/MemeTemplates/Blank-Nut-Button.jpg' },
         { url: './images/Gleekify/MemeTemplates/Change-My-Mind.jpg' },
+		{ url: "./images/Gleekify/MemeTemplates/wab_comp.jpg" },
         { url: './images/Gleekify/MemeTemplates/Clown-Applying-Makeup.jpg' },
         { url: './images/Gleekify/MemeTemplates/Disaster-Girl.jpg' },
         { url: './images/Gleekify/MemeTemplates/Distracted-Boyfriend.jpg' },
@@ -174,7 +178,8 @@ const Gleekify = () => {
         { url: './images/Gleekify/MemeTemplates/Is-This-A-Pigeon.jpg' },
         { url: './images/Gleekify/MemeTemplates/Laughing-Leo.png' },
         { url: './images/Gleekify/MemeTemplates/Left-Exit-12-Off-Ramp.jpg' },
-        { url: './images/Gleekify/MemeTemplates/Leonardo-Dicaprio-Cheers.jpg' },
+        { url: './images/Gleekify/MemeTemplates/Left-Exit-12-Off-Ramp.jpg' },
+		{ url: "./images/Gleekify/MemeTemplates/wab_comp.png" },
         { url: './images/Gleekify/MemeTemplates/Monkey-Puppet.jpg' },
         { url: './images/Gleekify/MemeTemplates/One-Does-Not-Simply.jpg' },
         { url: './images/Gleekify/MemeTemplates/Oprah-You-Get-A.jpg' },
@@ -184,6 +189,7 @@ const Gleekify = () => {
         { url: './images/Gleekify/MemeTemplates/Sad-Pablo-Escobar.jpg' },
         { url: './images/Gleekify/MemeTemplates/Sleeping-Shaq.jpg' },
         { url: './images/Gleekify/MemeTemplates/Success-Kid.jpg' },
+		{ url: "./images/Gleekify/MemeTemplates/seal_me_when_the.png" },
         { url: './images/Gleekify/MemeTemplates/The-Rock-Driving.jpg' },
         { url: './images/Gleekify/MemeTemplates/Same-Picture.jpg' },
         {
@@ -497,34 +503,35 @@ const Gleekify = () => {
         const edgeBuffer = 20;
         const topMargin = 5;
 
-        // Calculate the maximum x position for the background to prevent it from going to the edge
-        // const maxX = canvasWidth - maxBackgroundWidth;
-        const adjustedX = canvasWidth - 125;
-        const adjustedY = topMargin;
+		// Calculate the maximum x position for the background to prevent it from going to the edge
+		// const maxX = canvasWidth - maxBackgroundWidth;
+		// const adjustedX = canvasWidth - 125;
+		// const adjustedY = topMargin;
+	
 
-        // Background properties
-        const backgroundProps = {
-            x: adjustedX - 5,
-            y: adjustedY,
-            width: maxBackgroundWidth - 75,
-            height: 20,
-            fill: 'white',
-            opacity: 0.1,
-            cornerRadius: 15,
-            id: 'signatureBackground',
-        };
+		// Background properties
+		const backgroundProps = {
+			x: x - 6,
+			y: y - 6,
+			width: maxBackgroundWidth - 75,
+			height: 20,
+			fill: "white",
+			opacity: 0.1,
+			cornerRadius: 15,
+			id: "signatureBackground",
+		};
 
         // Create and add background rectangle before the text
         const background = new Konva.Rect(backgroundProps);
         layer.add(background);
 
-        // Update signature position
-        const signature = new Konva.Text({
-            ...signatureProps,
-            x: adjustedX,
-            y: adjustedY + 5,
-            id: 'signatureDownload',
-        });
+		// Update signature position
+		const signature = new Konva.Text({
+			...signatureProps,
+			x: x,
+			y: y,
+			id: "signatureDownload",
+		});
 
         layer.add(signature);
         layer.draw();
@@ -618,48 +625,49 @@ const Gleekify = () => {
         img.src = url;
     };
 
-    const handleDragEnd = (e, id) => {
-        // Find the index of the element being transformed
-        const index = elements.findIndex((el) => el.id === id);
-        if (index === -1) return; // Element not found
-        const canvasWidth = 600; // Example width
-        const canvasHeight = 600;
-        // Capture the new position and rotation from the event target
-        const node = e.target;
-        let newX = node.x(); // Use let for reassignable variables
-        let newY = node.y(); // Use let for reassignable variables
-        const scaleX = node.scaleX();
-        const scaleY = node.scaleY();
-        const newRotation = node.rotation();
-        const newWidth = node.width() * Math.abs(scaleX);
-        const newHeight = node.height() * Math.abs(scaleY);
-        const newFlipX = node.scaleX() < 0;
-        const newFlipY = node.scaleY() < 0;
-
-        // Adjust newX and newY to prevent the asset from going outside the canvas
-        newX = Math.max(0, Math.min(newX, canvasWidth - newWidth)); // Ensure newX is within the canvas width
-        newY = Math.max(0, Math.min(newY, canvasHeight - newHeight));
-
-        // Create a new array with updated properties for the transformed element
-        const newElements = elements.map((el, i) => {
-            if (i === index) {
-                return {
-                    ...el,
-                    x: newX,
-                    y: newY,
-                    width: newWidth,
-                    height: newHeight,
-                    rotation: newRotation,
-                    flipX: newFlipX,
-                    flipY: newFlipY,
-                };
-            }
-            return el;
-        });
-
-        // Update the state with the new elements array
-        setElements(newElements);
-    };
+	const handleDragEnd = (e, id) => {
+		// Find the index of the element being transformed
+		const index = elements.findIndex((el) => el.id === id);
+		if (index === -1) return; // Element not found
+		// const canvasWidth = 600; // Example width
+		// const canvasHeight = 600; 
+		// Capture the new position and rotation from the event target
+		const node = e.target;
+		let newX = node.x(); // Use let for reassignable variables
+		let newY = node.y(); // Use let for reassignable variables
+		const scaleX = node.scaleX();
+		const scaleY = node.scaleY();
+		const newRotation = node.rotation();
+		const newWidth = node.width() * Math.abs(scaleX);
+		const newHeight = node.height() * Math.abs(scaleY);
+		const newFlipX = node.scaleX() < 0;
+		const newFlipY = node.scaleY() < 0;
+	
+		// Adjust newX and newY to prevent the asset from going outside the canvas
+		// newX = Math.max(0, Math.min(newX, canvasWidth - newWidth)); // Ensure newX is within the canvas width
+		// newY = Math.max(0, Math.min(newY, canvasHeight - newHeight));
+	
+		// Create a new array with updated properties for the transformed element
+		const newElements = elements.map((el, i) => {
+			if (i === index) {
+				return {
+					...el,
+					x: newX,
+					y: newY,
+					width: newWidth,
+					height: newHeight,
+					rotation: newRotation,
+					flipX: newFlipX,
+					flipY: newFlipY,
+				};
+			}
+			return el;
+		});
+	
+		// Update the state with the new elements array
+		setElements(newElements);
+	};
+	
 
     const flipElementHorizontal = (id) => {
         setElements((prevElements) =>
@@ -703,23 +711,38 @@ const Gleekify = () => {
         }
     };
 
-    const handleAssetUpload = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            // Store the original file name in the state
-            setOriginalFileName(file.name);
-
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                const src = reader.result;
-                addAssetToCanvas(src);
-
-                // Reset the file input after processing the file
-                event.target.value = '';
-            };
-            reader.readAsDataURL(file);
-        }
-    };
+	const handleAssetUpload = (event) => {
+		const file = event.target.files[0];
+		if (file) {
+			// Attempt to find the background image in the elements array
+			const backgroundImage = elements.find(el => el.id === 'background');
+			
+			// Error check: If no background image is found, inform the user and stop the asset upload
+			if (!backgroundImage) {
+				alert("Please upload a background image before adding other assets.");
+				console.error('Background image not found');
+				// Optionally, re-enable any UI elements or reset the file input
+				event.target.value = ''; // Reset the file input
+				return; // Exit the function to prevent further execution
+			}
+	
+			// Store the original file name in the state
+			setOriginalFileName(file.name);
+	
+			const reader = new FileReader();
+			reader.onloadend = () => {
+				const src = reader.result;
+				// Function to add the uploaded asset to the canvas
+				addAssetToCanvas(src);
+		
+				// Reset the file input after processing the file
+				event.target.value = '';
+			};
+			reader.readAsDataURL(file);
+		}
+	};
+	
+    
 
     const addBackgroundToCanvas = (src) => {
         const img = new Image();
@@ -1006,80 +1029,71 @@ const Gleekify = () => {
         );
     };
 
-    const handleDownloadMergedImage = () => {
-        // Ensure the transformer is not shown in the downloaded image
-        setShowTransformer(false);
-
-        setTimeout(() => {
-            const stage = stageRef.current.getStage();
-            const originalSize = {
-                width: stage.width(),
-                height: stage.height(),
-            };
-
-            // Calculate bounding box of all elements
-            let minX = Infinity,
-                minY = Infinity,
-                maxX = 0,
-                maxY = 0;
-            elements.forEach((el) => {
-                minX = Math.min(minX, el.x);
-                minY = Math.min(minY, el.y);
-                maxX = Math.max(maxX, el.x + el.width);
-                maxY = Math.max(maxY, el.y + el.height);
-            });
-
-            // Calculate the dimensions of the content, including padding for the signature
-            const contentWidth = maxX - minX;
-            const contentHeight = maxY - minY;
-
-            // Check if there is valid content to download
-            if (contentWidth <= 0 || contentHeight <= 0) {
-                alert(
-                    'No content to download or content dimensions are invalid.'
-                );
-                setShowTransformer(true);
-                return; // Exit the function to prevent further execution
-            }
-
-            // Temporarily adjust the stage size to fit the content
-            stage.width(contentWidth);
-            stage.height(contentHeight);
-
-            // Temporarily adjust the stage position to start at the top left corner of the bounding box
-            stage.position({ x: -minX, y: -minY });
-            stage.batchDraw();
-
-            // Temporarily add the signature directly to the stage for the download
-            renderSignatureForDownload(
-                true,
-                contentWidth - 100 - 15,
-                contentHeight - 20 - 5
-            );
-
-            const dataURL = stage.toDataURL({ pixelRatio: 2 });
-
-            // Creating a link to trigger the download
-            const link = document.createElement('a');
-            link.download = originalFileName
-                ? `gleekify_${originalFileName}`
-                : 'gleekify_merged_image.png';
-            link.href = dataURL;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-            // Restore original stage size and position after the download
-            setTimeout(() => {
-                removeSignatureAfterDownload();
-                stage.width(originalSize.width);
-                stage.height(originalSize.height);
-                stage.position({ x: 0, y: 0 });
-                stage.batchDraw();
-                setShowTransformer(true);
-            }, 100);
-        }, 100);
-    };
+	const handleDownloadMergedImage = () => {
+		setShowTransformer(false); // Ensure the transformer is not shown in the downloaded image
+	
+		const relevantElement = elements.find(el => el.id === 'background' || el.type === 'meme');
+	
+		// Error check: If no background image or meme is found, inform the user and abort the download process
+		if (!relevantElement) {
+			alert("Please upload a background image or a meme before downloading.");
+			console.error('Background image or meme not found');
+			setShowTransformer(true); // Re-enable the transformer if needed
+			return; // Exit the function to prevent further execution
+		}
+	
+		setTimeout(() => {
+			const stage = stageRef.current.getStage();
+	
+			// Log the width for debugging; ensure `relevantElement` is correctly identified
+			console.log(relevantElement.width);
+	
+			// Dynamically calculate the signature's position based on the found element's size
+			const signatureX = relevantElement.width - 125; // Assuming signature width of 100 + 15px margin
+			const signatureY = 10; // Assuming you want a 5px margin from the top
+	
+			renderSignatureForDownload(true, signatureX, signatureY);
+	
+			// Calculate the content area for download considering only the visible content
+			const minX = 0, minY = 0;
+			const maxX = Math.min(stage.width(), relevantElement.width);
+			const maxY = Math.min(stage.height(), relevantElement.height);
+	
+			const contentWidth = maxX - minX;
+			const contentHeight = maxY - minY;
+	
+			// Use toDataURL with clipping set to the calculated bounding box, constrained by the canvas size
+			const dataURL = stage.toDataURL({
+				pixelRatio: 2,
+				x: minX,
+				y: minY,
+				width: contentWidth,
+				height: contentHeight,
+			});
+	
+			// Creating a link to trigger the download
+			const link = document.createElement("a");
+			link.download = originalFileName ? `gleekify_${originalFileName}` : "gleekify_merged_image.png";
+			link.href = dataURL;
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+	
+			// Restore original stage size and position after the download
+			setTimeout(() => {
+				removeSignatureAfterDownload();
+				stage.batchDraw();
+				setShowTransformer(true);
+			}, 100);
+		}, 100);
+	};
+	
+	
+	
+	
+	
+	
+	
 
     const Modal = ({ isOpen, close, children }) => {
         if (!isOpen) return null;
@@ -1191,74 +1205,60 @@ const Gleekify = () => {
         console.log('Modal state:', isModalOpen);
     }, [isModalOpen]);
 
-    return (
-        <div className="gleekify-container">
-            <div
-                style={{
-                    fontSize: '25px',
-                    color: '#6eb6c8',
-                    textAlign: 'center',
-                    marginBottom: '10px',
-                    paddingLeft: '150px',
-                }}
-            >
-                For best results, use at least 512x512
-            </div>
-            <div className="canvas-toolbar-container">
-                <div className="button-toolbar-gleekify">
-                    <div className="primary-buttons">
-                        <input
-                            id="fileInput1"
-                            type="file"
-                            onChange={handleBackgroundUpload}
-                            accept="image/*"
-                            style={{ display: 'none' }}
-                        />
-                        <button
-                            className="button-gleekify"
-                            onClick={() =>
-                                document.getElementById('fileInput1').click()
-                            }
-                            title="This will resize the useable canvas to the images dimensions"
+	return (
+		<div className="gleekify-container">
+			<div
+				style={{
+					fontSize: "25px",
+					color: "#6eb6c8",
+					textAlign: "center",
+					marginBottom: "10px",
+					paddingLeft: "150px",
+				}}
+			>
+				For best results, use at least 512x512
+			</div>
+			<div className="canvas-toolbar-container">
+				<div className="button-toolbar-gleekify">
+					<div className="primary-buttons">
+						<input
+							id="fileInput1"
+							type="file"
+							onChange={handleBackgroundUpload}
+							accept="image/*"
+							style={{ display: "none" }}
+						/>
+						<button
+							className="button-gleekify"
+							onClick={() => document.getElementById("fileInput1").click()}
+                            title="Upload background image first"
                         >
-                            upload background
-                        </button>
-                        <input
-                            id="fileInput2"
-                            type="file"
-                            onChange={handleAssetUpload}
-                            accept="image/*"
-                            style={{ display: 'none' }}
-                        />
-                        <button
-                            className="button-gleekify"
-                            onClick={() =>
-                                document.getElementById('fileInput2').click()
-                            }
-                        >
-                            upload asset
-                        </button>
-                        <button
-                            className="button-gleekify"
-                            onClick={resetCanvas}
-                        >
-                            reset canvas
-                        </button>
-                        <button
-                            className="button-gleekify"
-                            onClick={handleDownloadMergedImage}
-                        >
-                            download
-                        </button>
-                    </div>
-                    <button
-                        className="button-gleekify"
-                        onClick={toggleAdditionalButtons}
-                    >
-                        {showAdditionalButtons
-                            ? '↑ hide tools'
-                            : '↓ show tools'}
-                    </button>
+							upload background
+						</button>
+						<input
+							id="fileInput2"
+							type="file"
+							onChange={handleAssetUpload}
+							accept="image/*"
+							style={{ display: "none" }}
+						/>
+						<button
+							className="button-gleekify"
+							onClick={() => document.getElementById("fileInput2").click()}
+							title="Must upload background image before loading custom assets"
+						>
+							upload asset
+						</button>
+						<button className="button-gleekify" onClick={resetCanvas}>
+							reset canvas
+						</button>
+						<button className="button-gleekify" onClick={handleDownloadMergedImage}>
+							download
+						</button>
+					</div>
+					<button className="button-gleekify" onClick={toggleAdditionalButtons}>
+						{showAdditionalButtons ? "↑ hide tools" : "↓ show tools"}
+					</button>
 
                     {showAdditionalButtons && (
                         <div className="additional-buttons group-spacing">
