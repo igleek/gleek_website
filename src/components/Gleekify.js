@@ -59,6 +59,11 @@ const Gleekify = () => {
         marginBottom: "10px",
         paddingLeft: "150px",
     });
+    const [gleekSize, setGleekSize] = useState({ width: 90, height: 45 });
+    const [mouthSize, setMouthSize] = useState({ width: 150, height: 75 });
+    const [assetSize, setAssetSize] = useState({ width: 150, height: 75 });
+    const [memeSize, setMemeSize] = useState({ width: 150, height: 75 });
+
     
     // Example static images
     const gleekImages = [
@@ -265,6 +270,10 @@ const Gleekify = () => {
                     marginBottom: "10px",
                     paddingLeft: "0px",
                 });
+                setGleekSize({width: 70, height: 55})
+                setMouthSize({width: 70, height: 65})
+                setAssetSize({width: 70, height: 70})
+                setMemeSize({width: 70, height: 70})
                 setCanvasSize({ width: 300, height: 300 }); // Smaller size for mobile devices
             } else {
                 setCanvasTextStyle({
@@ -274,6 +283,7 @@ const Gleekify = () => {
                     marginBottom: "10px",
                     paddingLeft: "150px",
                 });
+                setGleekSize({width: 150, height: 75})
                 setCanvasSize({ width: 600, height: 600 }); // Default size for larger screens
             }
         }
@@ -384,8 +394,6 @@ const Gleekify = () => {
         });
     };
 
-    // Input field for editing text, positioned based on editingState
-    // Ensure this input field is rendered within your component, correctly positioned
     {
         editingState.visible && (
             <input
@@ -1151,17 +1159,17 @@ const Gleekify = () => {
         gleekImages.map((image, index) => (
             <div
                 key={`gleek-${index}`}
-                style={{ textAlign: 'center', margin: '10px' }}
+                style={{ textAlign: 'center', margin: '5px' }}
             >
                 <button
                     onClick={() =>
-                        addElementToCanvas(image.url, 150, 75, 'gleek')
+                        addElementToCanvas(image.url, gleekSize.width, gleekSize.height, 'gleek')
                     }
                 >
                     <img
                         src={image.url}
                         alt={image.url.split('/').pop().split('.')[0]}
-                        style={{ width: '150px', height: '75px' }}
+                        style={{ width: `${gleekSize.width}px`, height: `${gleekSize.height}px` }}
                     />
                 </button>
                 <div>{image.url.split('/').pop().split('.')[0]}</div>
@@ -1173,17 +1181,17 @@ const Gleekify = () => {
         mouthImages.map((image, index) => (
             <div
                 key={`tongue-${index}`}
-                style={{ textAlign: 'center', margin: '10px' }}
+                style={{ textAlign: 'center', margin: '5px' }}
             >
                 <button
                     onClick={() =>
-                        addElementToCanvas(image.url, 75, 75, 'tongue')
+                        addElementToCanvas(image.url, mouthSize.width, mouthSize.height, 'tongue')
                     }
                 >
                     <img
                         src={image.url}
                         alt={image.url.split('/').pop().split('.')[0]}
-                        style={{ width: '75px', height: '75px' }}
+                        style={{ width: `${mouthSize.width}px`, height: `${mouthSize.height}px` }}
                     />
                 </button>
                 <div>{image.url.split('/').pop().split('.')[0]}</div>
@@ -1193,17 +1201,17 @@ const Gleekify = () => {
         assetImages.map((image, index) => (
             <div
                 key={`asset-${index}`}
-                style={{ textAlign: 'center', margin: '10px' }}
+                style={{ textAlign: 'center', margin: '5px' }}
             >
                 <button
                     onClick={() =>
-                        addElementToCanvas(image.url, 150, 150, 'asset')
+                        addElementToCanvas(image.url, assetSize.width, assetSize.height, 'asset')
                     }
                 >
                     <img
                         src={image.url}
                         alt={image.name}
-                        style={{ width: '150px', height: '150px' }}
+                        style={{ width: `${assetSize.width}px`, height: `${assetSize.height}px` }}
                     />
                 </button>
                 <div>{image.name}</div>
@@ -1224,15 +1232,15 @@ const Gleekify = () => {
         return shuffledMemeTemplates.map((image, index) => (
             <div
                 key={`meme-${index}`}
-                style={{ textAlign: 'center', margin: '10px' }}
+                style={{ textAlign: 'center', margin: '5px' }}
             >
                 <button
-                    onClick={() => addElementToCanvas(image.url, 0, 0, 'meme')}
+                    onClick={() => addElementToCanvas(image.url, memeSize.width, memeSize.height, 'meme')}
                 >
                     <img
                         src={image.url}
                         alt=""
-                        style={{ width: '150px', height: '150px' }}
+                        style={{ width: `${memeSize.width}px`, height: `${memeSize.height}px` }}
                     />
                 </button>
             </div>
