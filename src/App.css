@@ -641,15 +641,6 @@
 	.game-top-level,
 	.game-overlay,
 	.info-message,
-	.footer,
-	.gleekify-container,
-	.primary-buttons,
-	.additional-buttons, 
-	.canvas-toolbar-container,
-	.canvas-frame-gleekify,
-	.button-toolbar-gleekify,
-	.button-gleekify,
-	.nav-link-gleekify,
 	.footer {
 		display: none;
 	}
@@ -760,5 +751,193 @@
 
 	.content-container {
 		margin-top: -15px;
+	}
+}
+
+
+@media only screen and (max-width: 768px) {
+	.App {
+		background-attachment: fixed;
+		background-size: contain;
+		background-position: center;
+		background-repeat: repeat;
+	}
+	.game-top-level,
+	.game-overlay,
+	.info-message,
+	.footer {
+		display: none;
+	}
+
+	.rotate-soyjak {
+		animation: rotate 5s linear infinite;
+		width: 30px;
+		height: 30px;
+	}
+
+	#nav-bar {
+		width: 100%;
+		background-color: #2d9bbd;
+		overflow: hidden;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 1000;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: 3px solid #2c2c2c;
+		z-index: 1000;
+	}
+	.nav-menu li {
+		float: left;
+		color: #fffdfd;
+		margin-right: -12px;
+		margin-left: -12px;
+	}
+	.nav-menu li a {
+		display: block;
+		color: white;
+		text-align: center;
+		text-decoration: none;
+		font-size: 15px;
+	}
+	.nav-menu li:nth-child(2) {
+		display: none;
+	}
+
+
+	/*GLEEKIFY*/
+	.gleekify-container {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 20px;
+		margin-top: 75px;
+		padding-left: 240px;
+		width: 100%;
+		box-sizing: border-box;
+	}
+	.primary-buttons {
+		position: absolute;
+		bottom: -170px; /* Adjust this value to position the buttons where you want them relative to the bottom of the gleekify-container */
+		left: 110%; /* Center horizontally */
+		transform: translateX(-50%); /* Align the center of the buttons with the center of the gleekify-container */
+		display:block;
+		justify-content: center;
+		width: 590px;
+	}
+	.primary-buttons button {
+		margin: 5px
+	}
+	.hide-button {
+		position: absolute;
+		bottom: -215px; /* Adjust this value to position the buttons where you want them relative to the bottom of the gleekify-container */
+		left: 110%; /* Center horizontally */
+		transform: translateX(-50%); /* Align the center of the buttons with the center of the gleekify-container */
+		display:block;
+		justify-content: center;
+		width: 590px;
+	}
+	.hide-button button {
+		margin: 5px
+	}
+	.additional-buttons {
+		position: absolute;
+		bottom: -620px; /* Adjust this value to position the buttons where you want them relative to the bottom of the gleekify-container */
+		left: 110%; /* Center horizontally */
+		transform: translateX(-50%); /* Align the center of the buttons with the center of the gleekify-container */
+		display:block;
+		justify-content: center;
+		width: 590px;
+	}
+	.additional-buttons button {
+		margin: 5px
+	}
+	.canvas-toolbar-container {
+		display: flex;
+		align-items: start;
+	}
+	.canvas-frame-gleekify {
+		margin: 0 auto;
+		position: relative;
+		border: 5px solid #dae7e9;
+		background-image: url("/public/images/logos/gleek_website_bg_2.png");
+		border-radius: 5px;
+		box-shadow: 0 4px 8px rgba(210, 99, 99, 0.1);
+		width: 100%;
+		max-width: 300px;
+		height: auto;
+	}
+	.bottom-frame-buttons {
+		position: absolute;
+		bottom: -195px; /* Adjust this value to position the buttons where you want them relative to the bottom of the gleekify-container */
+		left: 150%; /* Center horizontally */
+		transform: translateX(-50%); /* Align the center of the buttons with the center of the gleekify-container */
+		display:block;
+		justify-content: center;
+		width: 590px;
+	}
+	.bottom-frame-buttons button {
+		margin: 5px;
+	}
+	  .button-toolbar-gleekify {
+		display: flex;
+		flex-direction: column;
+		gap: 40px;
+		margin-right: 20px;
+	}
+	
+	.button-gleekify {
+		background-color: #2d9bbd;
+		color: #ffffff;
+		border: none;
+		padding: 10px 15px;
+		border-radius: 5px;
+		cursor: pointer;
+		margin: 0;
+		transition: background-color 0.3s ease;
+		font-family: "chimi", sans-serif; /* Use your app's font */
+		font-size: 18px;
+		display: flex; /* Corrected */
+		align-items: center;
+		justify-content: center;
+		width: 125px;
+		height: 40px;
+	  }
+	
+	  .modal-content {
+		background-color: #b0dfed;
+		border: 1px solid #888;
+		border-radius: 15px;
+		overflow-y: auto; /* Allows vertical scrolling */
+		box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); /* Modal box shadow */
+		position: absolute;
+		bottom: -115px;
+		left: 730px;
+		transform: translateX(-50%);
+		width: 220px; /* Adjust as necessary */
+		max-height: 720px; /* Adjust as necessary */
+		overflow-y: auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	  }
+	  .image-selection {
+		display: flex; /* Display images in a row */
+		flex-direction: column;
+		align-items: center;
+		overflow-x: auto; /* Enable horizontal scrolling */
+		padding-top: 10px;
+	
+	}
+	
+	/* Style for individual images */
+	.image-selection img {
+		width: 100px; /* Adjust based on your preference */
+		height: auto; /* Maintain aspect ratio */
+		cursor: pointer; /* Indicate the images are clickable */
 	}
 }

@@ -51,7 +51,15 @@ const Gleekify = () => {
         value: '',
         id: null,
     });
-
+    const [canvasSize, setCanvasSize] = useState({ width: 600, height: 600});
+    const [canvasTextStyle, setCanvasTextStyle] = useState({
+        fontSize: "25px",
+        color: "#6eb6c8",
+        textAlign: "center",
+        marginBottom: "10px",
+        paddingLeft: "150px",
+    });
+    
     // Example static images
     const gleekImages = [
         { url: './images/Gleekify/sappy seals gleek.png' },
@@ -245,6 +253,38 @@ const Gleekify = () => {
     const toggleAdditionalButtons = () => {
         setShowAdditionalButtons(!showAdditionalButtons);
     };
+
+    useEffect(() => {
+        // Function to update canvas size based on the screen width
+        function adjustCanvasMobile() {
+            if (window.innerWidth < 768) { // Example breakpoint for mobile devices
+                setCanvasTextStyle({
+                    fontSize: "20px", // Example adjustment for mobile
+                    color: "#6eb6c8",
+                    textAlign: "center",
+                    marginBottom: "10px",
+                    paddingLeft: "0px",
+                });
+                setCanvasSize({ width: 300, height: 300 }); // Smaller size for mobile devices
+            } else {
+                setCanvasTextStyle({
+                    fontSize: "25px",
+                    color: "#6eb6c8",
+                    textAlign: "center",
+                    marginBottom: "10px",
+                    paddingLeft: "150px",
+                });
+                setCanvasSize({ width: 600, height: 600 }); // Default size for larger screens
+            }
+        }
+
+                // Update canvas size on component mount and when resizing the window
+                adjustCanvasMobile();
+                window.addEventListener('resize', adjustCanvasMobile);
+        
+                // Cleanup listener on component unmount
+                return () => window.removeEventListener('resize', adjustCanvasMobile);
+            }, []);
 
     // Function to add a new text box
     const addTextElement = () => {
@@ -1205,13 +1245,7 @@ const Gleekify = () => {
 	return (
 		<div className="gleekify-container">
 			<div
-				style={{
-					fontSize: "25px",
-					color: "#6eb6c8",
-					textAlign: "center",
-					marginBottom: "10px",
-					paddingLeft: "150px",
-				}}
+				style={canvasTextStyle}
 			>
 				For best results, use at least 512x512
 			</div>
@@ -1253,10 +1287,11 @@ const Gleekify = () => {
 							download
 						</button>
 					</div>
-					<button className="button-gleekify" onClick={toggleAdditionalButtons}>
-						{showAdditionalButtons ? "↑ hide tools" : "↓ show tools"}
-					</button>
-
+                    <div className='hide-button'>
+                        <button className="button-gleekify" onClick={toggleAdditionalButtons}>
+                            {showAdditionalButtons ? "↑ hide tools" : "↓ show tools"}
+                        </button>
+                    </div>
                     {showAdditionalButtons && (
                         <div className="additional-buttons group-spacing">
                             <button
@@ -1330,8 +1365,8 @@ const Gleekify = () => {
                 {/* Canvas */}
                 <div ref={drop} className="canvas-frame-gleekify">
                     <Stage
-                        width={600}
-                        height={600}
+                        width={canvasSize.width}
+                        height={canvasSize.height}
                         ref={stageRef}
                         onMouseDown={(e) => {
                             // Check if the click is on the stage or the background image
@@ -1348,8 +1383,8 @@ const Gleekify = () => {
                                 <KonvaImage
                                     image={backgroundImage}
                                     name="background"
-                                    width={600}
-                                    height={600}
+                                    width={canvasSize.width}
+                                    height={canvasSize.height}
                                     draggable={false}
                                 />
                             )}
