@@ -51,6 +51,7 @@ const Gleekify = () => {
         value: '',
         id: null,
     });
+    const [isMobile, setIsMobile] = useState(false);
     const [canvasSize, setCanvasSize] = useState({ width: 600, height: 600});
     const [canvasTextStyle, setCanvasTextStyle] = useState({
         fontSize: "25px",
@@ -259,12 +260,13 @@ const Gleekify = () => {
         setShowAdditionalButtons(!showAdditionalButtons);
     };
 
+    // Adjustments for Mobile
     useEffect(() => {
-        // Function to update canvas size based on the screen width
         function adjustCanvasMobile() {
-            if (window.innerWidth < 768) { // Example breakpoint for mobile devices
+            if (window.innerWidth < 768) {
+                setIsMobile(true);
                 setCanvasTextStyle({
-                    fontSize: "20px", // Example adjustment for mobile
+                    fontSize: "20px",
                     color: "#6eb6c8",
                     textAlign: "center",
                     marginBottom: "10px",
@@ -274,8 +276,10 @@ const Gleekify = () => {
                 setMouthSize({width: 70, height: 65})
                 setAssetSize({width: 70, height: 70})
                 setMemeSize({width: 70, height: 70})
-                setCanvasSize({ width: 300, height: 300 }); // Smaller size for mobile devices
+                setCanvasSize({ width: 300, height: 300 });
+                
             } else {
+                setIsMobile(false);
                 setCanvasTextStyle({
                     fontSize: "25px",
                     color: "#6eb6c8",
@@ -284,11 +288,12 @@ const Gleekify = () => {
                     paddingLeft: "150px",
                 });
                 setGleekSize({width: 150, height: 75})
+                setMouthSize({width: 100, height: 80})
+                setAssetSize({width: 150, height: 150})
+                setMemeSize({width: 150, height: 150})
                 setCanvasSize({ width: 600, height: 600 }); // Default size for larger screens
             }
         }
-
-                // Update canvas size on component mount and when resizing the window
                 adjustCanvasMobile();
                 window.addEventListener('resize', adjustCanvasMobile);
         
@@ -300,8 +305,8 @@ const Gleekify = () => {
     const addTextElement = () => {
         const newTextElement = {
             text: '$GLEEK',
-            x: 250,
-            y: 250,
+            x: 50,
+            y: 50,
             fontSize: 35,
             id: Math.random().toString(36).substr(2, 9),
             draggable: true,
@@ -321,7 +326,11 @@ const Gleekify = () => {
         setElements([]);
         setTextElements([]);
         setSelectedId(null);
-        adjustCanvasSize(600, 600);
+        if (!isMobile) {
+            adjustCanvasSize(600, 600);
+        } else {
+            adjustCanvasSize(300, 300);
+        }
     };
 
     const adjustCanvasSize = (imgWidth, imgHeight) => {
@@ -633,8 +642,16 @@ const Gleekify = () => {
                 type = 'meme';
                 resetCanvas();
                 // Use the original dimensions but constrain if larger than maximum size
-                const maxMemeWidth = 600;
-                const maxMemeHeight = 600;
+                let maxMemeWidth = 0
+                let maxMemeHeight = 0
+                if (!isMobile) {
+                    maxMemeWidth = 600;
+                    maxMemeHeight = 600;
+                } else {
+                    maxMemeWidth = 300;
+                    maxMemeHeight = 300;
+                }
+
                 const aspectRatio = img.width / img.height;
                 let memeWidth = img.width;
                 let memeHeight = img.height;
@@ -1133,12 +1150,6 @@ const Gleekify = () => {
 		}, 100);
 	};
 	
-	
-	
-	
-	
-	
-	
 
     const Modal = ({ isOpen, close, children }) => {
         if (!isOpen) return null;
@@ -1235,7 +1246,7 @@ const Gleekify = () => {
                 style={{ textAlign: 'center', margin: '5px' }}
             >
                 <button
-                    onClick={() => addElementToCanvas(image.url, memeSize.width, memeSize.height, 'meme')}
+                    onClick={() => addElementToCanvas(image.url, 0, 0, 'meme')}
                 >
                     <img
                         src={image.url}
