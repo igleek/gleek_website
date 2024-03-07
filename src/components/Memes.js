@@ -28,6 +28,13 @@ function Memes() {
             <div className="meme-container">
                 <img
                     className="meme-border"
+                    src="./images/Memes/fountain.jpg"
+                    alt=""
+                />
+            </div>
+            <div className="meme-container">
+                <img
+                    className="meme-border"
                     src="./images/Memes/snape.jpg"
                     alt=""
                 />
