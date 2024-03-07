@@ -812,8 +812,15 @@ const Gleekify = () => {
             let size;
             // Adjust canvas size based on the image loaded
             // adjustCanvasSize(img.width, img.height); put back for adjusting canvas
-            const maxImageWidth = 600;
-            const maxImageHeight = 600;
+            let maxImageWidth = 0;
+            let maxImageHeight = 0;
+            if (!isMobile) {
+                maxImageWidth = 600;
+                maxImageHeight = 600;
+            } else {
+                maxImageWidth = 300;
+                maxImageHeight = 300;
+            }
             const aspectRatio = img.width / img.height;
             let imageWidth = img.width;
             let imageHeight = img.height;

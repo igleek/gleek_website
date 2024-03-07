@@ -2,7 +2,10 @@
 	font-family: "chimi";
 	src: url("NanumPenScript-Regular.ttf") format("truetype");
 }
-
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
 .App {
 	font-family: "chimi";
 	font-size: xx-large;
@@ -23,7 +26,7 @@
 }
 
 .main-content {
-	flex: 1; /* This will make the content expand to fill available space */
+	flex: 1;
 	display: flex;
 	flex-direction: column;
 }
@@ -544,9 +547,9 @@
 }
 .bottom-frame-buttons {
     position: absolute;
-    bottom: -55px; /* Adjust this value to position the buttons where you want them relative to the bottom of the gleekify-container */
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Align the center of the buttons with the center of the gleekify-container */
+    bottom: -55px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     gap: 10px;
     justify-content: center;
@@ -569,9 +572,9 @@
 	font-size: 25px;
 	margin: 0;
 	transition: background-color 0.3s ease;
-	font-family: "chimi", sans-serif; /* Use your app's font */
+	font-family: "chimi", sans-serif;
 	font-size: 25px;
-	display: flex; /* Corrected */
+	display: flex;
 	align-items: center;
 	justify-content: center;
 	width: 185px;
@@ -582,33 +585,33 @@
 	background-color: #b0dfed;
 	border: 1px solid #888;
 	border-radius: 15px;
-	overflow-y: auto; /* Allows vertical scrolling */
-	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); /* Modal box shadow */
+	overflow-y: auto;
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 	position: absolute;
 	bottom: -115px;
 	left: 730px;
 	transform: translateX(-50%);
-    width: 220px; /* Adjust as necessary */
-    max-height: 720px; /* Adjust as necessary */
+    width: 220px;
+    max-height: 720px;
     overflow-y: auto;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
   }
   .image-selection {
-    display: flex; /* Display images in a row */
+    display: flex;
 	flex-direction: column;
 	align-items: center;
-    overflow-x: auto; /* Enable horizontal scrolling */
+    overflow-x: auto;
 	padding-top: 10px;
 
 }
 
 /* Style for individual images */
 .image-selection img {
-    width: 100px; /* Adjust based on your preference */
-    height: auto; /* Maintain aspect ratio */
-    cursor: pointer; /* Indicate the images are clickable */
+    width: 100px;
+    height: auto;
+    cursor: pointer;
 }
 
 /* Footer styles */
@@ -758,6 +761,8 @@
 		background-size: contain;
 		background-position: center;
 		background-repeat: repeat;
+		padding-bottom: 100px;
+		margin-bottom: -100px;
 	}
 	.game-top-level,
 	.game-overlay,
@@ -815,9 +820,9 @@
 	}
 	.primary-buttons {
 		position: absolute;
-		bottom: -170px; /* Adjust this value to position the buttons where you want them relative to the bottom of the gleekify-container */
-		left: 110%; /* Center horizontally */
-		transform: translateX(-50%); /* Align the center of the buttons with the center of the gleekify-container */
+		bottom: -170px;
+		left: 110%;
+		transform: translateX(-50%);
 		display:block;
 		justify-content: center;
 		width: 590px;
@@ -827,9 +832,9 @@
 	}
 	.hide-button {
 		position: absolute;
-		bottom: -215px; /* Adjust this value to position the buttons where you want them relative to the bottom of the gleekify-container */
-		left: 110%; /* Center horizontally */
-		transform: translateX(-50%); /* Align the center of the buttons with the center of the gleekify-container */
+		bottom: -215px;
+		left: 110%;
+		transform: translateX(-50%);
 		display:block;
 		justify-content: center;
 		width: 590px;
@@ -839,9 +844,9 @@
 	}
 	.additional-buttons {
 		position: absolute;
-		bottom: -620px; /* Adjust this value to position the buttons where you want them relative to the bottom of the gleekify-container */
-		left: 110%; /* Center horizontally */
-		transform: translateX(-50%); /* Align the center of the buttons with the center of the gleekify-container */
+		bottom: -620px;
+		left: 110%;
+		transform: translateX(-50%);
 		display:block;
 		justify-content: center;
 		width: 590px;
@@ -866,9 +871,9 @@
 	}
 	.bottom-frame-buttons {
 		position: absolute;
-		bottom: -195px; /* Adjust this value to position the buttons where you want them relative to the bottom of the gleekify-container */
-		left: 150%; /* Center horizontally */
-		transform: translateX(-50%); /* Align the center of the buttons with the center of the gleekify-container */
+		bottom: -195px;
+		left: 150%;
+		transform: translateX(-50%);
 		display:block;
 		justify-content: center;
 		width: 590px;
@@ -892,9 +897,9 @@
 		cursor: pointer;
 		margin: 0;
 		transition: background-color 0.3s ease;
-		font-family: "chimi", sans-serif; /* Use your app's font */
+		font-family: "chimi", sans-serif;
 		font-size: 18px;
-		display: flex; /* Corrected */
+		display: flex;
 		align-items: center;
 		justify-content: center;
 		width: 125px;
@@ -906,7 +911,7 @@
 		border: 1px solid #888;
 		border-radius: 15px;
 		overflow-y: auto;
-		box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); /* Modal box shadow */
+		box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 		position: absolute;
 		bottom: -638px;
 		left: 222px;
