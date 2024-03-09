@@ -711,17 +711,15 @@ const Gleekify = () => {
 	const handleAssetUpload = (event) => {
 		const file = event.target.files[0];
 		if (file) {
-			// Attempt to find the background image in the elements array
-			const backgroundImage = elements.find(el => el.id === 'background');
-			
-			// Error check: If no background image is found, inform the user and stop the asset upload
-			if (!backgroundImage) {
-				alert("Please upload a background image before adding other assets.");
-				console.error('Background image not found');
-				// Optionally, re-enable any UI elements or reset the file input
-				event.target.value = ''; // Reset the file input
-				return; // Exit the function to prevent further execution
-			}
+            const relevantElement = elements.find(el => el.id === 'background' || el.type === 'meme');
+	
+            // Error check: If no background image or meme is found, inform the user and abort the download process
+            if (!relevantElement) {
+                alert("Please upload a background image or a meme before downloading.");
+                console.error('Background image or meme not found');
+                event.target.value = '';
+                return;
+            }
 	
 			// Store the original file name in the state
 			setOriginalFileName(file.name);
