@@ -57,6 +57,7 @@ const Gleekify = () => {
         { url: './images/Gleekify/sappy seals gleek.png' },
         { url: './images/Gleekify/cartoon gleek.png' },
         { url: './images/Gleekify/plague gleek.png' },
+        { url: './images/Gleekify/birb gleek.png' },
         { url: './images/Gleekify/doodles gleek.png' },
         { url: './images/Gleekify/sproto gremlins gleek.png' },
         { url: './images/Gleekify/mad lads gleek.png' },
@@ -73,6 +74,7 @@ const Gleekify = () => {
     const mouthImages = [
         { url: './images/Gleekify/sappy seals.png' },
         { url: './images/Gleekify/pudgy penguins.png' },
+        { url: './images/Gleekify/birb.png' },
         { url: './images/Gleekify/plague.png' },
         { url: './images/Gleekify/lil pudgy.png' },
         { url: './images/Gleekify/sproto gremlins.png' },
