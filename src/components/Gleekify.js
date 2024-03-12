@@ -64,7 +64,6 @@ const Gleekify = () => {
     const [mouthSize, setMouthSize] = useState({ width: 150, height: 75 });
     const [assetSize, setAssetSize] = useState({ width: 150, height: 75 });
     const [memeSize, setMemeSize] = useState({ width: 150, height: 75 });
-
     
     // Example static images
     const gleekImages = [
@@ -300,8 +299,10 @@ const Gleekify = () => {
                 // Cleanup listener on component unmount
                 return () => window.removeEventListener('resize', adjustCanvasMobile);
             }, []);
+            
+            
 
-    // Function to add a new text box
+    // Function to add a new text box to canvas
     const addTextElement = () => {
         const newTextElement = {
             text: '$GLEEK',
@@ -351,6 +352,7 @@ const Gleekify = () => {
         stageRef.current.height(canvasHeight);
     };
 
+    // Edit text on canvas
     const handleTextEdit = (id) => {
         const textEl = textElements.find((te) => te.id === id);
         if (!textEl) return;
@@ -479,11 +481,21 @@ const Gleekify = () => {
                 }}
                 onDragEnd={(e) => handleDragEnd(e, id)}
                 onTransformEnd={(e) => handleTransformEnd(e, id)}
+                onTap={(e) => {
+                    onSelect(id); // Use the same onSelect logic for tap as you do for mouse down
+                    e.cancelBubble = true;
+                  }}
+                  onTouchStart={(e) => {
+                    // This ensures that touch events don't trigger scrolling or zooming
+                    e.evt.preventDefault(); 
+                    onSelect(id);
+                  }}
                 id={id}
             />
         ) : null;
     };
 
+    // handles resizing of assets on canvas
     const handleResize = (id, newWidth, newHeight) => {
         setElements((prevElements) =>
             prevElements.map((element) => {
@@ -501,6 +513,7 @@ const Gleekify = () => {
         );
     };
 
+    // handle transformation of assets
     const handleTransformEnd = (e, id) => {
         const node = e.target;
         const scaleX = node.scaleX();
@@ -606,6 +619,8 @@ const Gleekify = () => {
         }
         layer.draw();
     };
+
+    // handles selecting assets
     const handleSelect = (id) => {
         setSelectedId(id);
     };
@@ -687,6 +702,7 @@ const Gleekify = () => {
         img.src = url;
     };
 
+    // handles dragging of assets
 	const handleDragEnd = (e, id) => {
 		// Find the index of the element being transformed
 		const index = elements.findIndex((el) => el.id === id);
@@ -803,8 +819,6 @@ const Gleekify = () => {
 			reader.readAsDataURL(file);
 		}
 	};
-	
-    
 
     const addBackgroundToCanvas = (src) => {
         const img = new Image();
@@ -951,6 +965,7 @@ const Gleekify = () => {
         );
     };
 
+    // handles asset transformations
     const TransformerComponent = ({ selectedId }) => {
         const transformerRef = useRef();
 
@@ -1474,6 +1489,8 @@ const Gleekify = () => {
                                             });
                                         setTextElements(updatedTextElements);
                                     }}
+                                    onTap={() => handleSelect(textElement.id)}
+                                    onDblTap={() => handleTextEdit(textElement.id)}
                                 />
                             ))}
 

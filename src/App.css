@@ -5,6 +5,7 @@
 html, body {
   width: 100%;
   overflow-x: hidden;
+  min-height: 100vh;
 }
 .App {
 	font-family: "chimi";
@@ -761,8 +762,6 @@ html, body {
 		background-size: contain;
 		background-position: center;
 		background-repeat: repeat;
-		padding-bottom: 100px;
-		margin-bottom: -100px;
 	}
 	.game-top-level,
 	.game-overlay,
