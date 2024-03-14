@@ -64,6 +64,8 @@ const Gleekify = () => {
     const [mouthSize, setMouthSize] = useState({ width: 150, height: 75 });
     const [assetSize, setAssetSize] = useState({ width: 150, height: 75 });
     const [memeSize, setMemeSize] = useState({ width: 150, height: 75 });
+    const mobileCanvasSize = Math.min(window.innerWidth, window.innerHeight) - 20; 
+
     
     // Example static images
     const gleekImages = [
@@ -275,7 +277,7 @@ const Gleekify = () => {
                 setMouthSize({width: 70, height: 65})
                 setAssetSize({width: 70, height: 70})
                 setMemeSize({width: 70, height: 70})
-                setCanvasSize({ width: 300, height: 300 });
+                setCanvasSize({ width: mobileCanvasSize, height: mobileCanvasSize });
                 
             } else {
                 setIsMobile(false);
@@ -298,9 +300,7 @@ const Gleekify = () => {
         
                 // Cleanup listener on component unmount
                 return () => window.removeEventListener('resize', adjustCanvasMobile);
-            }, []);
-            
-            
+            }, []);  
 
     // Function to add a new text box to canvas
     const addTextElement = () => {
@@ -330,7 +330,7 @@ const Gleekify = () => {
         if (!isMobile) {
             adjustCanvasSize(600, 600);
         } else {
-            adjustCanvasSize(300, 300);
+            adjustCanvasSize(mobileCanvasSize, mobileCanvasSize);
         }
     };
 
@@ -651,7 +651,7 @@ const Gleekify = () => {
                 size = { width: 75, height: 75 };
                 type = 'tongue';
             } else if (type === 'asset') {
-                size = { width: 300, height: 300 };
+                size = { width: mobileCanvasSize, height: mobileCanvasSize };
                 type = 'asset';
             } else if (type === 'meme') {
                 type = 'meme';
@@ -663,8 +663,8 @@ const Gleekify = () => {
                     maxMemeWidth = 600;
                     maxMemeHeight = 600;
                 } else {
-                    maxMemeWidth = 300;
-                    maxMemeHeight = 300;
+                    maxMemeWidth = mobileCanvasSize;
+                    maxMemeHeight = mobileCanvasSize;
                 }
 
                 const aspectRatio = img.width / img.height;
@@ -832,23 +832,34 @@ const Gleekify = () => {
                 maxImageWidth = 600;
                 maxImageHeight = 600;
             } else {
-                maxImageWidth = 300;
-                maxImageHeight = 300;
+                maxImageWidth = mobileCanvasSize;
+                maxImageHeight = mobileCanvasSize;
             }
             const aspectRatio = img.width / img.height;
             let imageWidth = img.width;
             let imageHeight = img.height;
+            console.log('max image width: ' + maxImageWidth)
+            console.log('max image height: ' + maxImageHeight)
+            console.log('mobileSize: ' + mobileCanvasSize)
+            console.log('image width: ' + imageWidth)
+            console.log('image height: ' + imageHeight)
 
             // Scale down if necessary to fit within max dimensions
             if (imageWidth > maxImageWidth) {
                 imageWidth = maxImageWidth;
+                console.log('adjusted image width:' + imageWidth)
                 imageHeight = imageWidth / aspectRatio;
+                console.log('adjusted image height:' + imageHeight)
             }
             if (imageHeight > maxImageHeight) {
                 imageHeight = maxImageHeight;
+                console.log('adjusted image height:' + imageHeight)
                 imageWidth = imageHeight * aspectRatio;
+                console.log('adjusted image width:' + imageWidth)
             }
             size = { width: imageWidth, height: imageHeight };
+            console.log('size.width: ' + size.width)
+            console.log('size.height: ' + size.height)
             // Set the new background image, replacing any existing elements
             setElements([
                 {
@@ -876,7 +887,6 @@ const Gleekify = () => {
             const scaleX = canvasWidth / img.width;
             const scaleY = canvasHeight / img.height;
             const scale = Math.min(scaleX, scaleY, 1);
-
             // Calculate the scaled width and height
             const scaledWidth = img.width * scale;
             const scaledHeight = img.height * scale;
@@ -1285,12 +1295,16 @@ const Gleekify = () => {
 
 	return (
 		<div className="gleekify-container">
-			<div
-				style={canvasTextStyle}
-			>
-				For best results, use at least 512x512
-			</div>
+            {
+            !isMobile && (
+                <div style={canvasTextStyle}>
+                For best results, use at least 512x512
+                </div>
+            )
+            }
 			<div className="canvas-toolbar-container">
+                {
+                !isMobile && (
 				<div className="button-toolbar-gleekify">
 					<div className="primary-buttons">
 						<input
@@ -1402,7 +1416,8 @@ const Gleekify = () => {
                         </div>
                     )}
                 </div>
-
+                )
+}
                 {/* Canvas */}
                 <div ref={drop} className="canvas-frame-gleekify">
                     <Stage
@@ -1527,6 +1542,122 @@ const Gleekify = () => {
                             )}
                         </Layer>
                     </Stage>
+                    </div>
+                    {
+                isMobile && (
+				<div className="button-toolbar-gleekify">
+					<div className="primary-buttons">
+						<input
+							id="fileInput1"
+							type="file"
+							onChange={handleBackgroundUpload}
+							accept="image/*"
+							style={{ display: "none" }}
+						/>
+						<button
+							className="button-gleekify"
+							onClick={() => document.getElementById("fileInput1").click()}
+                            title="Upload background image first"
+                        >
+							upload background
+						</button>
+						<input
+							id="fileInput2"
+							type="file"
+							onChange={handleAssetUpload}
+							accept="image/*"
+							style={{ display: "none" }}
+						/>
+						<button
+							className="button-gleekify"
+							onClick={() => document.getElementById("fileInput2").click()}
+							title="Must upload background image before loading custom assets"
+						>
+							upload asset
+						</button>
+						<button className="button-gleekify" onClick={resetCanvas}>
+							reset canvas
+						</button>
+						<button className="button-gleekify" onClick={handleDownloadMergedImage}>
+							download
+						</button>
+
+                        <button className="button-gleekify" onClick={toggleAdditionalButtons}>
+                            {showAdditionalButtons ? "↑ hide tools" : "↓ show tools"}
+                        </button>
+                        
+                    {showAdditionalButtons && (
+                        <div className="additional-buttons group-spacing">
+                            <button
+                                className="button-gleekify"
+                                onClick={addTextElement}
+                            >
+                                add text
+                            </button>
+                            <button
+                                className="button-gleekify"
+                                onClick={toggleTextColor}
+                            >
+                                black/white text
+                            </button>
+                            <button
+                                className="button-gleekify"
+                                onClick={moveElementDown}
+                            >
+                                layer up
+                            </button>
+                            <button
+                                className="button-gleekify"
+                                onClick={moveElementUp}
+                            >
+                                layer down
+                            </button>
+                            <button
+                                className="button-gleekify"
+                                onClick={increaseSize}
+                            >
+                                + size
+                            </button>
+                            <button
+                                className="button-gleekify"
+                                onClick={decreaseSize}
+                            >
+                                - size
+                            </button>
+                            <button
+                                className="button-gleekify"
+                                onClick={() =>
+                                    selectedId &&
+                                    flipElementHorizontal(selectedId)
+                                }
+                            >
+                                flip horizontal
+                            </button>
+                            <button
+                                className="button-gleekify"
+                                onClick={() =>
+                                    selectedId &&
+                                    flipElementVertical(selectedId)
+                                }
+                            >
+                                flip vertical
+                            </button>
+                            <button
+                                className="button-gleekify"
+                                onClick={deleteSelectedImage}
+                            >
+                                <img
+                                    src="./images/Gleekify/trash.png"
+                                    alt="Backward"
+                                    style={{ width: '25px', height: '25px' }}
+                                />
+                            </button>
+                        </div>
+                    )}
+                    </div>
+                </div>
+                )
+}
                     <div className="bottom-frame-buttons">
                         <button
                             className="button-gleekify"
@@ -1585,7 +1716,6 @@ const Gleekify = () => {
                             {renderMemeModalContent()}
                         </Modal>
                     )}
-                </div>
             </div>
         </div>
     );

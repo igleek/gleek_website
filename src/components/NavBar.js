@@ -29,10 +29,10 @@ function NavBar() {
                     </a>
                 </li>
                 <li>
-                    <a href="https://twitter.com/gleekonsolana" target="_blank" rel="noopener noreferrer">TWITTER</a>
+                    <a href="https://twitter.com/gleekonsolana" target="_blank" rel="noopener noreferrer">X</a>
                 </li>
                 <li>
-                    <a href="https://t.me/gleekportal" target="_blank" rel="noopener noreferrer">TELEGRAM</a>
+                    <a href="https://t.me/gleekportal" target="_blank" rel="noopener noreferrer">TG</a>
                 </li>
                 <li>
                     <a href="https://giphy.com/channel/iGleek" target="_blank" rel="noopener noreferrer">GIPHY</a>

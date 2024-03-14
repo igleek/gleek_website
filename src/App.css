@@ -806,7 +806,7 @@ html, body {
 
 	/*GLEEKIFY*/
 	.gleekify-container {
-		position: relative;
+
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -817,7 +817,7 @@ html, body {
 		width: 100%;
 		box-sizing: border-box;
 	}
-	.primary-buttons {
+	/* .primary-buttons {
 		position: absolute;
 		bottom: -170px;
 		left: 110%;
@@ -828,8 +828,8 @@ html, body {
 	}
 	.primary-buttons button {
 		margin: 5px
-	}
-	.hide-button {
+	} */
+	/* .hide-button {
 		position: absolute;
 		bottom: -215px;
 		left: 110%;
@@ -852,10 +852,11 @@ html, body {
 	}
 	.additional-buttons button {
 		margin: 5px
-	}
+	} */
 	.canvas-toolbar-container {
 		display: flex;
-		align-items: start;
+		flex-direction: column;
+		align-items: center;
 	}
 	.canvas-frame-gleekify {
 		margin: 0 auto;
@@ -865,26 +866,62 @@ html, body {
 		border-radius: 5px;
 		box-shadow: 0 4px 8px rgba(210, 99, 99, 0.1);
 		width: 100%;
-		max-width: 300px;
+		max-width: 1000px;
 		height: auto;
 	}
 	.bottom-frame-buttons {
-		position: absolute;
-		bottom: -195px;
-		left: 150%;
-		transform: translateX(-50%);
-		display:block;
-		justify-content: center;
-		width: 590px;
+		/* position: absolute; */
+		/* bottom: 0px; */
+		/* left: 150%;  */
+		/* transform: translateX(-50%); */
+		flex-direction: column;
+		/* display:flex; */
+		/* justify-content: end; */
+		bottom: 80px;
+		align-items:flex-end;
+		/* width: 590px; */
 	}
 	.bottom-frame-buttons button {
 		margin: 5px;
 	}
+	.primary-buttons {
+        /* Convert to relative positioning for responsiveness */
+        /* flex-basis: calc(50%);  */
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center-align the content */
+        margin: 0;
+		padding-right: 10px;
+    }
+	.hide-button {
+        /* Convert to relative positioning for responsiveness */
+        /* flex-basis: calc(50%);  */
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center-align the content */
+        margin: 0;
+		padding-right: 10px;
+    }
+	.additional-buttons {
+        /* Convert to relative positioning for responsiveness */
+        /* flex-basis: calc(50%);  */
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center-align the content */
+        margin: 0;
+		padding-right: 10px;
+    }
+	.primary-buttons button, .hide-button button, .additional-buttons button {
+        margin: 5px; /* Adjust button spacing as needed */
+    }
 	  .button-toolbar-gleekify {
-		display: flex;
-		flex-direction: column;
-		gap: 40px;
-		margin-right: 20px;
+        display: grid;
+		grid-template-columns: 1fr 1fr;
+        flex-direction: row; /* Align children side by side */
+        flex-wrap: wrap; /* Allow items to wrap as needed */
+        justify-content: center; /* Center the items horizontally */
+        gap: 20px; /* Adjust the gap between items */
+        margin-top: 20px;
 	}
 	
 	.button-gleekify {
