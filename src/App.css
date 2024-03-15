@@ -817,42 +817,6 @@ html, body {
 		width: 100%;
 		box-sizing: border-box;
 	}
-	/* .primary-buttons {
-		position: absolute;
-		bottom: -170px;
-		left: 110%;
-		transform: translateX(-50%);
-		display:block;
-		justify-content: center;
-		width: 590px;
-	}
-	.primary-buttons button {
-		margin: 5px
-	} */
-	/* .hide-button {
-		position: absolute;
-		bottom: -215px;
-		left: 110%;
-		transform: translateX(-50%);
-		display:block;
-		justify-content: center;
-		width: 590px;
-	}
-	.hide-button button {
-		margin: 5px
-	}
-	.additional-buttons {
-		position: absolute;
-		bottom: -620px;
-		left: 110%;
-		transform: translateX(-50%);
-		display:block;
-		justify-content: center;
-		width: 590px;
-	}
-	.additional-buttons button {
-		margin: 5px
-	} */
 	.canvas-toolbar-container {
 		display: flex;
 		flex-direction: column;
@@ -869,21 +833,18 @@ html, body {
 		max-width: 1000px;
 		height: auto;
 	}
-	.bottom-frame-buttons {
-		/* position: absolute; */
-		/* bottom: 0px; */
-		/* left: 150%;  */
-		/* transform: translateX(-50%); */
-		flex-direction: column;
-		/* display:flex; */
-		/* justify-content: end; */
-		bottom: 80px;
-		align-items:flex-end;
-		/* width: 590px; */
-	}
-	.bottom-frame-buttons button {
+    .bottom-frame-buttons, .modal-mobile {
+        flex-basis: 33%; /* Each takes up a third of the container width */
+        display: flex;
+		bottom: -215px;
+        flex-direction: column;
+        align-items: center;
+        margin-left: -10px; 
+        padding: 0; /* Reset padding for consistent spacing */
+    }
+	/* .bottom-frame-buttons button {
 		margin: 5px;
-	}
+	} */
 	.primary-buttons {
         /* Convert to relative positioning for responsiveness */
         /* flex-basis: calc(50%);  */
@@ -891,7 +852,7 @@ html, body {
         flex-direction: column;
         align-items: center; /* Center-align the content */
         margin: 0;
-		padding-right: 10px;
+		/* padding-right: 45px; */
     }
 	.hide-button {
         /* Convert to relative positioning for responsiveness */
@@ -900,7 +861,7 @@ html, body {
         flex-direction: column;
         align-items: center; /* Center-align the content */
         margin: 0;
-		padding-right: 10px;
+		/* padding-right: 45px; */
     }
 	.additional-buttons {
         /* Convert to relative positioning for responsiveness */
@@ -909,21 +870,27 @@ html, body {
         flex-direction: column;
         align-items: center; /* Center-align the content */
         margin: 0;
-		padding-right: 10px;
+		/* padding-right: 10px; */
     }
-	.primary-buttons button, .hide-button button, .additional-buttons button {
-        margin: 5px; /* Adjust button spacing as needed */
-    }
+	/* .primary-buttons button, .hide-button button, .additional-buttons button {
+        margin: 5px;
+    } */
 	  .button-toolbar-gleekify {
         display: grid;
 		grid-template-columns: 1fr 1fr;
-        flex-direction: row; /* Align children side by side */
-        flex-wrap: wrap; /* Allow items to wrap as needed */
-        justify-content: center; /* Center the items horizontally */
-        gap: 20px; /* Adjust the gap between items */
+        flex-direction: row;
+        flex-wrap:nowrap;
+        justify-content: center;
+        /* gap: 20px; */
         margin-top: 20px;
+		margin-left: -80px;
 	}
-	
+	.bottom-and-modal {
+		display: flex;
+        justify-content: space-around; /* Adjust as needed to space out columns */
+        flex-wrap: wrap; /* Allows items to wrap to the next line if needed */
+        /* padding: 10px 0 */
+	}
 	.button-gleekify {
 		background-color: #2d9bbd;
 		color: #ffffff;
@@ -938,10 +905,18 @@ html, body {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 125px;
+		width: 100px;
 		height: 40px;
 	  }
-	
+	  .modal-mobile {
+		position: absolute;
+		bottom: -353px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+		padding-left: 290px;
+	  }
 	  .modal-content {
 		background-color: #b0dfed;
 		border: 1px solid #888;
@@ -949,16 +924,16 @@ html, body {
 		overflow-y: auto;
 		box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 		position: absolute;
-		bottom: -638px;
-		left: 222px;
-		transform: translateX(-50%);
+		left: calc(90%);
+		top: -330px;
+        /* transform: translateX(0%); */
 		width: 125px;
-		max-height: 442px;
+		max-height: 245px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		font-size: 18px;
-
+		position: absolute;
 	  }
 	  .image-selection {
 		display: flex;

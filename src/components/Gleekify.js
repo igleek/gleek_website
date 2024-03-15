@@ -1542,6 +1542,67 @@ const Gleekify = () => {
                             )}
                         </Layer>
                     </Stage>
+                    <div className='bottom-and-modal'>
+                    <div className="bottom-frame-buttons">
+                        <button
+                            className="button-gleekify"
+                            onClick={openGleekModal}
+                        >
+                            {isGleekModalOpen ? '💦 gleek' : 'gleek'}
+                        </button>
+                        <button
+                            className="button-gleekify"
+                            onClick={openTongueModal}
+                        >
+                            {isTongueModalOpen ? '💦 mouth' : 'mouth'}
+                        </button>
+                        <button
+                            className="button-gleekify"
+                            onClick={openAssetModal}
+                        >
+                            {isAssetModalOpen ? '💦 assets' : 'assets'}
+                        </button>
+                        <button
+                            className="button-gleekify"
+                            onClick={openMemeModal}
+                        >
+                            {isMemeModalOpen ? '💦 memes' : 'memes'}
+                        </button>
+                    </div>
+                    <div className='modal-mobile'>
+                    {isGleekModalOpen && (
+                        <Modal
+                            isOpen={isGleekModalOpen}
+                            close={() => setIsGleekModalOpen(false)}
+                        >
+                            {renderGleekModalContent()}
+                        </Modal>
+                    )}
+                    {isTongueModalOpen && (
+                        <Modal
+                            isOpen={isTongueModalOpen}
+                            close={() => setIsTongueModalOpen(false)}
+                        >
+                            {renderTongueModalContent()}
+                        </Modal>
+                    )}
+                    {isAssetModalOpen && (
+                        <Modal
+                            isOpen={isAssetModalOpen}
+                            close={() => setIsAssetModalOpen(false)}
+                        >
+                            {renderAssetModalContent()}
+                        </Modal>
+                    )}
+                    {isMemeModalOpen && (
+                        <Modal
+                            isOpen={isMemeModalOpen}
+                            close={() => setIsMemeModalOpen(false)}
+                        >
+                            {renderMemeModalContent()}
+                        </Modal>
+                    )}
+                    </div></div>
                     </div>
                     {
                 isMobile && (
@@ -1658,64 +1719,6 @@ const Gleekify = () => {
                 </div>
                 )
 }
-                    <div className="bottom-frame-buttons">
-                        <button
-                            className="button-gleekify"
-                            onClick={openGleekModal}
-                        >
-                            {isGleekModalOpen ? '💦 gleek' : 'gleek'}
-                        </button>
-                        <button
-                            className="button-gleekify"
-                            onClick={openTongueModal}
-                        >
-                            {isTongueModalOpen ? '💦 mouth' : 'mouth'}
-                        </button>
-                        <button
-                            className="button-gleekify"
-                            onClick={openAssetModal}
-                        >
-                            {isAssetModalOpen ? '💦 assets' : 'assets'}
-                        </button>
-                        <button
-                            className="button-gleekify"
-                            onClick={openMemeModal}
-                        >
-                            {isMemeModalOpen ? '💦 memes' : 'memes'}
-                        </button>
-                    </div>
-                    {isGleekModalOpen && (
-                        <Modal
-                            isOpen={isGleekModalOpen}
-                            close={() => setIsGleekModalOpen(false)}
-                        >
-                            {renderGleekModalContent()}
-                        </Modal>
-                    )}
-                    {isTongueModalOpen && (
-                        <Modal
-                            isOpen={isTongueModalOpen}
-                            close={() => setIsTongueModalOpen(false)}
-                        >
-                            {renderTongueModalContent()}
-                        </Modal>
-                    )}
-                    {isAssetModalOpen && (
-                        <Modal
-                            isOpen={isAssetModalOpen}
-                            close={() => setIsAssetModalOpen(false)}
-                        >
-                            {renderAssetModalContent()}
-                        </Modal>
-                    )}
-                    {isMemeModalOpen && (
-                        <Modal
-                            isOpen={isMemeModalOpen}
-                            close={() => setIsMemeModalOpen(false)}
-                        >
-                            {renderMemeModalContent()}
-                        </Modal>
-                    )}
             </div>
         </div>
     );
