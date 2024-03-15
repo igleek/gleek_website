@@ -90,6 +90,13 @@ const Gleekify = () => {
         { url: './images/Gleekify/anime.png' },
     ];
     const assetImages = [
+        { url: './images/Gleekify/PFP-1.png', name: 'Arena' },
+        { url: './images/Gleekify/PFP - 2.png', name: 'Arena' },
+        { url: './images/Gleekify/Arena_Logo.svg', name: 'Arena' },
+        { url: './images/Gleekify/Arena_LockUp_alt.svg', name: 'Arena' },
+        { url: './images/Gleekify/Arena_LockUp.svg', name: 'Arena' },
+        { url: './images/Gleekify/Arena_Wordmark_left.svg', name: 'Arena' },
+        { url: './images/Gleekify/Arena_Wordmark_perspective.svg', name: 'Arena' },
         { url: './images/Gleekify/Gaimin.png', name: 'GAIMIN' },
         { url: './images/Gleekify/Gaimin_g.png', name: 'G' },
         { url: './images/team/hornelius_asset.png', name: 'hornelius' },
