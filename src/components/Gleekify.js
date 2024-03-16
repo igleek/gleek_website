@@ -1164,24 +1164,7 @@ const Gleekify = () => {
 				width: contentWidth,
 				height: contentHeight,
 			});
-            // if (isMobile) {
-            // if (navigator.share) {
-            //     fetch(dataURL)
-            //       .then(response => response.blob())
-            //       .then(blob => {
-            //         const file = new File([blob], "share.png", { type: blob.type });
-            //         navigator.share({
-            //           files: [file],
-            //           title: 'Share Image',
-            //           text: 'Check out this image.',
-            //         })
-            //         .then(() => console.log('Share was successful.'))
-            //         .catch((error) => console.log('Sharing failed', error));
-            //       });
-            //   }
-            // }
-
-
+	
 			// Creating a link to trigger the download
 			const link = document.createElement("a");
 			link.download = originalFileName ? `gleekify_${originalFileName}` : "gleekify_merged_image.png";
