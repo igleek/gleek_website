@@ -2,7 +2,11 @@
 	font-family: "chimi";
 	src: url("NanumPenScript-Regular.ttf") format("truetype");
 }
-
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
 .App {
 	font-family: "chimi";
 	font-size: xx-large;
@@ -23,7 +27,7 @@
 }
 
 .main-content {
-	flex: 1; /* This will make the content expand to fill available space */
+	flex: 1;
 	display: flex;
 	flex-direction: column;
 }
@@ -544,9 +548,9 @@
 }
 .bottom-frame-buttons {
     position: absolute;
-    bottom: -55px; /* Adjust this value to position the buttons where you want them relative to the bottom of the gleekify-container */
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Align the center of the buttons with the center of the gleekify-container */
+    bottom: -55px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     gap: 10px;
     justify-content: center;
@@ -569,9 +573,9 @@
 	font-size: 25px;
 	margin: 0;
 	transition: background-color 0.3s ease;
-	font-family: "chimi", sans-serif; /* Use your app's font */
+	font-family: "chimi", sans-serif;
 	font-size: 25px;
-	display: flex; /* Corrected */
+	display: flex;
 	align-items: center;
 	justify-content: center;
 	width: 185px;
@@ -582,33 +586,33 @@
 	background-color: #b0dfed;
 	border: 1px solid #888;
 	border-radius: 15px;
-	overflow-y: auto; /* Allows vertical scrolling */
-	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); /* Modal box shadow */
+	overflow-y: auto;
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 	position: absolute;
 	bottom: -115px;
 	left: 730px;
 	transform: translateX(-50%);
-    width: 220px; /* Adjust as necessary */
-    max-height: 720px; /* Adjust as necessary */
+    width: 220px;
+    max-height: 720px;
     overflow-y: auto;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
   }
   .image-selection {
-    display: flex; /* Display images in a row */
+    display: flex;
 	flex-direction: column;
 	align-items: center;
-    overflow-x: auto; /* Enable horizontal scrolling */
+    overflow-x: auto;
 	padding-top: 10px;
 
 }
 
 /* Style for individual images */
 .image-selection img {
-    width: 100px; /* Adjust based on your preference */
-    height: auto; /* Maintain aspect ratio */
-    cursor: pointer; /* Indicate the images are clickable */
+    width: 100px;
+    height: auto;
+    cursor: pointer;
 }
 
 /* Footer styles */
@@ -631,7 +635,7 @@
 }
 
 /* Mobile */
-@media only screen and (max-width: 1250px) {
+@media only screen and (max-width: 1024px) {
 	.App {
 		background-attachment: fixed;
 		background-size: contain;
@@ -641,15 +645,6 @@
 	.game-top-level,
 	.game-overlay,
 	.info-message,
-	.footer,
-	.gleekify-container,
-	.primary-buttons,
-	.additional-buttons, 
-	.canvas-toolbar-container,
-	.canvas-frame-gleekify,
-	.button-toolbar-gleekify,
-	.button-gleekify,
-	.nav-link-gleekify,
 	.footer {
 		display: none;
 	}
@@ -686,9 +681,6 @@
 		text-align: center;
 		text-decoration: none;
 		font-size: 15px;
-	}
-	.nav-menu li:nth-child(2) {
-		display: none;
 	}
 	.gleek-info {
 		position: relative;
@@ -760,5 +752,151 @@
 
 	.content-container {
 		margin-top: -15px;
+	}
+
+	/*GLEEKIFY*/
+	.gleekify-container {
+
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 20px;
+		margin-top: 0px;
+		padding-left: 250px;
+		width: 100%;
+		box-sizing: border-box;
+	}
+	.canvas-toolbar-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.canvas-frame-gleekify {
+		margin: 0 auto;
+		position: relative;
+		border: 5px solid #dae7e9;
+		background-image: url("/public/images/logos/gleek_website_bg_2.png");
+		border-radius: 5px;
+		box-shadow: 0 4px 8px rgba(210, 99, 99, 0.1);
+		width: 97.5%;
+		max-width: 1000px;
+		height: auto;
+	}
+    .bottom-frame-buttons, .modal-mobile {
+        flex-basis: 33%; /* Each takes up a third of the container width */
+        display: flex;
+		bottom: -215px;
+        flex-direction: column;
+        align-items: center;
+        margin-left: -10px; 
+        padding: 0; /* Reset padding for consistent spacing */
+    }
+	/* .bottom-frame-buttons button {
+		margin: 5px;
+	} */
+	.primary-buttons {
+        /* Convert to relative positioning for responsiveness */
+        /* flex-basis: calc(50%);  */
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center-align the content */
+        margin: 0;
+		z-index: 1000;
+		/* padding-right: 45px; */
+    }
+	.hide-button {
+        /* Convert to relative positioning for responsiveness */
+        /* flex-basis: calc(50%);  */
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center-align the content */
+        margin: 0;
+		/* padding-right: 45px; */
+    }
+	.additional-buttons {
+        /* Convert to relative positioning for responsiveness */
+        /* flex-basis: calc(50%);  */
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center-align the content */
+        margin: 0;
+		/* padding-right: 10px; */
+    }
+	/* .primary-buttons button, .hide-button button, .additional-buttons button {
+        margin: 5px;
+    } */
+	  .button-toolbar-gleekify {
+        display: grid;
+		grid-template-columns: 1fr 1fr;
+        flex-direction: row;
+        flex-wrap:nowrap;
+        justify-content: center;
+        /* gap: 20px; */
+        margin-top: 20px;
+		margin-left: -80px;
+	}
+	.bottom-and-modal {
+		display: flex;
+        justify-content: space-around; /* Adjust as needed to space out columns */
+        flex-wrap: wrap; /* Allows items to wrap to the next line if needed */
+        /* padding: 10px 0 */
+	}
+	.button-gleekify {
+		background-color: #2d9bbd;
+		color: #ffffff;
+		border: none;
+		padding: 10px 15px;
+		border-radius: 5px;
+		cursor: pointer;
+		margin: 0;
+		transition: background-color 0.3s ease;
+		font-family: "chimi", sans-serif;
+		font-size: 18px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100px;
+		height: 40px;
+	  }
+	  .modal-mobile {
+		position: absolute;
+		bottom: -353px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+		padding-left: 290px;
+	  }
+	  .modal-content {
+		background-color: #b0dfed;
+		border: 1px solid #888;
+		border-radius: 15px;
+		overflow-y: auto;
+		box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+		position: absolute;
+		left: calc(90%);
+		top: -330px;
+        /* transform: translateX(0%); */
+		width: 125px;
+		max-height: 245px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		font-size: 18px;
+		position: absolute;
+	  }
+	  .image-selection {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		overflow-x: auto;
+		padding-top: 10px;
+	}
+
+	.image-selection img {
+		width: 100px;
+		height: auto;
+		cursor: pointer;
 	}
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
     Stage,
     Layer,
@@ -13,19 +13,27 @@ import mergeImages from 'merge-images';
 const maxCanvasWidth = 600; // Maximum canvas width
 const maxCanvasHeight = 600; // Maximum canvas height
 
-// Custom hook for loading images
+const imageCache = {};
+
 const useImage = (src) => {
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState(imageCache[src] || null);
+
     useEffect(() => {
+        if (imageCache[src]) {
+            setImage(imageCache[src]);
+            return;
+        }
+
         const img = new Image();
-        img.onload = () => setImage(img);
+        img.onload = () => {
+            imageCache[src] = img;
+            setImage(img);
+        };
         img.onerror = (err) => console.error('Failed to load image:', err);
         img.src = src;
-        return () => {
-            img.onload = null;
-            img.onerror = null;
-        };
+        // No cleanup needed here as we want the loaded images to stay in cache
     }, [src]);
+
     return image;
 };
 
@@ -43,7 +51,6 @@ const Gleekify = () => {
     const [textElements, setTextElements] = useState([]);
     const [originalFileName, setOriginalFileName] = useState('');
     const [showTransformer, setShowTransformer] = useState(true);
-    const [showAdditionalButtons, setShowAdditionalButtons] = useState(true); // Start with buttons visible
     const [editingState, setEditingState] = useState({
         visible: false,
         x: 0,
@@ -51,7 +58,23 @@ const Gleekify = () => {
         value: '',
         id: null,
     });
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
+    const [showAdditionalButtons, setShowAdditionalButtons] = useState(!isMobile);
+    const [canvasSize, setCanvasSize] = useState({ width: 600, height: 600});
+    const [canvasTextStyle, setCanvasTextStyle] = useState({
+        fontSize: "25px",
+        color: "#6eb6c8",
+        textAlign: "center",
+        marginBottom: "10px",
+        paddingLeft: "150px",
+    });
+    const [gleekSize, setGleekSize] = useState({ width: 90, height: 45 });
+    const [mouthSize, setMouthSize] = useState({ width: 150, height: 75 });
+    const [assetSize, setAssetSize] = useState({ width: 150, height: 75 });
+    const [memeSize, setMemeSize] = useState({ width: 150, height: 75 });
+    const mobileCanvasSize = Math.min(window.innerWidth, window.innerHeight) * 0.95;
 
+    
     // Example static images
     const gleekImages = [
         { url: './images/Gleekify/sappy seals gleek.png' },
@@ -255,23 +278,73 @@ const Gleekify = () => {
         setShowAdditionalButtons(!showAdditionalButtons);
     };
 
-    // Function to add a new text box
+    // Adjustments for Mobile
+    useEffect(() => {
+        function adjustCanvasMobile() {
+            if (window.innerWidth <= 1024 || window.innerHeight.height <= 1024) {
+                setIsMobile(true);
+                setCanvasTextStyle({
+                    fontSize: "20px",
+                    color: "#6eb6c8",
+                    textAlign: "center",
+                    marginBottom: "10px",
+                    paddingLeft: "0px",
+                });
+                setGleekSize({width: 70, height: 55})
+                setMouthSize({width: 70, height: 65})
+                setAssetSize({width: 70, height: 70})
+                setMemeSize({width: 70, height: 70})
+                setCanvasSize({ width: mobileCanvasSize, height: mobileCanvasSize });
+                
+            } else {
+                setIsMobile(false);
+                setCanvasTextStyle({
+                    fontSize: "25px",
+                    color: "#6eb6c8",
+                    textAlign: "center",
+                    marginBottom: "10px",
+                    paddingLeft: "150px",
+                });
+                setGleekSize({width: 150, height: 75})
+                setMouthSize({width: 100, height: 80})
+                setAssetSize({width: 150, height: 150})
+                setMemeSize({width: 150, height: 150})
+                setCanvasSize({ width: 600, height: 600 }); // Default size for larger screens
+            }
+        }
+                adjustCanvasMobile();
+                window.addEventListener('resize', adjustCanvasMobile);
+        
+                // Cleanup listener on component unmount
+                return () => window.removeEventListener('resize', adjustCanvasMobile);
+            }, []);  
+
+            useEffect(() => {
+                const handleKeyDown = (event) => {
+                    // Check if either backspace (for some browsers) or delete was pressed
+                    if ((event.key === 'Backspace' || event.key === 'Delete') && selectedId) {
+                        event.preventDefault(); // Prevent the default backspace action (going back in history)
+                        deleteSelectedImage(); // Call your existing function to delete the selected item
+                    }
+                };
+            
+                // Add event listener when the component mounts
+                document.addEventListener('keydown', handleKeyDown);
+            
+                // Cleanup: Remove event listener when the component unmounts
+                return () => document.removeEventListener('keydown', handleKeyDown);
+            }, [selectedId]);
+            
+    // Function to add a new text box to canvas
     const addTextElement = () => {
         const newTextElement = {
             text: '$GLEEK',
-            x: 250,
-            y: 250,
+            x: 50,
+            y: 50,
             fontSize: 35,
             id: Math.random().toString(36).substr(2, 9),
             draggable: true,
             color: 'white',
-            stroke: 'black',
-            strokeWidth: 2,
-            shadowColor: 'black',
-            shadowBlur: 5,
-            shadowOpacity: 0.5,
-            shadowOffsetX: 1,
-            shadowOffsetY: 1,
         };
         setTextElements(textElements.concat(newTextElement));
     };
@@ -280,7 +353,11 @@ const Gleekify = () => {
         setElements([]);
         setTextElements([]);
         setSelectedId(null);
-        adjustCanvasSize(600, 600);
+        if (!isMobile) {
+            adjustCanvasSize(600, 600);
+        } else {
+            adjustCanvasSize(mobileCanvasSize, mobileCanvasSize);
+        }
     };
 
     const adjustCanvasSize = (imgWidth, imgHeight) => {
@@ -301,6 +378,7 @@ const Gleekify = () => {
         stageRef.current.height(canvasHeight);
     };
 
+    // Edit text on canvas
     const handleTextEdit = (id) => {
         const textEl = textElements.find((te) => te.id === id);
         if (!textEl) return;
@@ -353,8 +431,6 @@ const Gleekify = () => {
         });
     };
 
-    // Input field for editing text, positioned based on editingState
-    // Ensure this input field is rendered within your component, correctly positioned
     {
         editingState.visible && (
             <input
@@ -392,7 +468,7 @@ const Gleekify = () => {
         setEditingState({ visible: false, x: 0, y: 0, value: '', id: null });
     };
 
-    const DraggableImage = ({
+    const DraggableImage = React.memo(({
         src,
         x,
         y,
@@ -431,12 +507,22 @@ const Gleekify = () => {
                 }}
                 onDragEnd={(e) => handleDragEnd(e, id)}
                 onTransformEnd={(e) => handleTransformEnd(e, id)}
+                onTap={(e) => {
+                    onSelect(id); // Use the same onSelect logic for tap as you do for mouse down
+                    e.cancelBubble = true;
+                  }}
+                  onTouchStart={(e) => {
+                    // This ensures that touch events don't trigger scrolling or zooming
+                    e.evt.preventDefault(); 
+                    onSelect(id);
+                  }}
                 id={id}
             />
         ) : null;
-    };
+    });
 
-    const handleResize = (id, newWidth, newHeight) => {
+    // handles resizing of assets on canvas
+    const handleResize = React.memo((id, newWidth, newHeight) => {
         setElements((prevElements) =>
             prevElements.map((element) => {
                 if (element.id === id) {
@@ -451,9 +537,10 @@ const Gleekify = () => {
                 return element;
             })
         );
-    };
+    });
 
-    const handleTransformEnd = (e, id) => {
+    // handle transformation of assets
+    const handleTransformEnd = useCallback((e, id) => {
         const node = e.target;
         const scaleX = node.scaleX();
         const scaleY = node.scaleY();
@@ -486,81 +573,83 @@ const Gleekify = () => {
                 return el;
             })
         );
-    };
+    }, [elements]);
 
-    const signatureText = '$GLEEK-ify at gleek.lol 💦';
-    const signatureProps = {
-        text: signatureText,
-        x: 515,
-        y: 560,
-        fontSize: 12,
-        fontFamily: 'chimi',
-        fill: 'black',
-        opacity: 0.9,
-    };
+    // const signatureText = '$GLEEK-ify at gleek.lol 💦';
+    // const signatureProps = {
+    //     text: signatureText,
+    //     x: 515,
+    //     y: 560,
+    //     fontSize: 12,
+    //     fontFamily: 'chimi',
+    //     fill: 'black',
+    //     opacity: 0.9,
+    // };
 
-    const renderSignatureForDownload = (forDownload = false, x, y) => {
-        const layer =
-            stageRef.current.getLayers()[
-                stageRef.current.getLayers().length - 1
-            ];
-        const canvasWidth = stageRef.current.width();
-        const maxBackgroundWidth = 200;
-        const edgeBuffer = 20;
-        const topMargin = 5;
+    // const renderSignatureForDownload = (forDownload = false, x, y) => {
+    //     const layer =
+    //         stageRef.current.getLayers()[
+    //             stageRef.current.getLayers().length - 1
+    //         ];
+    //     const canvasWidth = stageRef.current.width();
+    //     const maxBackgroundWidth = 200;
+    //     const edgeBuffer = 20;
+    //     const topMargin = 5;
 
-		// Calculate the maximum x position for the background to prevent it from going to the edge
-		// const maxX = canvasWidth - maxBackgroundWidth;
-		// const adjustedX = canvasWidth - 125;
-		// const adjustedY = topMargin;
+	// 	// Calculate the maximum x position for the background to prevent it from going to the edge
+	// 	// const maxX = canvasWidth - maxBackgroundWidth;
+	// 	// const adjustedX = canvasWidth - 125;
+	// 	// const adjustedY = topMargin;
 	
 
-		// Background properties
-		const backgroundProps = {
-			x: x - 6,
-			y: y - 6,
-			width: maxBackgroundWidth - 75,
-			height: 20,
-			fill: "white",
-			opacity: 0.1,
-			cornerRadius: 15,
-			id: "signatureBackground",
-		};
+	// 	// Background properties
+	// 	const backgroundProps = {
+	// 		x: x - 6,
+	// 		y: y - 6,
+	// 		width: maxBackgroundWidth - 75,
+	// 		height: 20,
+	// 		fill: "white",
+	// 		opacity: 0.1,
+	// 		cornerRadius: 15,
+	// 		id: "signatureBackground",
+	// 	};
 
-        // Create and add background rectangle before the text
-        const background = new Konva.Rect(backgroundProps);
-        layer.add(background);
+    //     // Create and add background rectangle before the text
+    //     const background = new Konva.Rect(backgroundProps);
+    //     layer.add(background);
 
-		// Update signature position
-		const signature = new Konva.Text({
-			...signatureProps,
-			x: x,
-			y: y,
-			id: "signatureDownload",
-		});
+	// 	// Update signature position
+	// 	const signature = new Konva.Text({
+	// 		...signatureProps,
+	// 		x: x,
+	// 		y: y,
+	// 		id: "signatureDownload",
+	// 	});
 
-        layer.add(signature);
-        layer.draw();
-    };
+    //     layer.add(signature);
+    //     layer.draw();
+    // };
 
-    const removeSignatureAfterDownload = () => {
-        const layer =
-            stageRef.current.getLayers()[
-                stageRef.current.getLayers().length - 1
-            ];
-        const signature = layer.findOne('#signatureDownload');
-        const background = layer.findOne('#signatureBackground');
-        if (signature) {
-            signature.destroy();
-        }
-        if (background) {
-            background.destroy();
-        }
-        layer.draw();
-    };
-    const handleSelect = (id) => {
+    // const removeSignatureAfterDownload = () => {
+    //     const layer =
+    //         stageRef.current.getLayers()[
+    //             stageRef.current.getLayers().length - 1
+    //         ];
+    //     const signature = layer.findOne('#signatureDownload');
+    //     const background = layer.findOne('#signatureBackground');
+    //     if (signature) {
+    //         signature.destroy();
+    //     }
+    //     if (background) {
+    //         background.destroy();
+    //     }
+    //     layer.draw();
+    // };
+
+    // handles selecting assets
+    const handleSelect = useCallback((id) => {
         setSelectedId(id);
-    };
+    }, []);
     useEffect(() => {}, [selectedId]);
 
     const [, drop] = useDrop(() => ({
@@ -594,9 +683,17 @@ const Gleekify = () => {
                 type = 'meme';
                 resetCanvas();
                 // Use the original dimensions but constrain if larger than maximum size
-                const maxMemeWidth = 600;
-                const maxMemeHeight = 600;
-                const aspectRatio = img.width / img.height;
+                let maxMemeWidth = 0
+                let maxMemeHeight = 0
+                if (!isMobile) {
+                    maxMemeWidth = 600;
+                    maxMemeHeight = 600;
+                } else {
+                    maxMemeWidth = mobileCanvasSize;
+                    maxMemeHeight = mobileCanvasSize;
+                }
+
+                const aspectRatio = (img.width / img.height);
                 let memeWidth = img.width;
                 let memeHeight = img.height;
 
@@ -631,7 +728,8 @@ const Gleekify = () => {
         img.src = url;
     };
 
-	const handleDragEnd = (e, id) => {
+    // handles dragging of assets
+	const handleDragEnd = useCallback((e, id) => {
 		// Find the index of the element being transformed
 		const index = elements.findIndex((el) => el.id === id);
 		if (index === -1) return; // Element not found
@@ -654,25 +752,25 @@ const Gleekify = () => {
 		// newY = Math.max(0, Math.min(newY, canvasHeight - newHeight));
 	
 		// Create a new array with updated properties for the transformed element
-		const newElements = elements.map((el, i) => {
-			if (i === index) {
-				return {
-					...el,
-					x: newX,
-					y: newY,
-					width: newWidth,
-					height: newHeight,
-					rotation: newRotation,
-					flipX: newFlipX,
-					flipY: newFlipY,
-				};
-			}
-			return el;
-		});
+const newElements = elements.map((el, i) => {
+        if (i === index) {
+            return {
+                ...el,
+                x: newX,
+                y: newY,
+                width: newWidth,
+                height: newHeight,
+                rotation: newRotation,
+                flipX: newFlipX,
+                flipY: newFlipY,
+            };
+        }
+        return el;
+    });
 	
 		// Update the state with the new elements array
 		setElements(newElements);
-	};
+	}, [elements]);
 	
 
     const flipElementHorizontal = (id) => {
@@ -720,6 +818,8 @@ const Gleekify = () => {
 	const handleAssetUpload = (event) => {
 		const file = event.target.files[0];
 		if (file) {
+			// Attempt to find the background image in the elements array
+
             const relevantElement = elements.find(el => el.id === 'background' || el.type === 'meme');
 	
             // Error check: If no background image or meme is found, inform the user and abort the download process
@@ -745,31 +845,47 @@ const Gleekify = () => {
 			reader.readAsDataURL(file);
 		}
 	};
-	
-    
 
     const addBackgroundToCanvas = (src) => {
         const img = new Image();
         img.onload = () => {
             let size;
             // Adjust canvas size based on the image loaded
-            // adjustCanvasSize(img.width, img.height); put back for adjusting canvas
-            const maxImageWidth = 600;
-            const maxImageHeight = 600;
+            // adjustCanvasSize(img.width, img.height);
+            let maxImageWidth = 0;
+            let maxImageHeight = 0;
+            if (!isMobile) {
+                maxImageWidth = 600;
+                maxImageHeight = 600;
+            } else {
+                maxImageWidth = mobileCanvasSize;
+                maxImageHeight = mobileCanvasSize;
+            }
             const aspectRatio = img.width / img.height;
             let imageWidth = img.width;
             let imageHeight = img.height;
+            console.log('max image width: ' + maxImageWidth)
+            console.log('max image height: ' + maxImageHeight)
+            console.log('mobileSize: ' + mobileCanvasSize)
+            console.log('image width: ' + imageWidth)
+            console.log('image height: ' + imageHeight)
 
             // Scale down if necessary to fit within max dimensions
             if (imageWidth > maxImageWidth) {
                 imageWidth = maxImageWidth;
+                console.log('adjusted image width:' + imageWidth)
                 imageHeight = imageWidth / aspectRatio;
+                console.log('adjusted image height:' + imageHeight)
             }
             if (imageHeight > maxImageHeight) {
                 imageHeight = maxImageHeight;
+                console.log('adjusted image height:' + imageHeight)
                 imageWidth = imageHeight * aspectRatio;
+                console.log('adjusted image width:' + imageWidth)
             }
             size = { width: imageWidth, height: imageHeight };
+            console.log('size.width: ' + size.width)
+            console.log('size.height: ' + size.height)
             // Set the new background image, replacing any existing elements
             setElements([
                 {
@@ -797,7 +913,6 @@ const Gleekify = () => {
             const scaleX = canvasWidth / img.width;
             const scaleY = canvasHeight / img.height;
             const scale = Math.min(scaleX, scaleY, 1);
-
             // Calculate the scaled width and height
             const scaledWidth = img.width * scale;
             const scaledHeight = img.height * scale;
@@ -886,7 +1001,8 @@ const Gleekify = () => {
         );
     };
 
-    const TransformerComponent = ({ selectedId }) => {
+    // handles asset transformations
+    const TransformerComponent = React.memo(({ selectedId }) => {
         const transformerRef = useRef();
 
         useEffect(() => {
@@ -902,7 +1018,14 @@ const Gleekify = () => {
                         // Check if the selected node is a Text node
                         if (selectedNode.className === 'Text') {
                             // Disable anchors for Text nodes
-                            transformerRef.current.enabledAnchors([]);
+                            transformerRef.current.enabledAnchors([
+                                'top-left',
+                                'middle-left',
+                                'top-right',
+                                'middle-right',
+                                'bottom-left',
+                                'bottom-right',
+                            ]);
                         } else {
                             // Enable all anchors for non-Text nodes (e.g., Image)
                             transformerRef.current.enabledAnchors([
@@ -933,7 +1056,7 @@ const Gleekify = () => {
                 rotateEnabled={true}
             />
         );
-    };
+    });
 
     const moveElementInArray = (array, fromIndex, toIndex) => {
         const newArray = [...array];
@@ -1013,19 +1136,19 @@ const Gleekify = () => {
                     // Determine the new color based on the current color
                     const newColor =
                         textElement.color === 'black' ? 'white' : 'black';
-                    const newStroke =
-                        newColor === 'white' ? 'black' : 'transparent';
-                    const shadowColor =
-                        newColor === 'white' ? 'black' : 'transparent';
-                    const shadowBlur = newColor === 'white' ? 5 : 0;
-                    const shadowOpacity = newColor === 'white' ? 0.5 : 0;
+                    // const newStroke =
+                    //     newColor === 'white' ? 'black' : 'transparent';
+                    // const shadowColor =
+                    //     newColor === 'white' ? 'black' : 'transparent';
+                    // const shadowBlur = newColor === 'white' ? 5 : 0;
+                    // const shadowOpacity = newColor === 'white' ? 0.5 : 0;
                     return {
                         ...textElement,
                         color: newColor,
-                        stroke: newStroke,
-                        shadowColor: shadowColor,
-                        shadowBlur: shadowBlur,
-                        shadowOpacity: shadowOpacity,
+                        // stroke: newStroke,
+                        // shadowColor: shadowColor,
+                        // shadowBlur: shadowBlur,
+                        // shadowOpacity: shadowOpacity,
                     };
                 }
                 return textElement;
@@ -1053,10 +1176,10 @@ const Gleekify = () => {
 			// console.log(relevantElement.width);
 	
 			// Dynamically calculate the signature's position based on the found element's size
-			const signatureX = relevantElement.width - 125; // Assuming signature width of 100 + 15px margin
-			const signatureY = 10; // Assuming you want a 5px margin from the top
+			//const signatureX = relevantElement.width - 125; // Assuming signature width of 100 + 15px margin
+			//const signatureY = 10; // Assuming you want a 5px margin from the top
 	
-			renderSignatureForDownload(true, signatureX, signatureY);
+			// renderSignatureForDownload(true, signatureX, signatureY);
 	
 			// Calculate the content area for download considering only the visible content
 			const minX = 0, minY = 0;
@@ -1085,18 +1208,12 @@ const Gleekify = () => {
 	
 			// Restore original stage size and position after the download
 			setTimeout(() => {
-				removeSignatureAfterDownload();
+				// removeSignatureAfterDownload();
 				stage.batchDraw();
 				setShowTransformer(true);
 			}, 100);
 		}, 100);
 	};
-	
-	
-	
-	
-	
-	
 	
 
     const Modal = ({ isOpen, close, children }) => {
@@ -1118,17 +1235,17 @@ const Gleekify = () => {
         gleekImages.map((image, index) => (
             <div
                 key={`gleek-${index}`}
-                style={{ textAlign: 'center', margin: '10px' }}
+                style={{ textAlign: 'center', margin: '5px' }}
             >
                 <button
                     onClick={() =>
-                        addElementToCanvas(image.url, 150, 75, 'gleek')
+                        addElementToCanvas(image.url, gleekSize.width, gleekSize.height, 'gleek')
                     }
                 >
                     <img
                         src={image.url}
                         alt={image.url.split('/').pop().split('.')[0]}
-                        style={{ width: '150px', height: '75px' }}
+                        style={{ width: `${gleekSize.width}px`, height: `${gleekSize.height}px` }}
                     />
                 </button>
                 <div>{image.url.split('/').pop().split('.')[0]}</div>
@@ -1140,17 +1257,17 @@ const Gleekify = () => {
         mouthImages.map((image, index) => (
             <div
                 key={`tongue-${index}`}
-                style={{ textAlign: 'center', margin: '10px' }}
+                style={{ textAlign: 'center', margin: '5px' }}
             >
                 <button
                     onClick={() =>
-                        addElementToCanvas(image.url, 75, 75, 'tongue')
+                        addElementToCanvas(image.url, mouthSize.width, mouthSize.height, 'tongue')
                     }
                 >
                     <img
                         src={image.url}
                         alt={image.url.split('/').pop().split('.')[0]}
-                        style={{ width: '75px', height: '75px' }}
+                        style={{ width: `${mouthSize.width}px`, height: `${mouthSize.height}px` }}
                     />
                 </button>
                 <div>{image.url.split('/').pop().split('.')[0]}</div>
@@ -1160,17 +1277,17 @@ const Gleekify = () => {
         assetImages.map((image, index) => (
             <div
                 key={`asset-${index}`}
-                style={{ textAlign: 'center', margin: '10px' }}
+                style={{ textAlign: 'center', margin: '5px' }}
             >
                 <button
                     onClick={() =>
-                        addElementToCanvas(image.url, 150, 150, 'asset')
+                        addElementToCanvas(image.url, assetSize.width, assetSize.height, 'asset')
                     }
                 >
                     <img
                         src={image.url}
                         alt={image.name}
-                        style={{ width: '150px', height: '150px' }}
+                        style={{ width: `${assetSize.width}px`, height: `${assetSize.height}px` }}
                     />
                 </button>
                 <div>{image.name}</div>
@@ -1191,7 +1308,7 @@ const Gleekify = () => {
         return shuffledMemeTemplates.map((image, index) => (
             <div
                 key={`meme-${index}`}
-                style={{ textAlign: 'center', margin: '10px' }}
+                style={{ textAlign: 'center', margin: '5px' }}
             >
                 <button
                     onClick={() => addElementToCanvas(image.url, 0, 0, 'meme')}
@@ -1199,7 +1316,7 @@ const Gleekify = () => {
                     <img
                         src={image.url}
                         alt=""
-                        style={{ width: '150px', height: '150px' }}
+                        style={{ width: `${memeSize.width}px`, height: `${memeSize.height}px` }}
                     />
                 </button>
             </div>
@@ -1208,21 +1325,20 @@ const Gleekify = () => {
     useEffect(() => {
         // console.log('Modal state:', isModalOpen);
     }, [isModalOpen]);
+    console.log('Canvas Width:', canvasSize.width, 'Canvas Height:', canvasSize.height);
 
 	return (
 		<div className="gleekify-container">
-			<div
-				style={{
-					fontSize: "25px",
-					color: "#6eb6c8",
-					textAlign: "center",
-					marginBottom: "10px",
-					paddingLeft: "150px",
-				}}
-			>
-				For best results, use at least 512x512
-			</div>
+            {
+            !isMobile && (
+                <div style={canvasTextStyle}>
+                For best results, use at least 512x512
+                </div>
+            )
+            }
 			<div className="canvas-toolbar-container">
+                {
+                !isMobile && (
 				<div className="button-toolbar-gleekify">
 					<div className="primary-buttons">
 						<input
@@ -1260,10 +1376,11 @@ const Gleekify = () => {
 							download
 						</button>
 					</div>
-					<button className="button-gleekify" onClick={toggleAdditionalButtons}>
-						{showAdditionalButtons ? "↑ hide tools" : "↓ show tools"}
-					</button>
-
+                    <div className='hide-button'>
+                        <button className="button-gleekify" onClick={toggleAdditionalButtons}>
+                            {showAdditionalButtons ? "↑ hide tools" : "↓ show tools"}
+                        </button>
+                    </div>
                     {showAdditionalButtons && (
                         <div className="additional-buttons group-spacing">
                             <button
@@ -1333,12 +1450,14 @@ const Gleekify = () => {
                         </div>
                     )}
                 </div>
-
+                )
+}
                 {/* Canvas */}
                 <div ref={drop} className="canvas-frame-gleekify">
                     <Stage
-                        width={600}
-                        height={600}
+                        width={canvasSize.width}
+                        height={canvasSize.height}
+                        pixelRatio={window.devicePixelRatio}
                         ref={stageRef}
                         onMouseDown={(e) => {
                             // Check if the click is on the stage or the background image
@@ -1355,8 +1474,8 @@ const Gleekify = () => {
                                 <KonvaImage
                                     image={backgroundImage}
                                     name="background"
-                                    width={600}
-                                    height={600}
+                                    width={canvasSize.width}
+                                    height={canvasSize.height}
                                     draggable={false}
                                 />
                             )}
@@ -1393,15 +1512,15 @@ const Gleekify = () => {
                                     fontFamily="Impact"
                                     fill={textElement.color}
                                     fontSize={textElement.fontSize}
-                                    stroke={textElement.stroke}
-                                    strokeWidth={
-                                        textElement.stroke === 'transparent'
-                                            ? 0
-                                            : 2
-                                    }
-                                    shadowColor={textElement.shadowColor}
-                                    shadowBlur={textElement.shadowBlur}
-                                    shadowOpacity={textElement.shadowOpacity}
+                                    // stroke={textElement.stroke}
+                                    // strokeWidth={
+                                    //     textElement.stroke === 'transparent'
+                                    //         ? 0
+                                    //         : 2
+                                    // }
+                                    // shadowColor={textElement.shadowColor}
+                                    // shadowBlur={textElement.shadowBlur}
+                                    // shadowOpacity={textElement.shadowOpacity}
                                     onClick={() => handleSelect(textElement.id)}
                                     onDblClick={() =>
                                         handleTextEdit(textElement.id)
@@ -1420,6 +1539,8 @@ const Gleekify = () => {
                                             });
                                         setTextElements(updatedTextElements);
                                     }}
+                                    onTap={() => handleSelect(textElement.id)}
+                                    onDblTap={() => handleTextEdit(textElement.id)}
                                 />
                             ))}
 
@@ -1456,6 +1577,7 @@ const Gleekify = () => {
                             )}
                         </Layer>
                     </Stage>
+                    <div className='bottom-and-modal'>
                     <div className="bottom-frame-buttons">
                         <button
                             className="button-gleekify"
@@ -1482,6 +1604,7 @@ const Gleekify = () => {
                             {isMemeModalOpen ? '💦 memes' : 'memes'}
                         </button>
                     </div>
+                    <div className='modal-mobile'>
                     {isGleekModalOpen && (
                         <Modal
                             isOpen={isGleekModalOpen}
@@ -1514,7 +1637,123 @@ const Gleekify = () => {
                             {renderMemeModalContent()}
                         </Modal>
                     )}
+                    </div></div>
+                    </div>
+                    {
+                isMobile && (
+				<div className="button-toolbar-gleekify">
+					<div className="primary-buttons">
+						<input
+							id="fileInput1"
+							type="file"
+							onChange={handleBackgroundUpload}
+							accept="image/*"
+							style={{ display: "none" }}
+						/>
+						<button
+							className="button-gleekify"
+							onClick={() => document.getElementById("fileInput1").click()}
+                            title="Upload background image first"
+                        >
+							upload background
+						</button>
+						<input
+							id="fileInput2"
+							type="file"
+							onChange={handleAssetUpload}
+							accept="image/*"
+							style={{ display: "none" }}
+						/>
+						<button
+							className="button-gleekify"
+							onClick={() => document.getElementById("fileInput2").click()}
+							title="Must upload background image before loading custom assets"
+						>
+							upload asset
+						</button>
+						<button className="button-gleekify" onClick={resetCanvas}>
+							reset canvas
+						</button>
+						<button className="button-gleekify" onClick={handleDownloadMergedImage}>
+							download
+						</button>
+
+                        <button className="button-gleekify" onClick={toggleAdditionalButtons}>
+                            {showAdditionalButtons ? "↑ hide tools" : "↓ show tools"}
+                        </button>
+                        
+                    {showAdditionalButtons && (
+                        <div className="additional-buttons group-spacing">
+                            <button
+                                className="button-gleekify"
+                                onClick={addTextElement}
+                            >
+                                add text
+                            </button>
+                            <button
+                                className="button-gleekify"
+                                onClick={toggleTextColor}
+                            >
+                                black/white text
+                            </button>
+                            <button
+                                className="button-gleekify"
+                                onClick={moveElementDown}
+                            >
+                                layer up
+                            </button>
+                            <button
+                                className="button-gleekify"
+                                onClick={moveElementUp}
+                            >
+                                layer down
+                            </button>
+                            <button
+                                className="button-gleekify"
+                                onClick={increaseSize}
+                            >
+                                + size
+                            </button>
+                            <button
+                                className="button-gleekify"
+                                onClick={decreaseSize}
+                            >
+                                - size
+                            </button>
+                            <button
+                                className="button-gleekify"
+                                onClick={() =>
+                                    selectedId &&
+                                    flipElementHorizontal(selectedId)
+                                }
+                            >
+                                flip horizontal
+                            </button>
+                            <button
+                                className="button-gleekify"
+                                onClick={() =>
+                                    selectedId &&
+                                    flipElementVertical(selectedId)
+                                }
+                            >
+                                flip vertical
+                            </button>
+                            <button
+                                className="button-gleekify"
+                                onClick={deleteSelectedImage}
+                            >
+                                <img
+                                    src="./images/Gleekify/trash.png"
+                                    alt="Backward"
+                                    style={{ width: '25px', height: '25px' }}
+                                />
+                            </button>
+                        </div>
+                    )}
+                    </div>
                 </div>
+                )
+}
             </div>
         </div>
     );
