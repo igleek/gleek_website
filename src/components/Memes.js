@@ -14,14 +14,35 @@ function Memes() {
             <div className="meme-container">
                 <img
                     className="meme-border"
-                    src="./images/Memes/dexter.jpg"
+                    src="./images/Memes/salt_bae.jpg"
                     alt=""
                 />
             </div>
             <div className="meme-container">
                 <img
                     className="meme-border"
-                    src="./images/Memes/squirtle.gif"
+                    src="./images/Memes/forbidden_gleek.jpg"
+                    alt=""
+                />
+            </div>
+            <div className="meme-container">
+                <img
+                    className="meme-border"
+                    src="./images/Memes/fountain.jpg"
+                    alt=""
+                />
+            </div>
+            <div className="meme-container">
+                <img
+                    className="meme-border"
+                    src="./images/Memes/snape.jpg"
+                    alt=""
+                />
+            </div>
+            <div className="meme-container">
+                <img
+                    className="meme-border"
+                    src="./images/Memes/are_ya_gleeking.jpg"
                     alt=""
                 />
             </div>
@@ -35,49 +56,7 @@ function Memes() {
             <div className="meme-container">
                 <img
                     className="meme-border"
-                    src="./images/Memes/missy.gif"
-                    alt=""
-                />
-            </div>
-            <div className="meme-container">
-                <img
-                    className="meme-border"
-                    src="./images/Memes/charge.jpg"
-                    alt=""
-                />
-            </div>
-            <div className="meme-container">
-                <img
-                    className="meme-border"
-                    src="./images/Memes/inmouth.gif"
-                    alt=""
-                />
-            </div>
-            <div className="meme-container">
-                <img
-                    className="meme-border"
                     src="./images/Memes/jd.png"
-                    alt=""
-                />
-            </div>
-            <div className="meme-container">
-                <img
-                    className="meme-border"
-                    src="./images/Memes/moon.gif"
-                    alt=""
-                />
-            </div>
-            <div className="meme-container">
-                <img
-                    className="meme-border"
-                    src="./images/Memes/cat.jpg"
-                    alt=""
-                />
-            </div>
-            <div className="meme-container">
-                <img
-                    className="meme-border"
-                    src="./images/Memes/britney.gif"
                     alt=""
                 />
             </div>
@@ -91,28 +70,7 @@ function Memes() {
             <div className="meme-container">
                 <img
                     className="meme-border"
-                    src="./images/Memes/gm.gif"
-                    alt=""
-                />
-            </div>
-            <div className="meme-container">
-                <img
-                    className="meme-border"
                     src="./images/Memes/sealssolana.jpg"
-                    alt=""
-                />
-            </div>
-            <div className="meme-container">
-                <img
-                    className="meme-border"
-                    src="./images/Memes/gma.jpg"
-                    alt=""
-                />
-            </div>
-            <div className="meme-container">
-                <img
-                    className="meme-border"
-                    src="./images/Memes/gleek_in_mouth.png"
                     alt=""
                 />
             </div>
@@ -133,13 +91,6 @@ function Memes() {
             <div className="meme-container">
                 <img
                     className="meme-border"
-                    src="./images/Memes/gleek_splash.gif"
-                    alt=""
-                />
-            </div>
-            <div className="meme-container">
-                <img
-                    className="meme-border"
                     src="./images/Memes/seagull.jpg"
                     alt=""
                 />
@@ -148,13 +99,6 @@ function Memes() {
                 <img
                     className="meme-border"
                     src="./images/Memes/cookiesriley.jpg"
-                    alt=""
-                />
-            </div>
-            <div className="meme-container">
-                <img
-                    className="meme-border"
-                    src="./images/Memes/gleekbender.gif"
                     alt=""
                 />
             </div>
