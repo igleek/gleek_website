@@ -635,7 +635,7 @@ html, body {
 }
 
 /* Mobile */
-@media only screen and (max-width: 1250px) {
+@media only screen and (max-width: 1024px) {
 	.App {
 		background-attachment: fixed;
 		background-size: contain;
@@ -680,7 +680,7 @@ html, body {
 		color: white;
 		text-align: center;
 		text-decoration: none;
-		font-size: 35px;
+		font-size: 15px;
 	}
 	.gleek-info {
 		position: relative;
@@ -753,56 +753,6 @@ html, body {
 	.content-container {
 		margin-top: -15px;
 	}
-}
-
-
-@media only screen and (max-width: 768px) {
-	.App {
-		background-attachment: fixed;
-		background-size: contain;
-		background-position: center;
-		background-repeat: repeat;
-	}
-	.game-top-level,
-	.game-overlay,
-	.info-message,
-	.footer {
-		display: none;
-	}
-
-	.rotate-soyjak {
-		animation: rotate 5s linear infinite;
-		width: 30px;
-		height: 30px;
-	}
-
-	#nav-bar {
-		width: 100%;
-		background-color: #2d9bbd;
-		overflow: hidden;
-		position: fixed;
-		top: 0;
-		left: 0;
-		z-index: 1000;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		border: 3px solid #2c2c2c;
-		z-index: 1000;
-	}
-	.nav-menu li {
-		float: left;
-		color: #fffdfd;
-		margin-right: -12px;
-		margin-left: -12px;
-	}
-	.nav-menu li a {
-		display: block;
-		color: white;
-		text-align: center;
-		text-decoration: none;
-		font-size: 15px;
-	}
 
 	/*GLEEKIFY*/
 	.gleekify-container {
@@ -813,7 +763,7 @@ html, body {
 		justify-content: center;
 		padding: 20px;
 		margin-top: 0px;
-		padding-left: 240px;
+		padding-left: 250px;
 		width: 100%;
 		box-sizing: border-box;
 	}
@@ -829,7 +779,7 @@ html, body {
 		background-image: url("/public/images/logos/gleek_website_bg_2.png");
 		border-radius: 5px;
 		box-shadow: 0 4px 8px rgba(210, 99, 99, 0.1);
-		width: 100%;
+		width: 97.5%;
 		max-width: 1000px;
 		height: auto;
 	}
