@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 @font-face {
 	font-family: "chimi";
 	src: url("NanumPenScript-Regular.ttf") format("truetype");
 }
+
 html, body {
   width: 100%;
   overflow-x: hidden;
@@ -521,16 +523,19 @@ html, body {
 	width: 100%;
 	box-sizing: border-box;
 }
+
 .primary-buttons {
     display: flex;
     flex-direction: column;
     gap: 10px;
+	user-select: none;
 }
 .additional-buttons {
 	display: flex;
     flex-direction: column;
     gap: 10px;
-	margin-top: -30px;;
+	margin-top: -30px;
+	user-select: none;
 }
 .canvas-toolbar-container {
     display: flex;
@@ -555,6 +560,7 @@ html, body {
     gap: 10px;
     justify-content: center;
 	width: 590px;
+	user-select: none;
 }
   .button-toolbar-gleekify {
     display: flex;
@@ -580,6 +586,7 @@ html, body {
 	justify-content: center;
 	width: 185px;
 	height: 40px;
+	user-select: none;
   }
 
   .modal-content {
@@ -593,12 +600,29 @@ html, body {
 	left: 730px;
 	transform: translateX(-50%);
     width: 220px;
+	height: 720px;
     max-height: 720px;
     overflow-y: auto;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	user-select: none;
   }
+  .search-text {
+	position: absolute;
+	top: -25px;
+	right: -265px;
+	z-index: 1500;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #000;
+    font-family: 'chimi', sans-serif;
+    font-size: 22px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+	z-index: 0;
+}
   .image-selection {
     display: flex;
 	flex-direction: column;
@@ -786,15 +810,13 @@ html, body {
     .bottom-frame-buttons, .modal-mobile {
         flex-basis: 33%; /* Each takes up a third of the container width */
         display: flex;
-		bottom: -215px;
+		bottom: -415px;
         flex-direction: column;
         align-items: center;
         margin-left: -10px; 
         padding: 0; /* Reset padding for consistent spacing */
     }
-	/* .bottom-frame-buttons button {
-		margin: 5px;
-	} */
+
 	.primary-buttons {
         /* Convert to relative positioning for responsiveness */
         /* flex-basis: calc(50%);  */
@@ -842,6 +864,9 @@ html, body {
         flex-wrap: wrap; /* Allows items to wrap to the next line if needed */
         /* padding: 10px 0 */
 	}
+	.color-input {
+		z-index: 1500;
+	}
 	.button-gleekify {
 		background-color: #2d9bbd;
 		color: #ffffff;
@@ -859,14 +884,29 @@ html, body {
 		width: 100px;
 		height: 40px;
 	  }
+	  .search-text-mobile {
+        position: absolute;
+        bottom: 339px;
+		left: 190px;
+        width: 105px; /* Example adjustment for width */
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        color: #000;
+        font-family: 'chimi', sans-serif;
+        font-size: 18px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+		z-index: 0;
+	}
 	  .modal-mobile {
 		position: absolute;
-		bottom: -353px;
+		bottom: -403px;
         display: flex;
         flex-direction: column;
         align-items: center;
         margin: 0;
-		padding-left: 290px;
+		padding-left: 280px;
 	  }
 	  .modal-content {
 		background-color: #b0dfed;
@@ -879,7 +919,7 @@ html, body {
 		top: -330px;
         /* transform: translateX(0%); */
 		width: 125px;
-		max-height: 245px;
+		max-height: 390px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
